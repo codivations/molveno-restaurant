@@ -2,4 +2,5 @@
 files=$(git diff --cached --name-only --diff-filter=ACM -- '*.php');
 ./vendor/bin/pint "$files" -q
 
+# shellcheck disable=SC2086
 git add $files
