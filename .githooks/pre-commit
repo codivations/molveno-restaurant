@@ -1,4 +1,3 @@
 #!/bin/sh
 
-./vendor/bin/pint -v
-
+npm run lint-prettier

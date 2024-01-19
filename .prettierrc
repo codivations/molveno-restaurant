@@ -1,5 +1,17 @@
 {
     "trailingComma": "es5",
     "tabWidth": 4,
-    "plugins": ["@prettier/plugin-php"]
+    "plugins": [
+        "@prettier/plugin-php",
+        "prettier-plugin-blade",
+        "prettier-plugin-tailwindcss"
+    ],
+    "overrides": [
+        {
+            "files": ["*.blade.php"],
+            "options": {
+                "parser": "blade"
+            }
+        }
+    ]
 }
