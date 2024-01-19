@@ -1,5 +1,6 @@
 #!/bin/sh
-files=$(git diff --cached --name-only --diff-filter=ACM -- '*.php');
-./vendor/bin/pint $files -q
+# files=$(git diff --cached --name-only --diff-filter=ACM -- '*.php');
+# ./vendor/bin/pint $files -q
 
-git add $files
+# git add $files
+./vendor/bin/pint
