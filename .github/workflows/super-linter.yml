@@ -7,23 +7,35 @@
 name: Lint Code Base
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
 jobs:
-  run-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
-          fetch-depth: 0
+    run-lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+              with:
+                  # Full git history is needed to get a proper list of changed files within `super-linter`
+                  fetch-depth: 0
 
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: "main"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Lint Code Base
+              uses: github/super-linter@v4
+              env:
+                  VALIDATE_ALL_CODEBASE: false
+                  VALIDATE_CSS: true
+                  VALIDATE_HTML: true
+                  VALIDATE_JAVASCRIPT_ES: true
+                  VALIDATE_JAVASCRIPT_STANDARD: true
+                  VALIDATE_JSON: true
+                  VALIDATE_MARKDOWN: true
+                  VALIDATE_PHP: true
+                  VALIDATE_PHP_BUILTIN: true
+                  VALIDATE_PHP_PHPCS: true
+                  VALIDATE_PHP_PHPSTAN: true
+                  VALIDATE_PHP_PSALM: true
+                  VALIDATE_YAML: true
+                  DEFAULT_BRANCH: "main"
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
