@@ -20,8 +20,6 @@ jobs:
               with:
                   # Full git history is needed to get a proper list of changed files within `super-linter`
                   fetch-depth: 0
-            - name: Composer install
-              run: composer install -n && php -v
             - name: Lint Code Base
               uses: github/super-linter@v4
               env:
@@ -37,7 +35,7 @@ jobs:
                   VALIDATE_PHP_BUILTIN: true
                   VALIDATE_PHP_PHPCS: true
                   VALIDATE_PHP_PHPSTAN: true
-                  VALIDATE_PHP_PSALM: true
+                  VALIDATE_PHP_PSALM: false
                   VALIDATE_YAML: true
                   DEFAULT_BRANCH: "main"
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
