@@ -30,8 +30,70 @@ To use the hook run the following command:
     git config core.hooksPath .githooks
 ```
 
+If you want to run prettier manually, you can run the following command:
+
+```bash
+    npm run lint-prettier
+```
+
+If prettier finds any problems, you can use the following command to fix them:
+
+```bash
+    npm run fix-prettier
+```
+
 ## Git
 
 ### Features
 
+Features are implemented using a few steps:
+
+1. Pull the latest version of `main`.
+2. Create a new branch with the format `patch-{name}-{feature}`.
+3. Write your changes with multiple commits.
+4. Try to merge the `main` branch.
+5. Create and merge a Pull Request on github.
+
+Example:
+
+```bash
+    # Pull the latest version of main
+    git pull
+
+    # Create a new branch
+    git switch -C patch-etienne-add-recipe-model
+
+    # Make changes
+    git commit -m "Write recipe model"
+    git commit -m "Write relations for recipe model"
+    git commit -m "Write unit tests for recipe model"
+    git commit -m "Document recipe model"
+
+    # Merge main
+    git pull origin main
+    get merge main -m "Merge main into feature"
+
+    # Create a pull request on github
+```
+
+There are a few important rules:
+
+-   Feature branches are supposed to be short. It is better to merge too often as opposed to merging not often enough
+-   Each feature must only do one thing. Do not fix an unrelated piece of code in the same feature branch where you implement a new feature
+-   Always use clear and relevant titles in the pull requests. These will be visible in the git history.
+
 ### Commits
+
+-   The first line of each commit must not exceed 50 characters.
+-   The first word of the commit is capitalized.
+-   The first word of the commit is always a verb describing what has been done. Examples:
+    -   Write
+    -   Fix
+    -   Change
+    -   Refactor
+    -   Document
+-   The first word is always in present tense
+    -   correct: Write
+    -   incorrect: Written
+-   If more lines are added 1 white space must come after the first line.
+-   The first line of the commit message does not use any punctuation (.,).
