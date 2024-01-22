@@ -25,5 +25,17 @@ jobs:
               uses: github/super-linter@v4
               env:
                   VALIDATE_ALL_CODEBASE: false
+                  VALIDATE_CSS: true
+                  VALIDATE_HTML: true
+                  VALIDATE_JAVASCRIPT_ES: true
+                  VALIDATE_JAVASCRIPT_STANDARD: true
+                  VALIDATE_JSON: true
+                  VALIDATE_MARKDOWN: true
+                  VALIDATE_PHP: true
+                  VALIDATE_PHP_BUILTIN: true
+                  VALIDATE_PHP_PHPCS: true
+                  VALIDATE_PHP_PHPSTAN: true
+                  VALIDATE_PHP_PSALM: true
+                  VALIDATE_YAML: true
                   DEFAULT_BRANCH: "main"
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
