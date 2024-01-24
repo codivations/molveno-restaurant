@@ -24,6 +24,7 @@ jobs:
               uses: github/super-linter@v4
               env:
                   CREATE_LOG_FILE: true
+                  JAVASCRIPT_DEFAULT_STYLE: prettier
                   VALIDATE_ALL_CODEBASE: true
                   VALIDATE_CSS: true
                   VALIDATE_HTML: true
