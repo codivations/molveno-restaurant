@@ -1,4 +1,6 @@
 {
     "extends": "stylelint-config-standard",
-    "indentation": 4
+    "rules": {
+        "indentation": 4
+    }
 }
