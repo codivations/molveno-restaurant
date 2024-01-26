@@ -78,22 +78,22 @@ Example:
 
 There are a few important rules:
 
--   Feature branches are supposed to be short. It is better to merge too often as opposed to merging not often enough
--   Each feature must only do one thing. Do not fix an unrelated piece of code in the same feature branch where you implement a new feature
--   Always use clear and relevant titles in the pull requests. These will be visible in the git history.
+- Feature branches are supposed to be short. It is better to merge too often as opposed to merging not often enough
+- Each feature must only do one thing. Do not fix an unrelated piece of code in the same feature branch where you implement a new feature
+- Always use clear and relevant titles in the pull requests. These will be visible in the git history.
 
 ### Commits
 
--   The first line of each commit must not exceed 50 characters.
--   The first word of the commit is capitalized.
--   The first word of the commit is always a verb describing what has been done. Examples:
-    -   Write
-    -   Fix
-    -   Change
-    -   Refactor
-    -   Document
--   The first word is always in present tense
-    -   correct: Write
-    -   incorrect: Written
--   If more lines are added 1 white space must come after the first line.
--   The first line of the commit message does not use any punctuation (.,).
+- The first line of each commit must not exceed 50 characters.
+- The first word of the commit is capitalized.
+- The first word of the commit is always a verb describing what has been done. Examples:
+  - Write
+  - Fix
+  - Change
+  - Refactor
+  - Document
+- The first word is always in present tense
+  - correct: Write
+  - incorrect: Written
+- If more lines are added 1 white space must come after the first line.
+- The first line of the commit message does not use any punctuation (.,).
