@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- @see https://pear.php.net/manual/en/package.php.php-codesniffer.annotated-ruleset.php -->
-<ruleset name="Bitpress PHPCS Rules">
+<ruleset name="Laravel PHPCS Rules">
 
     <description>PHPCS ruleset for Bitpress</description>
 
@@ -22,8 +22,8 @@
 
     <rule ref="Generic.Files.LineLength">
         <properties>
-            <property name="lineLimit" value="80"/>
-            <property name="absoluteLineLimit" value="120"/>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="0"/>
         </properties>
     </rule>
 
@@ -31,8 +31,6 @@
         <exclude-pattern>tests/</exclude-pattern>
     </rule>
 
-    <exclude-pattern>*/.phpstorm.meta.php</exclude-pattern>
-    <exclude-pattern>*/_ide_helper.php</exclude-pattern>
     <exclude-pattern>*/*.blade.php</exclude-pattern>
     <exclude-pattern>*/autoload.php</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
