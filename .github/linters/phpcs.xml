@@ -31,6 +31,7 @@
         <exclude-pattern>tests/</exclude-pattern>
     </rule>
 
+    <exclude-pattern>*/public/*</exclude-pattern>
     <exclude-pattern>*/*.blade.php</exclude-pattern>
     <exclude-pattern>*/autoload.php</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
