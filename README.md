@@ -74,6 +74,7 @@ Example:
     get merge main -m "Merge main into feature"
 
     # Create a pull request on github
+    # 
 ```
 
 There are a few important rules:
