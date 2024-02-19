@@ -4,7 +4,8 @@
 
 ```bash
     cp .env.example .env
-    # change values in .env if needed
+    # Important: check the .env if the database settings are correct for your system
+    # and change if necessary
 
     composer install
     npm install
