@@ -3,8 +3,13 @@
 ## Quick setup
 
 ```bash
+    git clone git@github.com:codivations/molveno-restaurant.git
+
+    cd molveno-restaurant
+    
     cp .env.example .env
-    # change values in .env if needed
+    # Important: check the .env if the database settings are correct for your system
+    # and change if necessary
 
     composer install
     npm install
