@@ -730,7 +730,7 @@
                             href="{{ url("/dashboard") }}"
                             class="font-semibold text-gray-600 hover:text-gray-900 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:text-gray-400 dark:hover:text-white"
                         >
-                            <h3>Dashboard</h3>
+                            Dashboard
                         </a>
                     @else
                         <a
