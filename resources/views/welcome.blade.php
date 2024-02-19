@@ -57,6 +57,7 @@
             h6 {
                 font-size: inherit;
                 font-weight: inherit;
+                color: orange;
             }
             a {
                 color: inherit;
@@ -729,7 +730,7 @@
                             href="{{ url("/dashboard") }}"
                             class="font-semibold text-gray-600 hover:text-gray-900 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:text-gray-400 dark:hover:text-white"
                         >
-                            Dashboard
+                            <h3>Dashboard</h3>
                         </a>
                     @else
                         <a
@@ -901,7 +902,7 @@
                                 </div>
 
                                 <h2
-                                    class="mt-6 text-xl font-semibold text-gray-900 dark:text-white"
+                                    {{-- class="mt-6 text-xl font-semibold text-gray-900 dark:text-white" --}}
                                 >
                                     Laravel News
                                 </h2>
