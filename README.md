@@ -3,6 +3,10 @@
 ## Quick setup
 
 ```bash
+    git clone git@github.com:codivations/molveno-restaurant.git
+
+    cd molveno-restaurant
+    
     cp .env.example .env
     # Important: check the .env if the database settings are correct for your system
     # and change if necessary
