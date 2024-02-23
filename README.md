@@ -76,7 +76,7 @@ Example:
 
     # Merge main
     git pull origin main
-    get merge main -m "Merge main into feature"
+    git merge main -m "Merge main into feature"
 
     # Create a pull request on github
 ```
