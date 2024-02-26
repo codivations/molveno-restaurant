@@ -125,9 +125,6 @@
                 >
                     {{ Auth::user()->name }}
                 </div>
-                <div class="text-sm font-medium text-gray-500">
-                    {{ Auth::user()->email }}
-                </div>
             </div>
 
             <div class="mt-3 space-y-1">
