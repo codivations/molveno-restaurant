@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 use App\Models\User;
+use Illuminate\Support\Facades\App;
 
 class UserSeeder extends Seeder
 {
@@ -13,32 +15,40 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            "name" => "Admin",
-            "password" => "123456",
-            "login_name" => "admin",
-        ]);
-
-        User::factory()->create([
-            "name" => "Kitchen Staff",
-            "password" => "111111",
-            "login_name" => "kitchen",
-        ]);
-
-        User::factory()->create([
-            "name" => "Wait Staff",
-            "password" => "222222",
-            "login_name" => "waiter",
-        ]);
-
-        User::factory()->create([
-            "name" => "Reception Staff",
-            "password" => "000000",
-            "login_name" => "reception",
-        ]);
+        User::factory()
+            ->create([
+                "name" => "Admin",
+                "password" => "123456",
+                "login_name" => "admin",
+            ])
+            ->roles()
+            ->attach(1);
 
         User::factory()
-            ->count(10)
-            ->create();
+            ->create([
+                "name" => "Kitchen Staff",
+                "password" => "111111",
+                "login_name" => "kitchen",
+            ])
+            ->roles()
+            ->attach(4);
+
+        User::factory()
+            ->create([
+                "name" => "Wait Staff",
+                "password" => "222222",
+                "login_name" => "waiter",
+            ])
+            ->roles()
+            ->attach(3);
+
+        User::factory()
+            ->create([
+                "name" => "Sous Chef",
+                "password" => "000000",
+                "login_name" => "souschef",
+            ])
+            ->roles()
+            ->attach(2);
     }
 }
