@@ -6,7 +6,7 @@
     git clone git@github.com:codivations/molveno-restaurant.git
 
     cd molveno-restaurant
-    
+
     cp .env.example .env
     # Important: check the .env if the database settings are correct for your system
     # and change if necessary
@@ -76,7 +76,7 @@ Example:
 
     # Merge main
     git pull origin main
-    get merge main -m "Merge main into feature"
+    git merge main -m "Merge main into feature"
 
     # Create a pull request on github
 ```

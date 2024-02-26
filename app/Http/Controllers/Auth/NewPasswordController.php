@@ -31,7 +31,7 @@ class NewPasswordController extends Controller
     {
         $request->validate([
             "token" => ["required"],
-            "email" => ["required", "email"],
+            "login_name" => ["required"],
             "password" => ["required", "confirmed", Rules\Password::defaults()],
         ]);
 
@@ -40,7 +40,7 @@ class NewPasswordController extends Controller
         // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
             $request->only(
-                "email",
+                "login_name",
                 "password",
                 "password_confirmation",
                 "token"
@@ -65,7 +65,7 @@ class NewPasswordController extends Controller
                 ->route("login")
                 ->with("status", __($status))
             : back()
-                ->withInput($request->only("email"))
-                ->withErrors(["email" => __($status)]);
+                ->withInput($request->only("login_name"))
+                ->withErrors(["login_name" => __($status)]);
     }
 }

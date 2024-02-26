@@ -5,20 +5,23 @@
     <form method="POST" action="{{ route("login") }}">
         @csrf
 
-        <!-- Email Address -->
+        <!-- Login Name -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
+            <x-input-label for="login_name" :value="__('Name')" />
             <x-text-input
-                id="email"
+                id="login_name"
                 class="mt-1 block w-full"
-                type="email"
-                name="email"
-                :value="old('email')"
+                type="text"
+                name="login_name"
+                :value="old('login_name')"
                 required
                 autofocus
                 autocomplete="username"
             />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-input-error
+                :messages="$errors->get('login_name')"
+                class="mt-2"
+            />
         </div>
 
         <!-- Password -->
@@ -37,31 +40,7 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
-        <div class="mt-4 block">
-            <label for="remember_me" class="inline-flex items-center">
-                <input
-                    id="remember_me"
-                    type="checkbox"
-                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
-                    name="remember"
-                />
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">
-                    {{ __("Remember me") }}
-                </span>
-            </label>
-        </div>
-
-        <div class="mt-4 flex items-center justify-end">
-            @if (Route::has("password.request"))
-                <a
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-                    href="{{ route("password.request") }}"
-                >
-                    {{ __("Forgot your password?") }}
-                </a>
-            @endif
-
+        <div class="mt-8 flex items-center justify-end">
             <x-primary-button class="ms-3">
                 {{ __("Log in") }}
             </x-primary-button>
