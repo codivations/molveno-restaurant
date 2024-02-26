@@ -4,14 +4,12 @@
 >
     <!-- Primary Navigation Menu -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 justify-between">
+        <div class="flex h-32 justify-between">
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
                     <a href="{{ route("dashboard") }}">
-                        <x-application-logo
-                            class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
-                        />
+                        <x-application-logo />
                     </a>
                 </div>
 
@@ -52,10 +50,6 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __("Profile") }}
-                        </x-dropdown-link>
-
                         <!-- Authentication -->
                         <form method="POST" action="{{ route("logout") }}">
                             @csrf
@@ -128,10 +122,6 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __("Profile") }}
-                </x-responsive-nav-link>
-
                 <!-- Authentication -->
                 <form method="POST" action="{{ route("logout") }}">
                     @csrf
