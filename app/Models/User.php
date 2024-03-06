@@ -41,4 +41,27 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, "users_roles");
     }
+
+    public function hasRole(array $roleList = []): bool
+    {
+        $userRoles = $this->getRoles();
+        $roleMatches = array_intersect($roleList, $userRoles);
+
+        if (in_array("admin", $userRoles) || !empty($roleMatches)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function getRoles(): array
+    {
+        $roleList = [];
+
+        foreach ($this->roles as $role) {
+            array_push($roleList, $role->name);
+        }
+
+        return $roleList;
+    }
 }
