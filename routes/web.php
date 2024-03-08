@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,5 +48,8 @@ Route::middleware("auth")->group(function () {
         "profile.destroy"
     );
 });
+
+Route::get("/reservationForm", [ReservationsController::class, "show"]);
+Route::post("/reservations/create", [ReservationsController::class, "store"]);
 
 require __DIR__ . "/auth.php";
