@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MenuOrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,5 +48,13 @@ Route::middleware("auth")->group(function () {
         "profile.destroy"
     );
 });
+
+Route::name("order.")
+    ->middleware(["auth", "role:waitstaff"])
+    ->group(function () {
+        Route::get("/order", [MenuOrderController::class, "index"])->name(
+            "index"
+        );
+    });
 
 require __DIR__ . "/auth.php";
