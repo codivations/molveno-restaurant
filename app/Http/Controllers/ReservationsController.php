@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservations;
+use Illuminate\Database\Eloquent\Collection;
 
 class ReservationsController extends Controller
 {
@@ -33,5 +34,21 @@ class ReservationsController extends Controller
             "notification",
             "reservation added succesfully"
         );
+    }
+
+    public function showOverview()
+    {
+        $reservations = $this->getReservationsOrderedByDate();
+
+        // return view('tasks',
+        //     compact(['headerText','tasks'])
+        // )
+
+        return view("reservationsOverview", compact(["reservations"]));
+    }
+
+    private function getReservationsOrderedByDate(): Collection
+    {
+        return Reservations::orderBy("due_date")->get();
     }
 }
