@@ -28,6 +28,12 @@ class Item extends Model
         $this->category = ItemCategory::tryFrom($category);
     }
 
+    public function getPrice(): string
+    {
+        $priceWithCents = $this->price / 100;
+        return "€" . number_format($priceWithCents, 2);
+    }
+
     public function menus(): BelongsToMany
     {
         return $this->belongsToMany(Menu::class, "menus_items");
