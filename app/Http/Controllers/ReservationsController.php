@@ -78,7 +78,10 @@ class ReservationsController extends Controller
         $data = $this->getOverviewDataObj($reservations);
         $filterData = $filterInfo;
 
-        $selectedReservation = $this->getReservationById(3);
+        $selectedReservation = $this->getReservationById(
+            $reservations->first()->id
+        );
+        //$selectedReservation = $this->getReservationById(3);
 
         return view(
             "reservationsOverview",
