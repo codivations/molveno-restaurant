@@ -13,6 +13,11 @@
             href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"
             rel="stylesheet"
         />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin"
+        />
 
         <!-- Scripts -->
         @vite(["resources/css/app.css", "resources/js/app.js"])
