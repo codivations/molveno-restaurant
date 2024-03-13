@@ -17,7 +17,7 @@ class ReservationsFactory extends Factory
      */
     public function definition(): array
     {
-        $startTime = $this->faker->dateTimeBetween("+1 days", "+30 days");
+        $startTime = $this->faker->dateTimeBetween("+0 days", "+3 days");
 
         $service = $this->faker->randomElement([
             "breakfast",
@@ -58,7 +58,7 @@ class ReservationsFactory extends Factory
         $tableSize = 2;
 
         return [
-            "name" => fake()->name(),
+            "name" => fake()->lastName(),
             "party_size" => $partySize,
             "phone_number" => fake()->phoneNumber(),
             "reservation_time" => $reservationTime,

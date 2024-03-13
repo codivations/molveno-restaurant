@@ -49,7 +49,19 @@ Route::middleware("auth")->group(function () {
     );
 });
 
-Route::get("/reservations", [ReservationsController::class, "showOverview"]);
+Route::get("/reservations", [
+    ReservationsController::class,
+    "showUnfilteredOverview",
+]);
+Route::post("/reservations", [
+    ReservationsController::class,
+    "showFilteredOverview",
+]);
+Route::post("/reservations/{id}", [
+    ReservationsController::class,
+    "showReservation",
+]);
+// Route::post("/reservations/filter", [ReservationsController::class, "showFilteredOverview"]);
 
 Route::get("/reservationForm", [ReservationsController::class, "show"]);
 Route::post("/reservations/create", [ReservationsController::class, "store"]);
