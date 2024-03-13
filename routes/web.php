@@ -53,11 +53,12 @@ Route::get("/reservations", [
     ReservationsController::class,
     "showUnfilteredOverview",
 ]);
+Route::get("/reservations/new", [ReservationsController::class, "showForm"]);
 Route::post("/reservations", [
     ReservationsController::class,
     "showFilteredOverview",
 ]);
-Route::post("/reservations/{id}", [
+Route::get("/reservations/{id}", [
     ReservationsController::class,
     "showReservation",
 ]);

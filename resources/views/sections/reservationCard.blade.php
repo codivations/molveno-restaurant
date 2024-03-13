@@ -25,23 +25,9 @@
                 <span>Tables:</span>
                 <span>{{ $reservation->table_amount }}</span>
             </div>
-            {{--
-                <div><span>high chairs:</span> <span>{{ $reservation->high_chair_amount }}</span></div>
-                <div><span>booster seats:</span> <span>{{ $reservation->booster_seat_amount }}</span></div>
-                <div><span>Phone number:</span> <span>{{ $reservation->phone_number }}</span></div>
-                <div><span>Dietary restrictions:</span> <span>{{ $reservation->dietary_restrictions }}</span></div>
-                <div><div>Notes:</div> <div>{{ $reservation->notes }}</div></div>
-            --}}
         </div>
         <div class="basis-1/5">
-            <form
-                action="/reservations/{{ $reservation->id }}"
-                method="POST"
-                class="reservation-details"
-            >
-                @csrf
-                <input type="submit" name="details" value="details" />
-            </form>
+            <a href="/reservations/{{ $reservation->id }}">details</a>
         </div>
     </div>
 </li>
