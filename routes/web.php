@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
+|--------------------------------------------------------------------------
+| AllowAccessForRoles Middleware
+|--------------------------------------------------------------------------
+|
+| To use this middleware add `role:roleName|otherRoleName|etc` to the array of middleware
+| you don't need to specify the admin role
+| if this is an page only an admin should access you can just use `role`
+|
+| Example with specific roles: ->middleware(["auth", "verified", "role:chef|kitchen"])
+|
+| Example admin only: ->middleware(["auth", "verified", "role"])
+|
 */
 
 Route::get("/", function () {
@@ -36,6 +48,20 @@ Route::middleware("auth")->group(function () {
         "profile.destroy"
     );
 });
+
+Route::get("/reservations", [
+    ReservationsController::class,
+    "showUnfilteredOverview",
+]);
+Route::post("/reservations", [
+    ReservationsController::class,
+    "showFilteredOverview",
+]);
+Route::post("/reservations/{id}", [
+    ReservationsController::class,
+    "showReservation",
+]);
+// Route::post("/reservations/filter", [ReservationsController::class, "showFilteredOverview"]);
 
 Route::get("/reservationForm", [ReservationsController::class, "show"]);
 Route::post("/reservations/create", [ReservationsController::class, "store"]);
