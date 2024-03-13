@@ -29,6 +29,9 @@ class ReservationsController extends Controller
         );
         $reservation->save();
 
-        return redirect("/reservations");
+        return redirect("/reservations")->with(
+            "notification",
+            "reservation added succesfully"
+        );
     }
 }
