@@ -1,5 +1,5 @@
 @extends("layouts.main")
-
+@vite(["resources/sass/"])
 @section("title", "reservations")
 
 @section("content")
@@ -10,26 +10,7 @@
     <div>total booster seats: {{ $data->boosterSeatAmount }}</div>
 
     <div class="filters">
-        <form action="/reservations" method="POST" class="reservation-filters">
-            @csrf
-            <label for="from">from</label>
-            <input
-                type="datetime-local"
-                name="from"
-                id="from"
-                value="{{ $filterData->from ?? "" }}"
-            />
-
-            <label for="to">from</label>
-            <input
-                type="datetime-local"
-                name="to"
-                id="to"
-                value="{{ $filterData->to ?? "" }}"
-            />
-
-            <input type="submit" name="filter" value="filter" />
-        </form>
+        @include("sections.reservations.filters")
     </div>
 
     <div class="flex flex-row">
