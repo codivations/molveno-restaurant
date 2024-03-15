@@ -41,52 +41,61 @@ class ReservationsController extends Controller
 
     public function showReservation(string $id)
     {
+        session(["showDetailWindow" => "details"]);
         $selectedReservation = $this->getReservationById($id);
+        session(["selectedReservation" => $selectedReservation]);
 
-        return back()
-            ->withInput()
-            ->with("selectedReservation", $selectedReservation);
+        return $this->showOverview();
     }
 
     public function showFilteredOverview(Request $request)
     {
-        if ($this->filterValidationFails($errors)) {
-            //dd("don't want to see this");
+        if ($this->filterValidationFails()) {
+            //TODO: add proper validation and pass error messages
+            //dd("filter not properly set");
             return $this->showUnfilteredOverview();
         }
 
-        $reservations = $this->getReservationsInBetweenDateTimes(
-            new DateTime($request->from),
-            new DateTime($request->to)
-        );
+        session(["reservationViewFiltered" => true]);
         $filterData = $this->getFilterDataObj($request);
+        session(["filterData" => $filterData]);
 
-        return $this->showOverview($reservations, $filterData);
+        return $this->showOverview();
     }
 
     public function showUnfilteredOverview()
     {
-        $reservations = $this->getAllReservations();
+        session(["reservationViewFiltered" => false]);
 
-        return $this->showOverview($reservations);
+        return $this->showOverview();
     }
 
-    public function showOverview(
-        Collection $reservations,
-        object $filterInfo = null
-    ) {
-        $data = $this->getOverviewDataObj($reservations);
-        $filterData = $filterInfo;
+    public function showOverview()
+    {
+        if (session("reservationViewFiltered") == true) {
+            $reservations = $this->getReservationsInBetweenDateTimes(
+                new DateTime(session("filterData")->from),
+                new DateTime(session("filterData")->to)
+            );
+            $filterData = session("filterData");
+        } else {
+            $reservations = $this->getAllReservations();
+            $filterData = null;
+        }
 
-        $selectedReservation = $this->getReservationById(
-            $reservations->first()->id
-        );
-        //$selectedReservation = $this->getReservationById(3);
+        $data = $this->getOverviewDataObj($reservations);
 
         return view(
             "reservationsOverview",
             compact(["data", "filterData", "reservations"])
         );
+    }
+
+    public function showForm()
+    {
+        session(["showDetailWindow" => "new form"]);
+
+        return $this->showOverview();
     }
 
     #region get reservations
@@ -105,37 +114,16 @@ class ReservationsController extends Controller
             ->get();
     }
 
-    private function getReservationsForCurrentDate(): Collection
-    {
-        return $this->getReservationsOfDate(new DateTime());
-    }
-
-    private function getReservationsOfDate(DateTime $date): Collection
-    {
-        return Reservations::orderBy("reservation_time")
-            ->whereDate("reservation_time", $date)
-            ->get();
-    }
-
     private function getReservationById(string $id)
     {
         return Reservations::where("id", $id)->first();
     }
     #endregion
 
-    private function sumColumn(Collection $collection, string $column): int
-    {
-        //$collection = Reservations::where($column, '>', 0)->get();
-        return $collection->sum($column);
-    }
-
     private function getFilterDataObj(Request $request): object
     {
         $filterData = new stdClass();
 
-        // $filterData->from = new DateTime($request->from);
-        // $filterData->to = new DateTime($request->to);
-        //dd($request->from);
         $filterData->from = $request->from;
         $filterData->to = $request->to;
 
@@ -161,26 +149,21 @@ class ReservationsController extends Controller
         return $data;
     }
 
-    private function filterValidationFails(&$inputErrors): bool
+    private function sumColumn(Collection $collection, string $column): int
     {
-        $errors = [];
+        return $collection->sum($column);
+    }
 
+    private function filterValidationFails(): bool
+    {
         if (empty(request("from"))) {
-            $errors["from"] =
-                "Dit veld mag niet leeg zijn. Geef een eind datum aan!";
+            return true;
         }
 
         if (empty(request("to"))) {
-            $errors["to"] =
-                "Dit veld mag niet leeg zijn. Geef een eind datum aan!";
-        }
-
-        if (count($errors) == 0) {
-            $inputErrors = null;
-            return false;
-        } else {
-            $inputErrors = $errors;
             return true;
         }
+
+        return false;
     }
 }
