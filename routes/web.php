@@ -59,6 +59,10 @@ Route::name("order.")
             MenuOrderController::class,
             "showService",
         ]);
+        Route::post("/order/{tableNumber}/{service}", [
+            MenuOrderController::class,
+            "addToOrder",
+        ]);
     });
 
 require __DIR__ . "/auth.php";

@@ -29,4 +29,9 @@ class MenuOrderController extends Controller
             compact("menu", "menuNames", "tableNumber", "currentService")
         );
     }
+
+    public function addToOrder(Request $request)
+    {
+        return back()->with("message", "$request->item_name added to order");
+    }
 }
