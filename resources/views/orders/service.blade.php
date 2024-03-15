@@ -52,7 +52,10 @@
                         Allergies
                     </label>
                     <div class="flex gap-2">
-                        <textarea name="notes">Special notes</textarea>
+                        <textarea
+                            name="notes"
+                            placeholder="Special notes"
+                        ></textarea>
                         <button
                             type="submit"
                             class="h-10 rounded-full border border-black bg-green-500 p-2"
