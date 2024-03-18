@@ -1,33 +1,27 @@
-<li class="m-3 w-96 rounded bg-blue-200 p-2 shadow">
-    <div class="flex flex-row">
-        <div class="basis-4/5">
-            <div>
-                <span>{{ $reservation->id }}</span>
-                <span>{{ $reservation->name }}</span>
-            </div>
-            <div>
-                <span>Date:</span>
-                <span>
-                    {{ (new DateTime($reservation->reservation_time))->format("d-m-y") }}
-                </span>
-            </div>
-            <div>
-                <span>Time:</span>
-                <span>
-                    {{ (new DateTime($reservation->reservation_time))->format("H:i") }}
-                </span>
-            </div>
-            <div>
+<li class="m-3 rounded-lg border border-solid bg-white p-2 shadow">
+    <div class="grid grid-cols-4 grid-rows-2">
+        <div class="col row-span-2">
+            <div>{{ $reservation->id }}</div>
+            <div>{{ $reservation->name }}</div>
+        </div>
+        <div class="col-span-2 row-span-2">
+            <span>
+                {{ (new DateTime($reservation->reservation_time))->format("d/m/y - H:i") }}
+            </span>
+
+            <div class="">
                 <span>Party size:</span>
                 <span>{{ $reservation->party_size }}</span>
-            </div>
-            <div>
+
                 <span>Tables:</span>
                 <span>{{ $reservation->table_amount }}</span>
             </div>
         </div>
-        <div class="basis-1/5">
-            <a href="/reservations/{{ $reservation->id }}" class="button">
+        <div class="col row-span-2 m-auto">
+            <a
+                href="/reservations/{{ $reservation->id }}"
+                class="button justify-self-center"
+            >
                 details
             </a>
         </div>
