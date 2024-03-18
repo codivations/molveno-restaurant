@@ -58,13 +58,13 @@ Route::post("/reservations", [
     ReservationsController::class,
     "showFilteredOverview",
 ]);
+
+Route::get("/reservationForm", [ReservationsController::class, "show"]);
+Route::post("/reservations/create", [ReservationsController::class, "store"]);
+
 Route::get("/reservations/{id}", [
     ReservationsController::class,
     "showReservation",
 ]);
-// Route::post("/reservations/filter", [ReservationsController::class, "showFilteredOverview"]);
-
-Route::get("/reservationForm", [ReservationsController::class, "show"]);
-Route::post("/reservations/create", [ReservationsController::class, "store"]);
 
 require __DIR__ . "/auth.php";

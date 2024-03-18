@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SeatingArea;
 use Illuminate\Http\Request;
 use App\Models\Reservations;
 use DateTime;
 use Illuminate\Database\Eloquent\Collection;
-use PhpParser\Node\Expr\Cast\Object_;
 use stdClass;
 
 class ReservationsController extends Controller
@@ -126,6 +126,24 @@ class ReservationsController extends Controller
 
         $filterData->from = $request->from;
         $filterData->to = $request->to;
+
+        switch ($request->area) {
+            case "terrace":
+                $filterData->area = SeatingArea::TERRACE;
+                break;
+
+            case "ground floor":
+                $filterData->area = SeatingArea::GROUNDFLOOR;
+                break;
+
+            case "first floor":
+                $filterData->area = SeatingArea::FIRSTFLOOR;
+                break;
+
+            default:
+                $filterData->area = SeatingArea::ALL;
+                break;
+        }
 
         return $filterData;
     }
