@@ -27,7 +27,9 @@
             </div>
         </div>
         <div class="basis-1/5">
-            <a href="/reservations/{{ $reservation->id }}">details</a>
+            <a href="/reservations/{{ $reservation->id }}" class="button">
+                details
+            </a>
         </div>
     </div>
 </li>

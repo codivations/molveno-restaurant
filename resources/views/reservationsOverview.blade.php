@@ -3,14 +3,27 @@
 @section("title", "reservations")
 
 @section("content")
-    <h1>OVERVIEW RESERVATIONS</h1>
+    {{-- <h1>OVERVIEW RESERVATIONS</h1> --}}
 
-    <div>tables reserved: {{ $data->reservedTablesAmount }}</div>
-    <div>total high chairs: {{ $data->highChairAmount }}</div>
-    <div>total booster seats: {{ $data->boosterSeatAmount }}</div>
+    <div class="flex flex-row">
+        <div class="w-180 m-3 basis-1/4">
+            <div class="filters">
+                @include("sections.reservations.filters")
+            </div>
+        </div>
+        <div class="m-3 basis-3/4">
+            <div>
+                Seating area:
+                <span class="capitalized">
+                    {{ $filterData->seating_area ?? "All" }}
+                </span>
+            </div>
+            <div>tables reserved: {{ $data->reservedTablesAmount }}</div>
+            <div>total high chairs: {{ $data->highChairAmount }}</div>
+            <div>total booster seats: {{ $data->boosterSeatAmount }}</div>
 
-    <div class="filters">
-        @include("sections.reservations.filters")
+            <a href="/reservations/new" class="button">new</a>
+        </div>
     </div>
 
     <div class="flex flex-row">
@@ -41,10 +54,10 @@
 
                     @break
                 @default
-                    <div>Empty</div>
+                    <div></div>
             @endswitch
 
-            <a href="/reservations/new">new</a>
+            {{-- <a href="/reservations/new" class='button'>new</a> --}}
         </div>
     </div>
 @endsection
