@@ -23,6 +23,10 @@
     <span>{{ $selectedReservation->table_amount }}</span>
 </div>
 <div>
+    <span>Seating area:</span>
+    <span>{{ $selectedReservation->seating_area }}</span>
+</div>
+<div>
     <span>high chairs:</span>
     <span>{{ $selectedReservation->high_chair_amount }}</span>
 </div>

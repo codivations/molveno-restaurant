@@ -57,6 +57,7 @@ class ReservationsController extends Controller
         }
 
         session(["reservationViewFiltered" => true]);
+        session(["showDetailWindow" => "overviewDetails"]);
         $filterData = $this->getFilterDataObj($request);
         session(["filterData" => $filterData]);
 
@@ -73,13 +74,19 @@ class ReservationsController extends Controller
     public function showOverview()
     {
         if (session("reservationViewFiltered") == true) {
-            $reservations = $this->getReservationsInBetweenDateTimes(
+            $reservations = $this->getFilteredReservations(
+                session("filterData")->seating_area,
                 new DateTime(session("filterData")->from),
                 new DateTime(session("filterData")->to)
             );
             $filterData = session("filterData");
         } else {
-            $reservations = $this->getAllReservations();
+            $reservations = $this->getFilteredReservations(
+                SeatingArea::ALL,
+                date_time_set(new DateTime(), 0, 00),
+                date_time_set(new DateTime(), 23, 59)
+            );
+            //$reservations = $this->getAllReservations();
             $filterData = null;
         }
 
@@ -114,6 +121,23 @@ class ReservationsController extends Controller
             ->get();
     }
 
+    private function getFilteredReservations(
+        SeatingArea $seatingArea,
+        DateTime $from,
+        DateTime $to
+    ): Collection {
+        if ($seatingArea == SeatingArea::ALL) {
+            return Reservations::orderBy("reservation_time")
+                ->whereBetween("reservation_time", [$from, $to])
+                ->get();
+        } else {
+            return Reservations::orderBy("reservation_time")
+                ->where("seating_area", $seatingArea)
+                ->whereBetween("reservation_time", [$from, $to])
+                ->get();
+        }
+    }
+
     private function getReservationById(string $id)
     {
         return Reservations::where("id", $id)->first();
@@ -129,19 +153,19 @@ class ReservationsController extends Controller
 
         switch ($request->area) {
             case "terrace":
-                $filterData->area = SeatingArea::TERRACE;
+                $filterData->seating_area = SeatingArea::TERRACE;
                 break;
 
             case "ground floor":
-                $filterData->area = SeatingArea::GROUNDFLOOR;
+                $filterData->seating_area = SeatingArea::GROUNDFLOOR;
                 break;
 
             case "first floor":
-                $filterData->area = SeatingArea::FIRSTFLOOR;
+                $filterData->seating_area = SeatingArea::FIRSTFLOOR;
                 break;
 
             default:
-                $filterData->area = SeatingArea::ALL;
+                $filterData->seating_area = SeatingArea::ALL;
                 break;
         }
 
