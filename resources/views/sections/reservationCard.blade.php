@@ -19,7 +19,7 @@
         </div>
         <div class="col row-span-2 m-auto">
             <a
-                href="/reservations/{{ $reservation->id }}"
+                href="/reservations/id/{{ $reservation->id }}"
                 class="button justify-self-center"
             >
                 details

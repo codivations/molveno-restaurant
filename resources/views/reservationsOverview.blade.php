@@ -14,7 +14,7 @@
         <div class="m-3 basis-3/4">
             <div>
                 Seating area:
-                <span class="capitalized">
+                <span class="capitalize">
                     {{ $filterData->seating_area ?? "All" }}
                 </span>
             </div>

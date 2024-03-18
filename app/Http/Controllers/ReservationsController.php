@@ -112,15 +112,6 @@ class ReservationsController extends Controller
         return Reservations::orderBy($orderedBy)->get();
     }
 
-    private function getReservationsInBetweenDateTimes(
-        DateTime $from,
-        DateTime $to
-    ): Collection {
-        return Reservations::orderBy("reservation_time")
-            ->whereBetween("reservation_time", [$from, $to])
-            ->get();
-    }
-
     private function getFilteredReservations(
         SeatingArea $seatingArea,
         DateTime $from,
@@ -175,25 +166,11 @@ class ReservationsController extends Controller
     private function getOverviewDataObj(Collection $collection): object
     {
         $data = new stdClass();
-        $data->highChairAmount = $this->sumColumn(
-            $collection,
-            "high_chair_amount"
-        );
-        $data->boosterSeatAmount = $this->sumColumn(
-            $collection,
-            "booster_seat_amount"
-        );
-        $data->reservedTablesAmount = $this->sumColumn(
-            $collection,
-            "table_amount"
-        );
+        $data->highChairAmount = $collection->sum("high_chair_amount");
+        $data->boosterSeatAmount = $collection->sum("booster_seat_amount");
+        $data->reservedTablesAmount = $collection->sum("table_amount");
 
         return $data;
-    }
-
-    private function sumColumn(Collection $collection, string $column): int
-    {
-        return $collection->sum($column);
     }
 
     private function filterValidationFails(): bool

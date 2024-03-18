@@ -63,7 +63,7 @@ Route::post("/reservations", [
 Route::get("/reservationForm", [ReservationsController::class, "show"]);
 Route::post("/reservations/create", [ReservationsController::class, "store"]);
 
-Route::get("/reservations/{id}", [
+Route::get("/reservations/id/{id}", [
     ReservationsController::class,
     "showReservation",
 ]);
