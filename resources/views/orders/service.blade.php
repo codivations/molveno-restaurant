@@ -9,6 +9,10 @@
             <p class="mx-4">{{ session("message") }}</p>
         @endif
 
+        @error("notes")
+            <p class="mx-4 text-red-500">{{ $message }}</p>
+        @enderror
+
         <section
             class="mx-2 my-2 flex flex-col"
             x-data="{ item_open: null }"
@@ -55,6 +59,7 @@
                         <textarea
                             name="notes"
                             placeholder="Special notes"
+                            maxlength="255"
                         ></textarea>
                         <button
                             type="submit"

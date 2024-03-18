@@ -32,6 +32,9 @@ class MenuOrderController extends Controller
 
     public function addToOrder(Request $request)
     {
+        $validated = $request->validate([
+            "notes" => "string|nullable|max:255",
+        ]);
         return back()->with("message", "$request->item_name added to order");
     }
 }
