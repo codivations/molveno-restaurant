@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MenuOrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationsController;
 use Illuminate\Support\Facades\Route;
@@ -66,5 +67,21 @@ Route::get("/reservations/{id}", [
     ReservationsController::class,
     "showReservation",
 ]);
+
+Route::name("order.")
+    ->middleware(["auth", "role:waitstaff"])
+    ->group(function () {
+        Route::get("/order", [MenuOrderController::class, "index"])->name(
+            "index"
+        );
+        Route::get("/order/{tableNumber}/{service}", [
+            MenuOrderController::class,
+            "showService",
+        ]);
+        Route::post("/order/{tableNumber}/{service}", [
+            MenuOrderController::class,
+            "addToOrder",
+        ]);
+    });
 
 require __DIR__ . "/auth.php";

@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             ReservationsSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            ItemSeeder::class,
         ]);
     }
 }
