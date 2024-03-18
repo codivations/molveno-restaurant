@@ -51,8 +51,12 @@
                         name="item_name"
                         value="{{ $item->name }}"
                     />
-                    <label class="">
-                        <input type="checkbox" name="dietary_restrictions" />
+                    <label class="max-w-max">
+                        <input
+                            type="checkbox"
+                            class="rounded-full"
+                            name="dietary_restrictions"
+                        />
                         Allergies
                     </label>
                     <div class="flex gap-2">
