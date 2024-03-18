@@ -86,8 +86,15 @@ class ReservationsController extends Controller
                 date_time_set(new DateTime(), 0, 00),
                 date_time_set(new DateTime(), 23, 59)
             );
-            //$reservations = $this->getAllReservations();
-            $filterData = null;
+
+            $filterData = new stdClass();
+            $filterData->from = date_time_set(new DateTime(), 0, 00)->format(
+                "Y-m-d H:i"
+            );
+            $filterData->to = date_time_set(new DateTime(), 23, 59)->format(
+                "Y-m-d H:i"
+            );
+            $filterData->seating_area = SeatingArea::ALL;
         }
 
         $data = $this->getOverviewDataObj($reservations);
@@ -117,16 +124,16 @@ class ReservationsController extends Controller
         DateTime $from,
         DateTime $to
     ): Collection {
-        if ($seatingArea == SeatingArea::ALL) {
-            return Reservations::orderBy("reservation_time")
-                ->whereBetween("reservation_time", [$from, $to])
-                ->get();
-        } else {
-            return Reservations::orderBy("reservation_time")
-                ->where("seating_area", $seatingArea)
-                ->whereBetween("reservation_time", [$from, $to])
-                ->get();
+        $reservation = Reservations::orderBy("reservation_time")->whereBetween(
+            "reservation_time",
+            [$from, $to]
+        );
+
+        if ($seatingArea != SeatingArea::ALL) {
+            $reservation->where("seating_area", $seatingArea);
         }
+
+        return $reservation->get();
     }
 
     private function getReservationById(string $id)

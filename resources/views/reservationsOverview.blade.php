@@ -3,32 +3,18 @@
 @section("title", "reservations")
 
 @section("content")
-    {{-- <h1>OVERVIEW RESERVATIONS</h1> --}}
-
     <div class="flex flex-row">
-        <div class="w-180 m-3 basis-1/4">
-            <div class="filters">
-                @include("sections.reservations.filters")
-            </div>
+        <div class="w-180 filters m-3 basis-1/4">
+            @include("sections.reservations.filters")
         </div>
         <div class="m-3 basis-3/4">
-            <div>
-                Seating area:
-                <span class="capitalize">
-                    {{ $filterData->seating_area ?? "All" }}
-                </span>
-            </div>
-            <div>tables reserved: {{ $data->reservedTablesAmount }}</div>
-            <div>total high chairs: {{ $data->highChairAmount }}</div>
-            <div>total booster seats: {{ $data->boosterSeatAmount }}</div>
-
             <a href="/reservations/new" class="button">new</a>
         </div>
     </div>
 
     <div class="flex flex-row">
         <ul
-            class="w-180 m-2 basis-1/3 overflow-scroll rounded-lg border border-solid bg-slate-300"
+            class="w-180 m-2 basis-1/4 overflow-scroll rounded-lg border border-solid bg-slate-300"
             style="height: 750px"
         >
             @foreach ($reservations as $reservation)
@@ -57,10 +43,10 @@
 
                     @break
                 @default
-                    <div></div>
+                    <div>
+                        @include("sections.reservations.capacityInfo")
+                    </div>
             @endswitch
-
-            {{-- <a href="/reservations/new" class='button'>new</a> --}}
         </div>
     </div>
 @endsection
