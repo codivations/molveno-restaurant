@@ -1,19 +1,12 @@
 <li class="m-3 rounded-lg border border-solid bg-white p-2 shadow">
     <div class="grid grid-cols-4 grid-rows-2">
         <div class="col row-span-2">
-            <span>{{ $reservation->id }}</span>
-            <br />
-            <span>{{ $reservation->name }}</span>
+            <div>{{ $reservation->id }}</div>
+            <div>{{ $reservation->name }}</div>
         </div>
         <div class="col-span-2 row-span-2">
-            {{-- <span>Date:</span> --}}
             <span>
-                {{ (new DateTime($reservation->reservation_time))->format("d/m/y") }}
-            </span>
-
-            {{-- <span>Time:</span> --}}
-            <span>
-                {{ (new DateTime($reservation->reservation_time))->format("- H:i") }}
+                {{ (new DateTime($reservation->reservation_time))->format("d/m/y - H:i") }}
             </span>
 
             <div class="">
