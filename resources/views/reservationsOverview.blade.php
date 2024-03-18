@@ -20,7 +20,7 @@
                 value="{{ $filterData->from ?? "" }}"
             />
 
-            <label for="to">from</label>
+            <label for="to">to</label>
             <input
                 type="datetime-local"
                 name="to"
@@ -33,7 +33,10 @@
     </div>
 
     <div class="flex flex-row">
-        <ul class="w-180 basis-1/4">
+        <ul
+            class="w-180 m-2 basis-1/3 overflow-scroll rounded-lg border border-solid bg-slate-300"
+            style="height: 750px"
+        >
             @foreach ($reservations as $reservation)
                 @include("sections.reservationCard")
             @endforeach
