@@ -27,9 +27,9 @@
         border: solid;
         border-width: 1px;
         border-radius: 0.75rem;
-        background-color: darkturquoise;
-        padding: 0.2rem;
-        margin-top: 0.2rem;
+        background-color: lightskyblue;
+        padding: 0.375rem;
+        border-radius: 9999px;
     }
 }
 
