@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MenuOrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +49,24 @@ Route::middleware("auth")->group(function () {
         "profile.destroy"
     );
 });
+
+Route::get("/reservations", [
+    ReservationsController::class,
+    "showUnfilteredOverview",
+]);
+Route::get("/reservations/new", [ReservationsController::class, "showForm"]);
+Route::post("/reservations", [
+    ReservationsController::class,
+    "showFilteredOverview",
+]);
+
+Route::get("/reservationForm", [ReservationsController::class, "show"]);
+Route::post("/reservations/create", [ReservationsController::class, "store"]);
+
+Route::get("/reservations/id/{id}", [
+    ReservationsController::class,
+    "showReservation",
+]);
 
 Route::name("order.")
     ->middleware(["auth", "role:waitstaff"])
