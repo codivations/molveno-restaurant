@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer components {
+    .topbar {
+        padding: 0.5rem;
+        justify-content: right;
+        background-color: rgb(65, 65, 65);
+    }
+
     .form-item {
         display: flex;
         flex-direction: row;
@@ -33,6 +39,9 @@
         display: inline-block;
         text-align: center;
     }
+
+    /* .filters {
+    } */
 
     .filters > form {
         max-width: 95%;

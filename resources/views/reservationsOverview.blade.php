@@ -3,50 +3,52 @@
 @section("title", "reservations")
 
 @section("content")
-    <div class="flex flex-row">
-        <div class="w-180 filters m-3 basis-1/4">
-            @include("sections.reservations.filters")
-        </div>
-        <div class="m-3 basis-3/4">
+    <div class="bg-gray-600">
+        <div class="topbar flex flex-row">
             <a href="/reservations/new" class="button">new</a>
         </div>
-    </div>
+        <div class="flex flex-row p-5">
+            <div class="basis-1/3 p-2">
+                <div class="filters">
+                    @include("sections.reservations.filters")
+                </div>
+                <ul
+                    class="w-180 overflow-scroll rounded-lg border border-solid bg-slate-300"
+                    style="height: 600px"
+                >
+                    @foreach ($reservations as $reservation)
+                        @include("sections.reservationCard")
+                    @endforeach
+                </ul>
+            </div>
+            <div class="m-3 basis-2/3 rounded bg-gray-200 p-2 shadow">
+                @switch(session("showDetailWindow"))
+                    @case("details")
+                        @if (session("selectedReservation") != null)
+                            @php
+                                $selectedReservation = session("selectedReservation");
+                            @endphp
 
-    <div class="flex flex-row">
-        <ul
-            class="w-180 m-2 basis-1/4 overflow-scroll rounded-lg border border-solid bg-slate-300"
-            style="height: 750px"
-        >
-            @foreach ($reservations as $reservation)
-                @include("sections.reservationCard")
-            @endforeach
-        </ul>
+                            @include("sections.reservationDetails")
+                        @else
+                            <div>
+                                <span>
+                                    error: no valid reservation selected
+                                </span>
+                            </div>
+                        @endif
 
-        <div class="m-3 basis-3/4 rounded bg-gray-200 p-2 shadow">
-            @switch(session("showDetailWindow"))
-                @case("details")
-                    @if (session("selectedReservation") != null)
-                        @php
-                            $selectedReservation = session("selectedReservation");
-                        @endphp
+                        @break
+                    @case("new form")
+                        @include("sections.addReservationForm")
 
-                        @include("sections.reservationDetails")
-                    @else
+                        @break
+                    @default
                         <div>
-                            <span>error: no valid reservation selected</span>
+                            @include("sections.reservations.capacityInfo")
                         </div>
-                    @endif
-
-                    @break
-                @case("new form")
-                    @include("sections.addReservationForm")
-
-                    @break
-                @default
-                    <div>
-                        @include("sections.reservations.capacityInfo")
-                    </div>
-            @endswitch
+                @endswitch
+            </div>
         </div>
     </div>
 @endsection

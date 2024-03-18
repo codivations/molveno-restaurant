@@ -48,7 +48,7 @@
     </div>
     <div class="form-item">
         <label for="notes" class="form-label">Notes:</label>
-        <input type="text" id="notes" name="notes" class="h-20rem form-input" />
+        <textarea id="notes" name="notes" class="h-20rem form-input"></textarea>
     </div>
     <div class="form-item">
         <label for="seating_area" class="form-label">Select area:</label>
