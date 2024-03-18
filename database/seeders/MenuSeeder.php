@@ -14,8 +14,10 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
+        Menu::factory()->create(["service" => MenuService::DRINKS]);
         Menu::factory()->create(["service" => MenuService::BREAKFAST]);
         Menu::factory()->create(["service" => MenuService::LUNCH]);
         Menu::factory()->create(["service" => MenuService::DINNER]);
+        Menu::factory()->create(["service" => MenuService::SNACKS]);
     }
 }

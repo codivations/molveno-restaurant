@@ -19,7 +19,7 @@ class ItemSeeder extends Seeder
         $items = Item::factory(50)->create();
 
         foreach ($items as $item) {
-            $randomId = fake()->numberBetween(1, 3);
+            $randomId = fake()->numberBetween(1, 5);
             $item->menus()->attach($randomId);
         }
     }
