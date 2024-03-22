@@ -69,7 +69,7 @@ Route::get("/reservations/id/{id}", [
 ]);
 
 Route::name("order.")
-    ->middleware(["auth", "role:waitstaff"])
+    //->middleware(["auth", "role:waitstaff"])
     ->group(function () {
         Route::get("/order", [MenuOrderController::class, "index"])->name(
             "index"

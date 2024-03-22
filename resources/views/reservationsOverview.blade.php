@@ -14,7 +14,7 @@
                 </div>
                 <ul
                     class="w-180 overflow-scroll rounded-lg border border-solid bg-slate-300"
-                    style="height: 600px"
+                    style="height: 775px"
                 >
                     @foreach ($reservations as $reservation)
                         @include("sections.reservationCard")
