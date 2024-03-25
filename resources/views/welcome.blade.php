@@ -22,6 +22,10 @@
         >
             <div class="mx-auto flex max-w-7xl flex-col gap-4 p-6 lg:p-8">
                 @auth
+                    @session("status")
+                        <p class="text-red-500">{{ session("status") }}</p>
+                    @endsession
+
                     <h1 class="text-3xl text-zinc-500">Logged in</h1>
                 @else
                     @include("auth.login")

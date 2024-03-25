@@ -9,6 +9,10 @@
             <p class="mx-4">{{ session("message") }}</p>
         @endif
 
+        @error("notes")
+            <p class="mx-4 text-red-500">{{ $message }}</p>
+        @enderror
+
         <section
             class="mx-2 my-2 flex flex-col"
             x-data="{ item_open: null }"
@@ -47,14 +51,19 @@
                         name="item_name"
                         value="{{ $item->name }}"
                     />
-                    <label class="">
-                        <input type="checkbox" name="dietary_restrictions" />
+                    <label class="max-w-max">
+                        <input
+                            type="checkbox"
+                            class="rounded-full"
+                            name="dietary_restrictions"
+                        />
                         Allergies
                     </label>
                     <div class="flex gap-2">
                         <textarea
                             name="notes"
                             placeholder="Special notes"
+                            maxlength="255"
                         ></textarea>
                         <button
                             type="submit"
