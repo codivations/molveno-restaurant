@@ -30,6 +30,9 @@
         background-color: lightskyblue;
         padding: 0.375rem;
     }
+    .nav-bg {
+        background-color: #d7e3f8;
+    }
 }
 
 .light {
