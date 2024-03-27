@@ -58,8 +58,7 @@ class ReservationsController extends Controller
 
         session(["reservationViewFiltered" => true]);
         session(["showDetailWindow" => "overviewDetails"]);
-        $filterData = $this->getFilterDataObj($request);
-        session(["filterData" => $filterData]);
+        session(["filterData" => $this->getFilterDataObj($request)]);
 
         return $this->showOverview();
     }
@@ -67,34 +66,26 @@ class ReservationsController extends Controller
     public function showUnfilteredOverview()
     {
         session(["reservationViewFiltered" => false]);
+        session(["showDetailWindow" => "overviewDetails"]);
+        session(["filterData" => $this->getDefaultFilterDataObj()]);
 
         return $this->showOverview();
     }
 
     public function showOverview()
     {
-        if (session("reservationViewFiltered") == true) {
-            $reservations = $this->getFilteredReservations(
-                session("filterData")->seating_area,
-                new DateTime(session("filterData")->from),
-                new DateTime(session("filterData")->to)
-            );
-            $filterData = session("filterData");
-        } else {
-            $reservations = $this->getFilteredReservations(
-                SeatingArea::ALL,
-                date_time_set(new DateTime(), 0, 00),
-                date_time_set(new DateTime(), 23, 59)
-            );
-            //$reservations = $this->getAllReservations();
-            $filterData = null;
-        }
+        $reservations = $this->getFilteredReservations(
+            session("filterData")->seating_area,
+            new DateTime(session("filterData")->from),
+            new DateTime(session("filterData")->to)
+        );
 
-        $data = $this->getOverviewDataObj($reservations);
+        $filterData = session("filterData");
+        $overviewData = $this->getOverviewData($reservations, $filterData);
 
         return view(
             "reservationsOverview",
-            compact(["data", "filterData", "reservations"])
+            compact(["filterData", "overviewData", "reservations"])
         );
     }
 
@@ -117,16 +108,16 @@ class ReservationsController extends Controller
         DateTime $from,
         DateTime $to
     ): Collection {
-        if ($seatingArea == SeatingArea::ALL) {
-            return Reservations::orderBy("reservation_time")
-                ->whereBetween("reservation_time", [$from, $to])
-                ->get();
-        } else {
-            return Reservations::orderBy("reservation_time")
-                ->where("seating_area", $seatingArea)
-                ->whereBetween("reservation_time", [$from, $to])
-                ->get();
+        $reservation = Reservations::orderBy("reservation_time")->whereBetween(
+            "reservation_time",
+            [$from, $to]
+        );
+
+        if ($seatingArea != SeatingArea::ALL) {
+            $reservation->where("seating_area", $seatingArea);
         }
+
+        return $reservation->get();
     }
 
     private function getReservationById(string $id)
@@ -163,12 +154,76 @@ class ReservationsController extends Controller
         return $filterData;
     }
 
+    private function getDefaultFilterDataObj()
+    {
+        $filterData = new stdClass();
+
+        $filterData->from = date_time_set(new DateTime(), 0, 00)->format(
+            "Y-m-d H:i"
+        );
+        $filterData->to = date_time_set(new DateTime(), 23, 59)->format(
+            "Y-m-d H:i"
+        );
+
+        $filterData->seating_area = SeatingArea::ALL;
+
+        return $filterData;
+    }
+
     private function getOverviewDataObj(Collection $collection): object
     {
         $data = new stdClass();
         $data->highChairAmount = $collection->sum("high_chair_amount");
         $data->boosterSeatAmount = $collection->sum("booster_seat_amount");
         $data->reservedTablesAmount = $collection->sum("table_amount");
+
+        return $data;
+    }
+
+    private function getOverviewData(
+        Collection $collection,
+        object $filterData
+    ): object {
+        $data = new stdClass();
+        $data->capacityTotals = $this->getOverviewDataObj($collection);
+
+        if ($filterData->seating_area == SeatingArea::ALL || false) {
+            $filteredReservations = $collection->filter(function (
+                $value,
+                $key
+            ) {
+                if ($value["seating_area"] == "terrace") {
+                    return $value;
+                }
+            });
+            $data->capacityTerrace = $this->getOverviewDataObj(
+                $filteredReservations
+            );
+
+            $filteredReservations = $collection->filter(function (
+                $value,
+                $key
+            ) {
+                if ($value["seating_area"] == "ground floor") {
+                    return $value;
+                }
+            });
+            $data->capacityGroundFloor = $this->getOverviewDataObj(
+                $filteredReservations
+            );
+
+            $filteredReservations = $collection->filter(function (
+                $value,
+                $key
+            ) {
+                if ($value["seating_area"] == "first floor") {
+                    return $value;
+                }
+            });
+            $data->capacityFirstFloor = $this->getOverviewDataObj(
+                $filteredReservations
+            );
+        }
 
         return $data;
     }

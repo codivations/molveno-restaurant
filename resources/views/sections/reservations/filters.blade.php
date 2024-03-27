@@ -1,4 +1,4 @@
-<form action="/reservations" method="POST" class="reservation-filters">
+<form action="/reservations" method="POST">
     @csrf
     <div>
         <label for="from">from</label>
@@ -50,7 +50,7 @@
         </select>
     </div>
 
-    <div>
+    <div class="filter-buttons">
         <input type="submit" class="button" name="filter" value="filter" />
         <a href="/reservations" class="button">reset filters</a>
     </div>

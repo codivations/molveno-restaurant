@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer components {
+    .topbar {
+        padding: 0.5rem;
+        justify-content: right;
+        background-color: rgb(65 65 65);
+    }
+
     .form-item {
         display: flex;
         flex-direction: row;
@@ -29,6 +35,61 @@
         border-radius: 9999px;
         background-color: lightskyblue;
         padding: 0.375rem;
+        width: 100px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    /* .filters {
+    } */
+
+    .filters > form {
+        max-width: 95%;
+        margin: 0 auto;
+    }
+
+    .filters > form > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        text-transform: capitalize;
+    }
+
+    .filters > form > .filter-buttons {
+        justify-content: right;
+    }
+
+    .filters > form > .filter-buttons > * {
+        margin-left: 1em;
+    }
+
+    .filters input,
+    .filters select {
+        width: 70%;
+        border: solid;
+        border-width: 1px;
+        border-radius: 0.5rem;
+        background-color: lightgrey;
+    }
+
+    .filters label {
+        display: flex;
+        margin: auto 0;
+        color: whitesmoke;
+    }
+
+    .filters .button {
+        display: inline-block;
+        text-align: center;
+        text-transform: capitalize;
+        border: solid;
+        border-width: 1px;
+        border-radius: 9999px;
+        background-color: lightskyblue;
+        min-width: 100px;
+        width: fit-content;
+        padding: 0.375rem 1rem;
     }
 }
 
