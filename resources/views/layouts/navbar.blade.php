@@ -5,4 +5,7 @@
     <x-nav-button :href="__('/order/' . $tableNumber . '/drinks')">
         <x-menu-icon />
     </x-nav-button>
+    <x-nav-button :href="__('/reservations')">
+        <x-reservations-icon />
+    </x-nav-button>
 </nav>
