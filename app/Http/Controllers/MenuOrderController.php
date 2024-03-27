@@ -37,4 +37,9 @@ class MenuOrderController extends Controller
         ]);
         return back()->with("message", "$request->item_name added to order");
     }
+
+    public function showOrder(string $tableNumber)
+    {
+        return view("orders.showOrder", compact("tableNumber"));
+    }
 }

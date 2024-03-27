@@ -75,6 +75,6 @@
                 </form>
             @endforeach
         </section>
-        @include("layouts.navbar", ["tableNumber"])
+        @include("layouts.navbar")
     </div>
 @endsection
