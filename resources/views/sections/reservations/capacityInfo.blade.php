@@ -11,7 +11,67 @@
     </div>
 </div>
 <div class="capacity-info">
-    <div>Tables reserved: {{ $data->reservedTablesAmount }}</div>
-    <div>Total high chairs: {{ $data->highChairAmount }}</div>
-    <div>Total booster seats: {{ $data->boosterSeatAmount }}</div>
+    @if ($filterData->seating_area == \App\Enums\SeatingArea::ALL)
+        <div>
+            Tables reserved:
+            {{ $overviewData->capacityTotals->reservedTablesAmount }}
+        </div>
+        <div>
+            - Terrace:
+            {{ $overviewData->capacityTerrace->reservedTablesAmount }}
+        </div>
+        <div>
+            - Ground Floor:
+            {{ $overviewData->capacityGroundFloor->reservedTablesAmount }}
+        </div>
+        <div>
+            - First Floor:
+            {{ $overviewData->capacityFirstFloor->reservedTablesAmount }}
+        </div>
+
+        <div>
+            High chairs reserved:
+            {{ $overviewData->capacityTotals->highChairAmount }}
+        </div>
+        <div>
+            - Terrace: {{ $overviewData->capacityTerrace->highChairAmount }}
+        </div>
+        <div>
+            - Ground Floor:
+            {{ $overviewData->capacityGroundFloor->highChairAmount }}
+        </div>
+        <div>
+            - First Floor:
+            {{ $overviewData->capacityFirstFloor->highChairAmount }}
+        </div>
+
+        <div>
+            Booster seats reserved:
+            {{ $overviewData->capacityTotals->boosterSeatAmount }}
+        </div>
+        <div>
+            - Terrace: {{ $overviewData->capacityTerrace->boosterSeatAmount }}
+        </div>
+        <div>
+            - Ground Floor:
+            {{ $overviewData->capacityGroundFloor->boosterSeatAmount }}
+        </div>
+        <div>
+            - First Floor:
+            {{ $overviewData->capacityFirstFloor->boosterSeatAmount }}
+        </div>
+    @else
+        <div>
+            Tables reserved:
+            {{ $overviewData->capacityTotals->reservedTablesAmount }}
+        </div>
+        <div>
+            High chairs reserved:
+            {{ $overviewData->capacityTotals->highChairAmount }}
+        </div>
+        <div>
+            Booster seats reserved:
+            {{ $overviewData->capacityTotals->boosterSeatAmount }}
+        </div>
+    @endif
 </div>

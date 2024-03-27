@@ -5,7 +5,6 @@
 @layer components {
     .topbar {
         padding: 0.5rem;
-        justify-content: right;
         background-color: rgb(65, 65, 65);
     }
 
