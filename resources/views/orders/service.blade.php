@@ -75,5 +75,6 @@
                 </form>
             @endforeach
         </section>
+        @include("layouts.navbar")
     </div>
 @endsection
