@@ -8,7 +8,7 @@
 @endphp
 
 <a
-    class="{{ $shadow }} nav-bg flex w-20 flex-wrap justify-center rounded-md text-xs"
+    class="{{ $shadow }} nav-bg mb-2 flex w-20 flex-col items-center justify-center rounded-md text-xs"
     href="{{ $href }}"
 >
     {{ $slot }}
