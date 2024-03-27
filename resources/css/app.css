@@ -91,6 +91,9 @@
         width: fit-content;
         padding: 0.375rem 1rem;
     }
+    .nav-bg {
+        background-color: #d7e3f8;
+    }
 }
 
 .light {
