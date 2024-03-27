@@ -3,7 +3,7 @@
 @section("title", "reservations")
 
 @section("content")
-    <div class="bg-gray-600">
+    <div class="h-full bg-gray-600">
         <div class="topbar flex flex-row">
             <a href="/reservations/new" class="button">new</a>
         </div>
@@ -14,7 +14,7 @@
                 </div>
                 <ul
                     class="w-180 overflow-scroll rounded-lg border border-solid bg-slate-300"
-                    style="height: 600px"
+                    style="height: auto"
                 >
                     @foreach ($reservations as $reservation)
                         @include("sections.reservationCard")
