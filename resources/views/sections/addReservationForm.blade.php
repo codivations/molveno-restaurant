@@ -47,10 +47,6 @@
         />
     </div>
     <div class="form-item">
-        <label for="notes" class="form-label">Notes:</label>
-        <textarea id="notes" name="notes" class="h-20rem form-input"></textarea>
-    </div>
-    <div class="form-item">
         <label for="seating_area" class="form-label">Select area:</label>
         <select name="seating_area" id="seating_area" class="form-input">
             <option value="ground floor">ground floor</option>
@@ -93,6 +89,10 @@
             name="dietary_restrictions"
             value="1"
         />
+    </div>
+    <div class="form-item">
+        <label for="notes" class="form-label">Notes:</label>
+        <textarea id="notes" name="notes" class="h-20rem form-input"></textarea>
     </div>
     <div>
         <input type="submit" value="confirm" class="button" />

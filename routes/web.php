@@ -50,26 +50,57 @@ Route::middleware("auth")->group(function () {
     );
 });
 
-Route::get("/reservations", [
-    ReservationsController::class,
-    "showUnfilteredOverview",
-]);
-Route::get("/reservations/new", [ReservationsController::class, "showForm"]);
-Route::post("/reservations", [
-    ReservationsController::class,
-    "showFilteredOverview",
-]);
+Route::name("reservations.")
+    ->middleware(["auth", "role:waitstaff"])
+    ->group(function () {
+        Route::get("/reservations", [
+            ReservationsController::class,
+            "showUnfilteredOverview",
+        ]);
+        Route::get("/reservations/new", [
+            ReservationsController::class,
+            "showForm",
+        ]);
+        Route::post("/reservations", [
+            ReservationsController::class,
+            "showFilteredOverview",
+        ]);
 
-Route::get("/reservationForm", [ReservationsController::class, "show"]);
-Route::post("/reservations/create", [ReservationsController::class, "store"]);
+        Route::get("/reservations/form", [
+            ReservationsController::class,
+            "show",
+        ]);
+        Route::post("/reservations/create", [
+            ReservationsController::class,
+            "store",
+        ]);
 
-Route::get("/reservations/id/{id}", [
-    ReservationsController::class,
-    "showReservation",
-]);
+        Route::get("/reservations/id/{id}", [
+            ReservationsController::class,
+            "showReservation",
+        ]);
+    });
+
+// Route::get("/reservations", [
+//     ReservationsController::class,
+//     "showUnfilteredOverview",
+// ]);
+// Route::get("/reservations/new", [ReservationsController::class, "showForm"]);
+// Route::post("/reservations", [
+//     ReservationsController::class,
+//     "showFilteredOverview",
+// ]);
+
+// Route::get("/reservationForm", [ReservationsController::class, "show"]);
+// Route::post("/reservations/create", [ReservationsController::class, "store"]);
+
+// Route::get("/reservations/id/{id}", [
+//     ReservationsController::class,
+//     "showReservation",
+// ]);
 
 Route::name("order.")
-    //->middleware(["auth", "role:waitstaff"])
+    ->middleware(["auth", "role:waitstaff"])
     ->group(function () {
         Route::get("/order", [MenuOrderController::class, "index"])->name(
             "index"
