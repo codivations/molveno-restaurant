@@ -188,29 +188,40 @@ class ReservationsController extends Controller
         $data->capacityTotals = $this->getOverviewDataObj($collection);
 
         if ($filterData->seating_area == SeatingArea::ALL || false) {
-            $reservations = $this->getFilteredReservations(
-                SeatingArea::TERRACE,
-                new DateTime($filterData->from),
-                new DateTime($filterData->to)
+            $filteredReservations = $collection->filter(function (
+                $value,
+                $key
+            ) {
+                if ($value["seating_area"] == "terrace") {
+                    return $value;
+                }
+            });
+            $data->capacityTerrace = $this->getOverviewDataObj(
+                $filteredReservations
             );
-            $data->capacityTerrace = $this->getOverviewDataObj($reservations);
 
-            $reservations = $this->getFilteredReservations(
-                SeatingArea::GROUNDFLOOR,
-                new DateTime($filterData->from),
-                new DateTime($filterData->to)
-            );
+            $filteredReservations = $collection->filter(function (
+                $value,
+                $key
+            ) {
+                if ($value["seating_area"] == "ground floor") {
+                    return $value;
+                }
+            });
             $data->capacityGroundFloor = $this->getOverviewDataObj(
-                $reservations
+                $filteredReservations
             );
 
-            $reservations = $this->getFilteredReservations(
-                SeatingArea::FIRSTFLOOR,
-                new DateTime($filterData->from),
-                new DateTime($filterData->to)
-            );
+            $filteredReservations = $collection->filter(function (
+                $value,
+                $key
+            ) {
+                if ($value["seating_area"] == "first floor") {
+                    return $value;
+                }
+            });
             $data->capacityFirstFloor = $this->getOverviewDataObj(
-                $reservations
+                $filteredReservations
             );
         }
 
