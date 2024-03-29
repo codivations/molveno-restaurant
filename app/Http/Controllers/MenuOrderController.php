@@ -15,6 +15,11 @@ class MenuOrderController extends Controller
         return view("orders.index", compact("menu"));
     }
 
+    public function showMenu(string $tableNumber)
+    {
+        return $this->showService($tableNumber, "lunch");
+    }
+
     public function showService(
         string $tableNumber,
         string $currentService

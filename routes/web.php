@@ -3,6 +3,7 @@
 use App\Http\Controllers\MenuOrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationsController;
+use App\Http\Controllers\TablesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -87,6 +88,10 @@ Route::name("order.")
         Route::get("/order", [MenuOrderController::class, "index"])->name(
             "index"
         );
+        Route::get("/order/{tableNumber}", [
+            MenuOrderController::class,
+            "showMenu",
+        ]);
         Route::get("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "showService",
@@ -95,6 +100,12 @@ Route::name("order.")
             MenuOrderController::class,
             "addToOrder",
         ]);
+    });
+
+Route::name("tables.")
+    ->middleware(["auth"])
+    ->group(function () {
+        Route::get("/tables", [TablesController::class, "show"]);
     });
 
 require __DIR__ . "/auth.php";
