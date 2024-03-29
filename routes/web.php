@@ -92,14 +92,10 @@ Route::name("order.")
             MenuOrderController::class,
             "showOrder",
         ]);
-        Route::get("/order/{tableNumber}", [
-            MenuOrderController::class,
-            "showMenu",
-        ]);
         Route::get("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "showService",
-        ]);
+        ])->name("showService");
         Route::post("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "addToOrder",
