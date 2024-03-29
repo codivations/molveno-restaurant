@@ -51,13 +51,18 @@ class TableSeeder extends Seeder
         for ($i = 0; $i < count($tableCapacity); $i++) {
             if ($i > 14) {
                 $area = SeatingArea::TERRACE;
-            } elseif ($i > 7) {
+            } elseif ($i > 5) {
                 $area = SeatingArea::FIRSTFLOOR;
             } else {
                 $area = SeatingArea::GROUNDFLOOR;
             }
 
-            Table::factory()->create();
+            Table::factory()->create([
+                "table_number" => $i,
+                "seating_area" => $area,
+                "seated_reservation" => null,
+                "capacity" => $tableCapacity[$i],
+            ]);
         }
     }
 }
