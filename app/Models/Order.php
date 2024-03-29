@@ -25,6 +25,6 @@ class Order extends Model
 
     public static function getAllOrders(): Collection
     {
-        return Order::orderBy("created_at")->get();
+        return Order::orderBy("id")->get();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 class OrderedItem extends Model
 {
@@ -20,5 +21,10 @@ class OrderedItem extends Model
     public function setStatus(string $status): void
     {
         $this->status = OrderStatus::tryFrom($status);
+    }
+
+    public static function getAllOrderedItems(): Collection
+    {
+        return OrderedItem::orderBy("order_id")->get();
     }
 }
