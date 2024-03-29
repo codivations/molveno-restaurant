@@ -77,11 +77,11 @@ Route::name("order.")
         Route::get("/order/{tableNumber}/showOrder", [
             MenuOrderController::class,
             "showOrder",
-        ]);
+        ])->name("showOrder");
         Route::get("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "showService",
-        ]);
+        ])->name("showService");
         Route::post("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "addToOrder",
