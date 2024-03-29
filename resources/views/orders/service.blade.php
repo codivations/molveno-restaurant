@@ -3,7 +3,7 @@
 @section("title", "orders: $menu->service")
 
 @section("content")
-    <div class="bg-gray-200">
+    <div class="bg-gray-200 px-2">
         @include("orders.orderMenu")
         @if (session("message"))
             <p class="mx-4">{{ session("message") }}</p>
@@ -13,13 +13,10 @@
             <p class="mx-4 text-red-500">{{ $message }}</p>
         @enderror
 
-        <section
-            class="mx-2 my-2 flex flex-col"
-            x-data="{ item_open: null }"
-        >
+        <section class="my-2 flex flex-col" x-data="{ item_open: null }">
             @foreach ($menu->items as $item)
                 <article
-                    class="mt-4 flex flex-1 justify-between rounded-md border border-black bg-white p-4"
+                    class="mt-2 flex flex-1 justify-between rounded-md border border-black bg-white p-4"
                 >
                     <div class="flex w-5/6 flex-wrap justify-between">
                         <h3 class="w-1/2 text-2xl">{{ $item->name }}</h3>
@@ -75,6 +72,8 @@
                 </form>
             @endforeach
         </section>
-        @include("layouts.navbar")
+        <footer class="sticky bottom-0">
+            @include("layouts.navbar")
+        </footer>
     </div>
 @endsection
