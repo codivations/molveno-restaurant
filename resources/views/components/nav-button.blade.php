@@ -4,7 +4,7 @@
 ])
 
 @php
-    $shadow = $active ?? false ? "shadow-md" : ""
+    $shadow = $active ?? false ? "menu-shadow shadow-black" : ""
 @endphp
 
 <a
