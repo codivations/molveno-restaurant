@@ -88,6 +88,10 @@ Route::name("order.")
         Route::get("/order", [MenuOrderController::class, "index"])->name(
             "index"
         );
+        Route::get("/order/{tableNumber}", [
+            MenuOrderController::class,
+            "showMenu",
+        ]);
         Route::get("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "showService",

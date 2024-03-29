@@ -10,7 +10,7 @@ class TablesController extends Controller
 {
     public function show(): View
     {
-        Table::orderBy("id")->get();
-        return view("tables.index");
+        $tables = Table::orderBy("id")->get();
+        return view("tables.index", compact(["tables"]));
     }
 }
