@@ -21,11 +21,10 @@
                     class="m-1 h-min min-w-72 rounded-lg border border-solid border-black bg-gray-600"
                 >
                     <div
-                        class="flex flex-nowrap justify-between rounded-lg border border-solid border-black bg-teal-300 bg-opacity-40 p-1 font-bold uppercase text-white"
+                        class="grid grid-cols-2 grid-rows-2 justify-between gap-1 rounded-lg border border-solid border-black bg-teal-300 bg-opacity-40 p-2 font-bold uppercase text-white"
                     >
                         <div>{{ $order->created_at->format("H:i") }}</div>
                         <div>{{ $order->staff_id }}</div>
-                        <br />
                         <div>{{ $order->id }}</div>
                         <div>{{ $order->status }}</div>
                     </div>
