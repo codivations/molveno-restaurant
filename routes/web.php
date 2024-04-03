@@ -110,6 +110,10 @@ Route::name("tables.")
     ->middleware(["auth"])
     ->group(function () {
         Route::get("/tables", [TablesController::class, "show"]);
+        Route::get("/tables/{area}/{seated}", [
+            TablesController::class,
+            "showFiltered",
+        ]);
     });
 
 require __DIR__ . "/auth.php";
