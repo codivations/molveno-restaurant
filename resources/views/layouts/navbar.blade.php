@@ -1,5 +1,5 @@
-<nav x-data="{ open: false }" class="flex flex-col">
-    <div x-show="open" class="flex w-fit flex-col self-end bg-black">
+<nav x-data="{ open: false }" class="flex flex-col bg-black">
+    <div x-show="open" class="flex w-max flex-col self-end">
         <form method="POST" action="{{ route("logout") }}" class="p-3">
             @csrf
 
@@ -13,7 +13,7 @@
             </x-dropdown-link>
         </form>
     </div>
-    <div class="flex gap-2 bg-black p-2">
+    <div class="m-2 flex max-w-full justify-evenly gap-1">
         <x-nav-button
             :href="__('/order')"
             :active="__(Route::is('order.index'))"
@@ -38,13 +38,12 @@
         >
             <x-reservations-icon />
         </x-nav-button>
-        <div
-            class="nav-bg flex w-20 flex-col items-center justify-center rounded-md text-xs"
-            x-data=""
+        <button
+            @click="open = ! open"
+            @click.outside="open = false"
+            class="nav-bg text-2xs flex h-16 w-16 flex-shrink-0 flex-col items-center justify-center rounded-md p-2"
         >
-            <button @click="open = ! open" @click.outside="open = false">
-                <x-settings-icon />
-            </button>
-        </div>
+            <x-settings-icon />
+        </button>
     </div>
 </nav>

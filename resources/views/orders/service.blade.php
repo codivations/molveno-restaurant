@@ -72,7 +72,7 @@
                 </form>
             @endforeach
         </section>
-        <footer class="sticky bottom-0">
+        <footer class="sticky bottom-0 max-w-full">
             @include("layouts.navbar")
         </footer>
     </div>
