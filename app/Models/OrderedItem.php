@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Collection;
 
 class OrderedItem extends Model
@@ -26,5 +27,10 @@ class OrderedItem extends Model
     public static function getAllOrderedItems(): Collection
     {
         return OrderedItem::orderBy("order_id")->get();
+    }
+
+    public function item(): HasOne
+    {
+        return $this->hasOne(Item::class, "id", "menu_item_id");
     }
 }

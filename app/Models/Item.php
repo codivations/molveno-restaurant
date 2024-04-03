@@ -6,7 +6,7 @@ use App\Enums\ItemCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
+use App\Models\OrderedItem;
 class Item extends Model
 {
     use HasFactory;
@@ -37,5 +37,10 @@ class Item extends Model
     public function menus(): BelongsToMany
     {
         return $this->belongsToMany(Menu::class, "menus_items");
+    }
+
+    public function orderedItems(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, "orders_items");
     }
 }
