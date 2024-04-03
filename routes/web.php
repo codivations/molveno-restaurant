@@ -3,6 +3,7 @@
 use App\Http\Controllers\MenuOrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationsController;
+use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\TablesController;
 use Illuminate\Support\Facades\Route;
 
@@ -81,6 +82,8 @@ Route::name("reservations.")
             "showReservation",
         ]);
     });
+
+Route::get("/kitchen", [KitchenController::class, "show"]);
 
 Route::name("order.")
     ->middleware(["auth", "role:waitstaff"])

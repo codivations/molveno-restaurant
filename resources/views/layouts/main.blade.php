@@ -16,8 +16,8 @@
         <!-- Scripts -->
         @vite(["resources/css/app.css", "resources/js/app.js"])
     </head>
-    <body>
-        <main class="h-1/1">
+    <body class="">
+        <main>
             @yield("content")
         </main>
     </body>

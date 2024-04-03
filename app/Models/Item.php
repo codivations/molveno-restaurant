@@ -38,4 +38,9 @@ class Item extends Model
     {
         return $this->belongsToMany(Menu::class, "menus_items");
     }
+
+    public function orderedItems(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, "orders_items");
+    }
 }
