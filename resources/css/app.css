@@ -101,6 +101,16 @@
         box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
             var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     }
+    .nav-bg {
+        background-color: #d7e3f8;
+    }
+
+    .menu-shadow {
+        --tw-shadow: inset 0 10px 10px 0 rgb(0 0 0 / 0.1);
+        --tw-shadow-colored: inset 3px 4px 4px 1px rgb(0 0 0 / 0.6);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+            var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
 }
 
 .light {
