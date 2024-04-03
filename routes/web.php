@@ -57,7 +57,7 @@ Route::name("reservations.")
         Route::get("/reservations", [
             ReservationsController::class,
             "showUnfilteredOverview",
-        ]);
+        ])->name("index");
         Route::get("/reservations/new", [
             ReservationsController::class,
             "showForm",
@@ -92,10 +92,14 @@ Route::name("order.")
             MenuOrderController::class,
             "showMenu",
         ]);
+        Route::get("/order/{tableNumber}/showOrder", [
+            MenuOrderController::class,
+            "showOrder",
+        ])->name("showOrder");
         Route::get("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "showService",
-        ]);
+        ])->name("showService");
         Route::post("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "addToOrder",
