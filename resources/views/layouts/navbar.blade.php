@@ -14,7 +14,10 @@
     >
         <x-order-icon />
     </x-nav-button>
-    <x-nav-button :href="__('/reservations')">
+    <x-nav-button
+        :href="__('/reservations')"
+        :active="__(Route::is('reservations.index'))"
+    >
         <x-reservations-icon />
     </x-nav-button>
     <div
