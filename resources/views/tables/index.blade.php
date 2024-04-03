@@ -3,7 +3,9 @@
 @section("title", "test2")
 
 @section("content")
-    <h1 class="text-blue-600">Hello Tables</h1>
+    show me {{ $seatedSelected }}
+    @include("tables.sections.areaFilter",['route' => $areaSelected,'items' => ['terrace','ground floor','first floor'],'currentSelection' => $seatedSelected])
+    @include("tables.sections.seatedFilter",['route' => $seatedSelected,'items' => ['seated','available'],'currentSelection' => $areaSelected])
 
     @foreach ($tables as $table)
         <div class="m-3 flex w-max rounded-lg border-2 bg-slate-300 p-3">
