@@ -57,7 +57,7 @@ Route::name("reservations.")
         Route::get("/reservations", [
             ReservationsController::class,
             "showUnfilteredOverview",
-        ]);
+        ])->name("index");
         Route::get("/reservations/new", [
             ReservationsController::class,
             "showForm",
