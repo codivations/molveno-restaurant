@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 class OrderedItem extends Model
 {
-    protected $table = "orders_items";
-
     use HasFactory;
+
+    protected $table = "orders_items";
 
     public function getStatus(): OrderStatus
     {

@@ -11,9 +11,9 @@ use App\Models\OrderedItem;
 
 class Order extends Model
 {
-    protected $table = "orders";
-
     use HasFactory;
+
+    protected $table = "orders";
 
     public function getStatus(): OrderStatus
     {

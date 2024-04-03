@@ -13,7 +13,7 @@ body {
         padding: 1rem;
         width: lvw;
         position: sticky;
-        top: 0px;
+        top: 0;
         justify-content: right;
         background-color: rgb(65 65 65);
     }

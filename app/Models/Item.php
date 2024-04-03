@@ -6,7 +6,6 @@ use App\Enums\ItemCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\OrderedItem;
 class Item extends Model
 {
     use HasFactory;
