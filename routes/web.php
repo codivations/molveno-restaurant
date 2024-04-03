@@ -108,7 +108,7 @@ Route::name("tables.")
         Route::get("/tables", [TablesController::class, "show"]);
         Route::get("/tables/{area}/{seated}", [
             TablesController::class,
-            "showFiltered",
+            "show",
         ]);
     });
 

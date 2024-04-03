@@ -196,6 +196,7 @@ class ReservationsController extends Controller
                     return $value;
                 }
             });
+
             $data->capacityTerrace = $this->getOverviewDataObj(
                 $filteredReservations
             );
