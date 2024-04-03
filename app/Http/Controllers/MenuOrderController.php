@@ -15,6 +15,11 @@ class MenuOrderController extends Controller
         return view("orders.index", compact("menu"));
     }
 
+    public function showMenu(string $tableNumber)
+    {
+        return $this->showService($tableNumber, "lunch");
+    }
+
     public function showService(
         string $tableNumber,
         string $currentService
@@ -32,6 +37,14 @@ class MenuOrderController extends Controller
 
     public function addToOrder(Request $request)
     {
+        $validated = $request->validate([
+            "notes" => "string|nullable|max:255",
+        ]);
         return back()->with("message", "$request->item_name added to order");
+    }
+
+    public function showOrder(string $tableNumber)
+    {
+        return view("orders.showOrder", compact("tableNumber"));
     }
 }

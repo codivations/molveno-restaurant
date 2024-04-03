@@ -4,6 +4,7 @@ use App\Http\Controllers\MenuOrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationsController;
 use App\Http\Controllers\KitchenController;
+use App\Http\Controllers\TablesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,23 +52,36 @@ Route::middleware("auth")->group(function () {
     );
 });
 
-Route::get("/reservations", [
-    ReservationsController::class,
-    "showUnfilteredOverview",
-]);
-Route::get("/reservations/new", [ReservationsController::class, "showForm"]);
-Route::post("/reservations", [
-    ReservationsController::class,
-    "showFilteredOverview",
-]);
+Route::name("reservations.")
+    ->middleware(["auth"])
+    ->group(function () {
+        Route::get("/reservations", [
+            ReservationsController::class,
+            "showUnfilteredOverview",
+        ])->name("index");
+        Route::get("/reservations/new", [
+            ReservationsController::class,
+            "showForm",
+        ]);
+        Route::post("/reservations", [
+            ReservationsController::class,
+            "showFilteredOverview",
+        ]);
 
-Route::get("/reservationForm", [ReservationsController::class, "show"]);
-Route::post("/reservations/create", [ReservationsController::class, "store"]);
+        Route::get("/reservations/form", [
+            ReservationsController::class,
+            "show",
+        ]);
+        Route::post("/reservations/create", [
+            ReservationsController::class,
+            "store",
+        ]);
 
-Route::get("/reservations/id/{id}", [
-    ReservationsController::class,
-    "showReservation",
-]);
+        Route::get("/reservations/id/{id}", [
+            ReservationsController::class,
+            "showReservation",
+        ]);
+    });
 
 Route::get("/kitchen", [KitchenController::class, "show"]);
 
@@ -77,14 +91,28 @@ Route::name("order.")
         Route::get("/order", [MenuOrderController::class, "index"])->name(
             "index"
         );
+        Route::get("/order/{tableNumber}", [
+            MenuOrderController::class,
+            "showMenu",
+        ]);
+        Route::get("/order/{tableNumber}/showOrder", [
+            MenuOrderController::class,
+            "showOrder",
+        ])->name("showOrder");
         Route::get("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "showService",
-        ]);
+        ])->name("showService");
         Route::post("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "addToOrder",
         ]);
+    });
+
+Route::name("tables.")
+    ->middleware(["auth"])
+    ->group(function () {
+        Route::get("/tables", [TablesController::class, "show"]);
     });
 
 require __DIR__ . "/auth.php";
