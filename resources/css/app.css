@@ -96,12 +96,14 @@
         background-color: #d7e3f8;
     }
 
+    /* prettier-ignore */
     .menu-shadow {
         --tw-shadow: inset 0 10px 10px 0 rgb(0 0 0 / 10%);
         --tw-shadow-colored: inset 3px 4px 4px 1px rgb(0 0 0 / 60%);
-
-        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
-            var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+        box-shadow:
+            var(--tw-ring-offset-shadow, 0 0 #0000),
+            var(--tw-ring-shadow, 0 0 #0000),
+            var(--tw-shadow);
     }
 
     .text-2xs {
