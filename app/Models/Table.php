@@ -15,6 +15,6 @@ class Table extends Model
 
     public function seated(): HasOne
     {
-        return $this->hasOne(Reservations::class, "id");
+        return $this->hasOne(Reservations::class, "id", "seated_reservation");
     }
 }
