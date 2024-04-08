@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\ItemStatus;
 use App\Enums\OrderStatus;
-use App\Models\Item;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderedItem;
@@ -126,7 +125,6 @@ class MenuOrderController extends Controller
     {
         $order = new stdClass();
         $order->items = [];
-        $order->staff_id = $request->user()->id;
 
         return $order;
     }
