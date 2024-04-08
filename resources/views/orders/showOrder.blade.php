@@ -28,7 +28,6 @@
             @if (session("order")->items ?? false)
                 @foreach (session("order")->items as $item)
                     <article>
-                        {{-- <h3>{{ $item["name"]}}</h3> --}}
                         <div
                             class="mt-2 rounded-md border border-black bg-white p-4"
                         >

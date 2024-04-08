@@ -20,7 +20,7 @@ class OrderFactory extends Factory
         return [
             "status" => fake()->randomElement(OrderStatus::class),
             "reservation_id" => fake()->numberBetween(1, 20),
-            "staff_id" => 3,
+            "staff_id" => 5,
         ];
     }
 }

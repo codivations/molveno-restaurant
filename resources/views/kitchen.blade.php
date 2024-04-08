@@ -24,7 +24,8 @@
                         class="grid grid-cols-2 grid-rows-2 justify-between gap-1 rounded-lg border border-solid border-black bg-teal-300 bg-opacity-40 p-2 font-bold uppercase text-white"
                     >
                         <div>{{ $order->created_at->format("H:i") }}</div>
-                        <div>{{ $order->staff_id }}</div>
+                        {{-- <div>{{ $order->staff_id }}</div> --}}
+                        <div>{{ $order->user->name }}</div>
                         <div>{{ $order->id }}</div>
                         <div>{{ $order->status }}</div>
                     </div>

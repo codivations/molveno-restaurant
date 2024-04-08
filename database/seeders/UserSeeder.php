@@ -50,5 +50,14 @@ class UserSeeder extends Seeder
             ])
             ->roles()
             ->attach(2);
+
+        User::factory()
+            ->create([
+                "name" => "Fred",
+                "password" => "111111",
+                "login_name" => "fred",
+            ])
+            ->roles()
+            ->attach(3);
     }
 }
