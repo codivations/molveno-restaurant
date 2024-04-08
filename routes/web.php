@@ -117,6 +117,8 @@ Route::name("tables.")
             TablesController::class,
             "show",
         ]);
+        Route::post("tables/seat", [TablesController::class, "seat"]);
+        Route::post("tables/unseat", [TablesController::class, "unseat"]);
     });
 
 require __DIR__ . "/auth.php";

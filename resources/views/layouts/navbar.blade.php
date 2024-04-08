@@ -14,10 +14,7 @@
         </form>
     </div>
     <div class="flex max-w-full justify-evenly gap-1 bg-black p-2">
-        <x-nav-button
-            :href="__('/order')"
-            :active="__(Route::is('order.index'))"
-        >
+        <x-nav-button :href="__('/tables')" :active="__(Route::is('tables'))">
             <x-home-icon />
         </x-nav-button>
         <x-nav-button

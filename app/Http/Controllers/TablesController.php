@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Table;
+use App\Models\Reservations;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -41,5 +42,30 @@ class TablesController extends Controller
             "tables.index",
             compact(["tables", "areaSelected", "seatedSelected"])
         );
+    }
+
+    public function seat(Request $request)
+    {
+        $table = Table::find($request->table);
+        $reservation = Reservations::find($request->reservation);
+        if ($table == null || $reservation == null) {
+            return back();
+        }
+        $table->seated_reservation = $request->reservation;
+        $table->save();
+
+        return back();
+    }
+
+    public function unseat(Request $request)
+    {
+        $table = Table::find($request->table);
+        if ($table == null) {
+            return back();
+        }
+        $table->seated_reservation = null;
+        $table->save();
+
+        return back();
     }
 }
