@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Order;
+use App\Enums\OrderStatus;
+use App\Models\OrderedItem;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

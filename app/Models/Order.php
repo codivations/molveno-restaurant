@@ -6,8 +6,10 @@ use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\OrderedItem;
+use App\Models\User;
 
 class Order extends Model
 {
@@ -33,5 +35,10 @@ class Order extends Model
     public function orderedItems(): HasMany
     {
         return $this->hasMany(OrderedItem::class);
+    }
+
+    public function user(): HasOne
+    {
+        return $this->HasOne(User::class, "id", "staff_id");
     }
 }
