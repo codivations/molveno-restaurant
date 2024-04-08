@@ -57,10 +57,12 @@ class TableSeeder extends Seeder
                 $area = SeatingArea::GROUNDFLOOR;
             }
 
+            $seated = $i <= 5 ? $i + 1 : null;
+
             Table::factory()->create([
                 "table_number" => $i,
                 "seating_area" => $area,
-                "seated_reservation" => null,
+                "seated_reservation" => $seated,
                 "capacity" => $tableCapacity[$i],
             ]);
         }

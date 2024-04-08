@@ -99,6 +99,10 @@ Route::name("order.")
             MenuOrderController::class,
             "showOrder",
         ])->name("showOrder");
+        Route::post("/order/{tableNumber}/showOrder", [
+            MenuOrderController::class,
+            "sendOrder",
+        ]);
         Route::get("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "showService",
