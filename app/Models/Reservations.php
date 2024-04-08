@@ -11,7 +11,7 @@ class Reservations extends Model
 {
     use HasFactory;
 
-    public function Tables(): HasMany
+    public function tables(): HasMany
     {
         return $this->hasMany(Table::class, "seated_reservation");
     }
