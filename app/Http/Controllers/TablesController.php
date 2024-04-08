@@ -66,7 +66,7 @@ class TablesController extends Controller
         $table->seated_reservation = null;
         $table->save();
 
-        session('orders')->items ?? false;
+        session("orders")->items ?? false;
 
         return back();
     }

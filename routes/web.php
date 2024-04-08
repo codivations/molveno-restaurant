@@ -87,7 +87,7 @@ Route::name("kitchen.")
     ->middleware(["auth"])
     ->group(function () {
         Route::get("/kitchen", [KitchenController::class, "show"]);
-});
+    });
 
 Route::name("order.")
     ->middleware(["auth", "role:waitstaff"])
