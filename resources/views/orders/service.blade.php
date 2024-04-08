@@ -9,6 +9,10 @@
             <p class="mx-4">{{ session("message") }}</p>
         @endif
 
+        @if (session("warning"))
+            <p class="mx-4 text-orange-500">{{ session("warning") }}</p>
+        @endif
+
         @error("notes")
             <p class="mx-4 text-red-500">{{ $message }}</p>
         @enderror
