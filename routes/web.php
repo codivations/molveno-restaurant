@@ -112,11 +112,11 @@ Route::name("order.")
 Route::name("tables.")
     ->middleware(["auth"])
     ->group(function () {
-        Route::get("/tables", [TablesController::class, "show"]);
+        Route::get("/tables", [TablesController::class, "show"])->name("all");
         Route::get("/tables/{area}/{seated}", [
             TablesController::class,
             "show",
-        ]);
+        ])->name("filtered");
         Route::post("tables/seat", [TablesController::class, "seat"]);
         Route::post("tables/unseat", [TablesController::class, "unseat"]);
     });

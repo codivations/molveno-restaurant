@@ -14,7 +14,10 @@
         </form>
     </div>
     <div class="flex max-w-full justify-evenly gap-1 bg-black p-2">
-        <x-nav-button :href="__('/tables')" :active="__(Route::is('tables'))">
+        <x-nav-button
+            :href="__('/tables')"
+            :active="__(Route::is('tables.all')||Route::is('tables.filtered'))"
+        >
             <x-home-icon />
         </x-nav-button>
         <x-nav-button
