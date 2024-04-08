@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ItemStatus;
+use App\Enums\OrderStatus;
+use App\Models\Item;
 use App\Models\Menu;
+use App\Models\Order;
+use App\Models\OrderedItem;
 use App\Models\Table;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -68,6 +73,7 @@ class MenuOrderController extends Controller
 
         array_push(session("order")->items, [
             "menu_item_id" => $request->menu_item_id,
+            "item_name" => $request->item_name,
             "notes" => $request->notes ?? "",
             "dietary_restrictions" => $request->has("dietary_restrictions"),
         ]);
@@ -78,6 +84,42 @@ class MenuOrderController extends Controller
     public function showOrder(string $tableNumber): View
     {
         return view("orders.showOrder", compact("tableNumber"));
+    }
+
+    public function sendOrder(
+        Request $request,
+        string $tableNumber
+    ): RedirectResponse {
+        if (empty(session("order"))) {
+            return back()->with("error", "Cannot send empty order");
+        }
+
+        $reservation_id = Table::where("table_number", $tableNumber)
+            ->first()
+            ->value("seated_reservation");
+
+        $order = new Order();
+        $order->staff_id = auth()->user()->id;
+        $order->reservation_id = $reservation_id;
+        $order->status = OrderStatus::TO_DO;
+        $order->save();
+
+        foreach (session("order")->items as $item) {
+            $orderedItem = new OrderedItem();
+
+            $orderedItem->order()->associate($order);
+            $orderedItem->order_id = $order->id;
+            $orderedItem->menu_item_id = $item["menu_item_id"];
+            $orderedItem->status = ItemStatus::TO_DO;
+            $orderedItem->dietary_restrictions = $item["dietary_restrictions"];
+            $orderedItem->notes = $item["notes"];
+
+            $orderedItem->save();
+        }
+
+        session()->forget("order");
+
+        return back()->with("success", "Order send");
     }
 
     private function createOrderObject(Request $request): object

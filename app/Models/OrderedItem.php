@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Enums\OrderStatus;
+use App\Enums\ItemStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OrderedItem extends Model
 {
@@ -14,14 +15,14 @@ class OrderedItem extends Model
 
     protected $table = "orders_items";
 
-    public function getStatus(): OrderStatus
+    public function getStatus(): ItemStatus
     {
         return $this->status;
     }
 
     public function setStatus(string $status): void
     {
-        $this->status = OrderStatus::tryFrom($status);
+        $this->status = ItemStatus::tryFrom($status);
     }
 
     public static function getAllOrderedItems(): Collection
@@ -32,5 +33,10 @@ class OrderedItem extends Model
     public function item(): HasOne
     {
         return $this->hasOne(Item::class, "id", "menu_item_id");
+    }
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class, "id", "order_id");
     }
 }
