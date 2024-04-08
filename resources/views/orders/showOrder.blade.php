@@ -25,7 +25,7 @@
             </div>
         </header>
         <section class="flex flex-col">
-            @if (session("order") && session("order")->items)
+            @if (session("order")->items ?? false)
                 @foreach (session("order")->items as $item)
                     <article>
                         {{-- <h3>{{ $item["name"]}}</h3> --}}
