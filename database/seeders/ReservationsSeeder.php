@@ -14,7 +14,7 @@ class ReservationsSeeder extends Seeder
     public function run(): void
     {
         Reservations::factory()
-            ->times(20)
+            ->times(50)
             ->create();
     }
 }

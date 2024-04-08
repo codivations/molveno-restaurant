@@ -19,8 +19,8 @@ class OrderFactory extends Factory
     {
         return [
             "status" => fake()->randomElement(OrderStatus::class),
-            "reservation_id" => fake()->numberBetween(1, 100),
-            "staff_id" => fake()->numberBetween(1, 10),
+            "reservation_id" => fake()->numberBetween(1, 20),
+            "staff_id" => 3,
         ];
     }
 }

@@ -18,9 +18,9 @@ class OrderedItemFactory extends Factory
     public function definition(): array
     {
         return [
-            "order_id" => fake()->randomNumber(1, 10),
+            "order_id" => fake()->numberBetween(1, 10),
             "status" => fake()->randomElement(OrderStatus::class),
-            "menu_item_id" => fake()->randomNumber(1, 50),
+            "menu_item_id" => fake()->numberBetween(1, 50),
             "dietary_restrictions" => fake()->boolean(),
             "notes" => fake()
                 ->optional($weight = 0.5)
