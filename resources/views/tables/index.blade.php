@@ -44,7 +44,7 @@
                         @if ($table->seated)
                             <div class="m-3" @click.stop>
                                 <a
-                                    href="/order/{{ $table->table_number }}"
+                                    href="/order/{{ $table->table_number }}/drinks"
                                     class="z-10"
                                 >
                                     <x-add-circle-icon />
