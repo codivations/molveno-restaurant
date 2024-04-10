@@ -57,7 +57,10 @@ class TableSeeder extends Seeder
                 $area = SeatingArea::GROUNDFLOOR;
             }
 
-            $seated = $i <= 5 ? $i + 1 : null;
+            $seated =
+                $i <= 3 || ($i > 6 && $i <= 8) || ($i > 14 && $i <= 18)
+                    ? $i + 1
+                    : null;
 
             Table::factory()->create([
                 "table_number" => $i,
