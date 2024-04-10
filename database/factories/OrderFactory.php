@@ -18,7 +18,10 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            "status" => fake()->randomElement(OrderStatus::class),
+            "status" => fake()->randomElement([
+                OrderStatus::TO_DO,
+                OrderStatus::IN_PROGRESS,
+            ]),
             "reservation_id" => fake()->numberBetween(1, 20),
             "staff_id" => fake()->numberBetween(5, 6),
         ];
