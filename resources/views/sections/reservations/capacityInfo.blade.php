@@ -31,7 +31,7 @@
 
         <div>
             High chairs reserved:
-            {{ $overviewData->capacityTotals->highChairAmount }}
+            {{ $overviewData->capacityTotals->highChairAmount }} / 10
         </div>
         <div>
             - Terrace: {{ $overviewData->capacityTerrace->highChairAmount }}
@@ -47,7 +47,7 @@
 
         <div>
             Booster seats reserved:
-            {{ $overviewData->capacityTotals->boosterSeatAmount }}
+            {{ $overviewData->capacityTotals->boosterSeatAmount }} / 15
         </div>
         <div>
             - Terrace: {{ $overviewData->capacityTerrace->boosterSeatAmount }}
@@ -67,11 +67,11 @@
         </div>
         <div>
             High chairs reserved:
-            {{ $overviewData->capacityTotals->highChairAmount }}
+            {{ $overviewData->capacityTotals->highChairAmount }} / 10
         </div>
         <div>
             Booster seats reserved:
-            {{ $overviewData->capacityTotals->boosterSeatAmount }}
+            {{ $overviewData->capacityTotals->boosterSeatAmount }} / 15
         </div>
     @endif
 </div>
