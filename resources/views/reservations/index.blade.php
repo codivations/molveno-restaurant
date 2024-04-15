@@ -3,15 +3,15 @@
 @section("title", "reservations")
 
 @section("content")
-    <div class="reservations_content bg-gray-600" x-data="{ open: false }">
+    <div class="reservations-content bg-gray-600" x-data="{ open: false }">
         <div class="topbar flex flex-row justify-between">
             <button class="button" x-on:click="open = ! open">
                 Filters
             </button>
             <a href="/reservations/new" class="button">new</a>
         </div>
-        <div class="content_body flex flex-row p-5">
-            <div class="content_list flex basis-1/3 flex-col p-2">
+        <div class="content-body flex flex-row p-5">
+            <div class="content-list flex basis-1/3 flex-col p-2">
                 <div class="filters" x-show="open">
                     @include("reservations.sections.filters")
                 </div>

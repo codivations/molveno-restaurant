@@ -9,17 +9,17 @@ body {
 }
 
 @layer components {
-    .reservations_content {
+    .reservations-content {
         height: 100vh;
         max-height: 100vh;
     }
 
-    .content_body {
+    .content-body {
         height: 92%;
         max-height: 92%;
     }
 
-    .content_list {
+    .content-list {
         max-height: 100%;
     }
 
