@@ -52,7 +52,6 @@
                             </div>
                             <div>
                                 {{ $item["dietary_restrictions"] ? "Has allergy" : "" }}
-                                {{ $item["dietary_restrictions"] ? "Has allergy" : "" }}
                             </div>
                             @if ($item["notes"])
                                 <div>Notes:</div>
