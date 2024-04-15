@@ -3,10 +3,12 @@
 @section("title", "Show Order")
 
 @section("content")
-    <div class="flex min-h-screen flex-col justify-between bg-gray-200 px-2">
-        <header class="flex items-center justify-between">
-            <h1 class="text-3xl underline">Table {{ $tableNumber }}</h1>
-            <div class="flex">
+    <div class="order-grid min-h-screen bg-gray-200 px-2">
+        <header class="flex items-center justify-between bg-white px-2">
+            <h1 class="text-3xl font-bold underline">
+                Table {{ $tableNumber }}
+            </h1>
+            <div class="flex gap-2">
                 <a
                     href="/order/{{ $tableNumber }}/drinks"
                     class="button h-8 w-20"
@@ -25,6 +27,14 @@
             </div>
         </header>
         <section class="flex flex-col">
+            @if (session("success"))
+                <div
+                    class="w-52 border border-black bg-green-500 p-3 text-center"
+                >
+                    <p>{{ session("success") }}</p>
+                </div>
+            @endif
+
             @if (session("order")->items ?? false)
                 @foreach (session("order")->items as $item)
                     <article>
@@ -38,7 +48,7 @@
                                 <span>{{ $item["menu_item_id"] }}</span>
                             </div>
                             <div>
-                                {{ $item["dietary_restrictions"] ?? "" }}
+                                {{ $item["dietary_restrictions"] ? "Has allergy" : "" }}
                             </div>
                             <div>Notes:</div>
                             <div
@@ -53,7 +63,7 @@
                 <h2>There are no items selected</h2>
             @endif
         </section>
-        <footer class="sticky bottom-0 max-w-full">
+        <footer class="max-w-full self-end">
             @include("layouts.navbar")
         </footer>
     </div>
