@@ -141,6 +141,7 @@ body {
 
     .order-grid {
         @apply grid min-h-screen gap-4 bg-gray-200 px-2;
+
         grid-template-rows: max-content 1fr max-content;
     }
 
