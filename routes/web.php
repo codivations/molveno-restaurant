@@ -67,11 +67,6 @@ Route::name("reservations.")
             ReservationsController::class,
             "showFilteredOverview",
         ]);
-
-        Route::get("/reservations/form", [
-            ReservationsController::class,
-            "show",
-        ]);
         Route::post("/reservations/create", [
             ReservationsController::class,
             "store",
