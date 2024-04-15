@@ -138,6 +138,20 @@ body {
         font-size: 0.645rem;
         line-height: 0.85rem;
     }
+
+    .order-grid {
+        @apply grid min-h-screen gap-4 bg-gray-200 px-2;
+
+        grid-template-rows: max-content 1fr max-content;
+    }
+
+    .top-nav {
+        @apply sticky top-0;
+    }
+
+    .bottom-nav {
+        @apply sticky bottom-0 max-w-full self-end;
+    }
 }
 
 .light {

@@ -3,21 +3,21 @@
 @section("title", "orders: $menu->service")
 
 @section("content")
-    <div class="bg-gray-200 px-2">
+    <div class="order-grid">
         @include("orders.orderMenu")
-        @if (session("message"))
-            <p class="mx-4">{{ session("message") }}</p>
-        @endif
+        <section class="mb-2 flex flex-col" x-data="{ item_open: null }">
+            @if (session("message"))
+                <p class="mx-4">{{ session("message") }}</p>
+            @endif
 
-        @if (session("warning"))
-            <p class="mx-4 text-orange-500">{{ session("warning") }}</p>
-        @endif
+            @if (session("warning"))
+                <p class="mx-4 text-orange-500">{{ session("warning") }}</p>
+            @endif
 
-        @error("notes")
-            <p class="mx-4 text-red-500">{{ $message }}</p>
-        @enderror
+            @error("notes")
+                <p class="mx-4 text-red-500">{{ $message }}</p>
+            @enderror
 
-        <section class="my-2 flex flex-col" x-data="{ item_open: null }">
             @foreach ($menu->items as $item)
                 <article
                     class="mt-2 flex flex-1 justify-between rounded-md border border-black bg-white p-4"
@@ -52,6 +52,11 @@
                         name="item_name"
                         value="{{ $item->name }}"
                     />
+                    <input
+                        type="hidden"
+                        name="price"
+                        value="{{ $item->getprice() }}"
+                    />
                     <label class="max-w-max">
                         <input
                             type="checkbox"
@@ -76,7 +81,7 @@
                 </form>
             @endforeach
         </section>
-        <footer class="sticky bottom-0 max-w-full">
+        <footer class="bottom-nav">
             @include("layouts.navbar")
         </footer>
     </div>

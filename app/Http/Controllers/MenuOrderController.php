@@ -75,6 +75,7 @@ class MenuOrderController extends Controller
             "item_name" => $request->item_name,
             "notes" => $request->notes ?? "",
             "dietary_restrictions" => $request->has("dietary_restrictions"),
+            "price" => $request->price,
         ]);
 
         return back()->with("message", "$request->item_name added to order");
