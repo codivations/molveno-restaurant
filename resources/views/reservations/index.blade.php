@@ -31,7 +31,7 @@
                                 $selectedReservation = session("selectedReservation");
                             @endphp
 
-                            @include("reservations..sections.details")
+                            @include("reservations.sections.details")
                         @else
                             <div>
                                 <span>
