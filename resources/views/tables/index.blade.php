@@ -3,15 +3,15 @@
 @section("title", "tables")
 
 @section("content")
-    <div class="bg-gray-200 px-2">
-        <nav class="sticky top-0">
+    <div class="order-grid">
+        <nav class="top-nav">
             @include("tables.sections.areaFilter",['route' => $seatedSelected,'items' => ['terrace','ground floor','first floor'],'currentSelection' => $areaSelected])
             @include("tables.sections.seatedFilter",['route' => $areaSelected,'items' => ['occupied','available'],'currentSelection' => $seatedSelected])
         </nav>
-        <section class="my-2 flex flex-col" x-data="{ item_open: null }">
+        <section class="flex flex-col gap-2" x-data="{ item_open: null }">
             @foreach ($tables as $table)
                 <div
-                    class="mt-2 rounded-md border border-black bg-white p-4"
+                    class="rounded-md border border-black bg-white p-4"
                     @click="item_open = item_open == {{ $table->id }} ? null : {{ $table->id }} "
                 >
                     <div class="flex flex-1 justify-between">
@@ -130,7 +130,7 @@
                 </div>
             @endforeach
         </section>
-        <footer class="sticky bottom-0 max-w-full">
+        <footer class="bottom-nav">
             @include("layouts.navbar",['tableNumber' => 0])
         </footer>
     </div>
