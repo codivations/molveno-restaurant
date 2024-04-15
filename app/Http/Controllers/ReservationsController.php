@@ -13,7 +13,19 @@ class ReservationsController extends Controller
 {
     public function show()
     {
-        return view("reservationForm");
+        $reservations = $this->getFilteredReservations(
+            session("filterData")->seating_area,
+            new DateTime(session("filterData")->from),
+            new DateTime(session("filterData")->to)
+        );
+
+        $filterData = session("filterData");
+        $overviewData = $this->getOverviewData($reservations, $filterData);
+
+        return view(
+            "reservations/Index",
+            compact(["filterData", "overviewData", "reservations"])
+        );
     }
 
     public function store(Request $request)
@@ -45,7 +57,7 @@ class ReservationsController extends Controller
         $selectedReservation = $this->getReservationById($id);
         session(["selectedReservation" => $selectedReservation]);
 
-        return $this->showOverview();
+        return $this->show();
     }
 
     public function showFilteredOverview(Request $request)
@@ -60,7 +72,7 @@ class ReservationsController extends Controller
         session(["showDetailWindow" => "overviewDetails"]);
         session(["filterData" => $this->getFilterDataObj($request)]);
 
-        return $this->showOverview();
+        return $this->show();
     }
 
     public function showUnfilteredOverview()
@@ -69,31 +81,14 @@ class ReservationsController extends Controller
         session(["showDetailWindow" => "overviewDetails"]);
         session(["filterData" => $this->getDefaultFilterDataObj()]);
 
-        return $this->showOverview();
-    }
-
-    public function showOverview()
-    {
-        $reservations = $this->getFilteredReservations(
-            session("filterData")->seating_area,
-            new DateTime(session("filterData")->from),
-            new DateTime(session("filterData")->to)
-        );
-
-        $filterData = session("filterData");
-        $overviewData = $this->getOverviewData($reservations, $filterData);
-
-        return view(
-            "reservationsOverview",
-            compact(["filterData", "overviewData", "reservations"])
-        );
+        return $this->show();
     }
 
     public function showForm()
     {
         session(["showDetailWindow" => "new form"]);
 
-        return $this->showOverview();
+        return $this->show();
     }
 
     #region get reservations

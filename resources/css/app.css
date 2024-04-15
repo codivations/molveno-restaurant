@@ -9,6 +9,20 @@ body {
 }
 
 @layer components {
+    .reservations_content {
+        height: 100vh;
+        max-height: 100vh;
+    }
+
+    .content_body {
+        height: 92%;
+        max-height: 92%;
+    }
+
+    .content_list {
+        max-height: 100%;
+    }
+
     .topbar {
         padding: 1rem;
         width: lvw;
