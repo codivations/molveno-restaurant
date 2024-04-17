@@ -9,6 +9,49 @@ body {
 }
 
 @layer components {
+    .modal {
+        background-color: rgba(0, 0, 0, calc(2 / 3));
+        position: fixed;
+
+        bottom: 0;
+        right: 0;
+        top: 0;
+        left: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal > .dialog-box {
+        display: block;
+        height: fit-content;
+        width: fit-content;
+
+        background-color: white;
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 0.5rem;
+
+        padding: 2.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .modal > .dialog-box > .dialog-text {
+        width: fit-content;
+
+        padding-bottom: 1.5rem;
+    }
+
+    .modal > .dialog-box > .button-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: fit-content;
+        width: 100%;
+    }
+
     .reservations-content {
         height: 100vh;
         max-height: 100vh;
@@ -21,6 +64,15 @@ body {
 
     .content-list {
         max-height: 100%;
+    }
+
+    .bottom-bar {
+        border-radius: 0 0 0.25rem 0.25rem;
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+        justify-content: right;
+        background-color: rgb(65 65 65);
     }
 
     .topbar {
@@ -63,6 +115,7 @@ body {
         background-color: lightskyblue;
         padding: 0.375rem;
         width: 100px;
+        height: fit-content;
         display: inline-block;
         text-align: center;
     }

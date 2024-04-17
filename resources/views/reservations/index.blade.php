@@ -23,7 +23,7 @@
                     @endforeach
                 </ul>
             </div>
-            <div class="m-2 basis-2/3 rounded bg-gray-200 p-2 shadow">
+            <div class="m-2 basis-2/3 rounded bg-gray-200 shadow">
                 @switch(session("showDetailWindow"))
                     @case("details")
                         @if (session("selectedReservation") != null)
@@ -43,6 +43,10 @@
                         @break
                     @case("new form")
                         @include("reservations.sections.addForm")
+
+                        @break
+                    @case("result")
+                        {{ $action }}
 
                         @break
                     @default
