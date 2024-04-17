@@ -100,7 +100,7 @@
                                 />
                                 Allergies
                             </label>
-                            <div class="flex gap-2">
+                            <div class="flex justify-between">
                                 <textarea
                                     name="notes"
                                     placeholder="Special notes"
