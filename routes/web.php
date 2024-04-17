@@ -101,7 +101,11 @@ Route::name("order.")
         Route::post("/order/{tableNumber}/showOrder", [
             MenuOrderController::class,
             "sendOrder",
-        ]);
+        ])->name("sendToKitchen");
+        Route::patch("/order/{tableNumber}/updateOrder", [
+            MenuOrderController::class,
+            "updateOrder",
+        ])->name("updateOrder");
         Route::get("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "showService",

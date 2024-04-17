@@ -122,6 +122,24 @@ class MenuOrderController extends Controller
         return back()->with("success", "Order send");
     }
 
+    public function updateOrder(
+        Request $request,
+        string $tableNumber
+    ): RedirectResponse {
+        $request->validate([
+            "notes" => "string|nullable|max:255",
+        ]);
+
+        session("order")->items[$request->index]["notes"] =
+            $request->notes ?? "";
+
+        session("order")->items[$request->index][
+            "dietary_restrictions"
+        ] = $request->has("dietary_restrictions");
+
+        return back()->with("success", "updated order");
+    }
+
     private function createOrderObject(Request $request): object
     {
         $order = new stdClass();
