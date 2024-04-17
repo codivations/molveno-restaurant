@@ -17,7 +17,10 @@
                 >
                     Add
                 </a>
-                <form method="POST">
+                <form
+                    method="POST"
+                    action="{{ route("order.sendToKitchen", ["tableNumber" => $tableNumber]) }}"
+                >
                     @csrf
                     <button type="submit" class="button h-8 w-16 bg-green-500">
                         Send
@@ -25,7 +28,7 @@
                 </form>
             </div>
         </header>
-        <section class="flex flex-col gap-3">
+        <section class="flex flex-col gap-3" x-data="{ edit_open: 'false' }">
             @if (session("success"))
                 <div
                     class="w-52 border border-black bg-green-500 p-3 text-center"
@@ -38,30 +41,81 @@
                 @foreach (session("order")->items as $item)
                     <article>
                         <div
-                            class="rounded-md border border-black bg-white p-4"
+                            class="flex justify-between rounded-md border border-black bg-white p-4"
                         >
-                            <div class="flex justify-between">
-                                <h2
-                                    class="text-2xl font-bold first-letter:capitalize"
-                                >
-                                    {{ $item["item_name"] }}
-                                </h2>
-                                <p>
-                                    {{ $item["price"] }}
-                                </p>
-                            </div>
-                            <div>
-                                {{ $item["dietary_restrictions"] ? "Has allergy" : "" }}
-                            </div>
-                            @if ($item["notes"])
-                                <div>Notes:</div>
-                                <div
-                                    class="gap-1 rounded-md border border-black bg-gray-300 p-2"
-                                >
-                                    {{ $item["notes"] }}
+                            <div class="w-2/3">
+                                <div class="flex justify-between">
+                                    <h2
+                                        class="text-2xl font-bold first-letter:capitalize"
+                                    >
+                                        {{ $item["item_name"] }}
+                                    </h2>
+                                    <p>
+                                        {{ $item["price"] }}
+                                    </p>
                                 </div>
-                            @endif
+                                <div>
+                                    {{ $item["dietary_restrictions"] ? "Has allergy" : "" }}
+                                </div>
+                                @if ($item["notes"])
+                                    <div>Notes:</div>
+                                    <div
+                                        class="gap-1 rounded-md border border-black bg-gray-300 p-2"
+                                    >
+                                        {{ $item["notes"] }}
+                                    </div>
+                                @endif
+                            </div>
+                            <button
+                                @click="edit_open = edit_open == {{ $loop->index }} ? null : {{ $loop->index }}"
+                                class="button h-8 w-16 self-center p-0"
+                            >
+                                edit
+                            </button>
                         </div>
+                        <form
+                            x-show="edit_open == {{ $loop->index }}"
+                            class="flex flex-col gap-2 rounded-md border border-black bg-white p-4"
+                            method="post"
+                            action="{{ route("order.updateOrder", ["tableNumber" => $tableNumber]) }}"
+                        >
+                            @method("PATCH")
+                            @csrf
+                            <input
+                                type="hidden"
+                                name="tableNumber"
+                                value="{{ $tableNumber }}"
+                            />
+                            <input
+                                type="hidden"
+                                name="index"
+                                value="{{ $loop->index }}"
+                            />
+                            <label class="max-w-max">
+                                <input
+                                    type="checkbox"
+                                    class="rounded-full"
+                                    name="dietary_restrictions"
+                                    @checked($item["dietary_restrictions"])
+                                />
+                                Allergies
+                            </label>
+                            <div class="flex justify-between">
+                                <textarea
+                                    name="notes"
+                                    placeholder="Special notes"
+                                    maxlength="255"
+                                >
+{{ $item["notes"] }}</textarea
+                                >
+                                <button
+                                    type="submit"
+                                    class="h-10 rounded-full border border-black bg-green-500 p-2"
+                                >
+                                    submit
+                                </button>
+                            </div>
+                        </form>
                     </article>
                 @endforeach
             @else
