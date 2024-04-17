@@ -60,6 +60,21 @@ class ReservationsController extends Controller
         return $this->show();
     }
 
+    public function deleteReservation(string $id)
+    {
+        $selectedReservation = $this->getReservationById($id);
+
+        $selectedReservation->delete();
+
+        $result = join(" ", [
+            "Deleted reservation for",
+            $selectedReservation->name,
+        ]);
+
+        session(["showDetailWindow" => "result"]);
+        return $this->show()->with("action", $result);
+    }
+
     public function showFilteredOverview(Request $request)
     {
         if ($this->filterValidationFails()) {
