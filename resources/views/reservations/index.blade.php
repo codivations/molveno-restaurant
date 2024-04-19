@@ -46,9 +46,25 @@
 
                         @break
                     @case("result")
-                        {{ $action }}
-
-                        @break
+                        <div
+                            class="modal"
+                            x-data="{ modalOpen: true }"
+                            x-show="modalOpen"
+                        >
+                            <div class="dialog-box">
+                                <div class="dialog-text w-fit text-center">
+                                    {{ $action }}
+                                </div>
+                                <div class="button-row">
+                                    <button
+                                        class="button"
+                                        x-on:click="modalOpen = ! modalOpen"
+                                    >
+                                        Ok
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     @default
                         <div>
                             @include("reservations.sections.capacityInfo")

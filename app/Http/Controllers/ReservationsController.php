@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Reservations;
 use DateTime;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use stdClass;
+use Illuminate\View\View;
 
 class ReservationsController extends Controller
 {
@@ -60,18 +62,26 @@ class ReservationsController extends Controller
         return $this->show();
     }
 
-    public function deleteReservation(string $id)
-    {
+    public function deleteReservation(
+        Request $request,
+        string $id
+    ): View|RedirectResponse {
         $selectedReservation = $this->getReservationById($id);
 
-        $selectedReservation->delete();
-
-        $result = join(" ", [
-            "Deleted reservation for",
-            $selectedReservation->name,
-        ]);
+        $request->validate(["id" => "required|integer|gte:0"]);
 
         session(["showDetailWindow" => "result"]);
+        if ($selectedReservation) {
+            $selectedReservation->delete();
+            $result = join(" ", [
+                "Deleted reservation for",
+                $selectedReservation->name,
+            ]);
+        } else {
+            $result =
+                "Failed to delete selected Reservation. Reservation not found in database";
+        }
+
         return $this->show()->with("action", $result);
     }
 
