@@ -65,6 +65,28 @@
         </button>
     </div>
 
+    @error("id")
+        <div
+            class="modal"
+            x-data="{ errorOpen: true }"
+            x-show="errorOpen"
+        >
+            <div class="dialog-box">
+                <div class="dialog-text w-fit text-center">
+                    Failed to delete selected reservation! ID invalid!
+                </div>
+                <div class="button-row">
+                    <button
+                        class="button"
+                        x-on:click="errorOpen = ! errorOpen"
+                    >
+                        ok
+                    </button>
+                </div>
+            </div>
+        </div>
+    @enderror
+
     <div class="modal" x-show="modalOpen">
         <div class="dialog-box">
             <div class="dialog-text w-fit text-center">
@@ -74,12 +96,17 @@
                 <button class="button" x-on:click="modalOpen = ! modalOpen">
                     Cancel
                 </button>
-                <a
-                    href="/reservations/delete/id/{{ $selectedReservation->id }}"
-                    class="button block"
+                <form
+                    action="{{ route("reservations.delete", ["id" => $selectedReservation->id]) }}"
                 >
-                    Remove
-                </a>
+                    @csrf
+                    <input
+                        type="hidden"
+                        name="id"
+                        value="{{ $selectedReservation->id }}"
+                    />
+                    <button class="button">Remove</button>
+                </form>
             </div>
         </div>
     </div>
