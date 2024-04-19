@@ -23,7 +23,7 @@
                     @endforeach
                 </ul>
             </div>
-            <div class="m-2 basis-2/3 rounded bg-gray-200 p-2 shadow">
+            <div class="m-2 basis-2/3 rounded bg-gray-200 shadow">
                 @switch(session("showDetailWindow"))
                     @case("details")
                         @if (session("selectedReservation") != null)
@@ -45,6 +45,26 @@
                         @include("reservations.sections.addForm")
 
                         @break
+                    @case("result")
+                        <div
+                            class="modal"
+                            x-data="{ modalOpen: true }"
+                            x-show="modalOpen"
+                        >
+                            <div class="dialog-box">
+                                <div class="dialog-text w-fit text-center">
+                                    {{ $action }}
+                                </div>
+                                <div class="button-row">
+                                    <button
+                                        class="button"
+                                        x-on:click="modalOpen = ! modalOpen"
+                                    >
+                                        Ok
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     @default
                         <div>
                             @include("reservations.sections.capacityInfo")
