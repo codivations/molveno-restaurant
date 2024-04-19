@@ -67,7 +67,9 @@ class MenuOrderController extends Controller
         }
 
         if (empty(session("order"))) {
-            session(["order" => $this->createOrderObject($request)]);
+            session([
+                "order" => $this->createOrderObject($request, $tableNumber),
+            ]);
         }
 
         array_push(session("order")->items, [
@@ -151,10 +153,13 @@ class MenuOrderController extends Controller
         return back()->with("success", "item removed");
     }
 
-    private function createOrderObject(Request $request): object
-    {
+    private function createOrderObject(
+        Request $request,
+        string $tableNumber
+    ): object {
         $order = new stdClass();
         $order->items = [];
+        $order->tableNumber = $tableNumber;
 
         return $order;
     }
