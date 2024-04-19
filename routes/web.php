@@ -106,6 +106,10 @@ Route::name("order.")
             MenuOrderController::class,
             "updateOrder",
         ])->name("updateOrder");
+        Route::delete("/order/{tableNumber}/removeFromOrder", [
+            MenuOrderController::class,
+            "removeFromOrder",
+        ])->name("removeFromOrder");
         Route::get("/order/{tableNumber}/{service}", [
             MenuOrderController::class,
             "showService",
