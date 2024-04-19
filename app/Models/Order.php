@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\OrderedItem;
+use App\Models\Reservations;
 use App\Models\User;
 
 class Order extends Model
@@ -27,9 +30,18 @@ class Order extends Model
         $this->status = OrderStatus::tryFrom($status);
     }
 
+    public function getOrderId()
+    {
+        return $this->id;
+    }
+
     public static function getAllOrders(): Collection
     {
-        return Order::orderBy("id")->get();
+        return Order::orderBy("id")
+            ->whereNot(function (Builder $query) {
+                $query->where("status", "done");
+            })
+            ->get();
     }
 
     public function orderedItems(): HasMany
@@ -40,5 +52,15 @@ class Order extends Model
     public function user(): HasOne
     {
         return $this->HasOne(User::class, "id", "staff_id");
+    }
+
+    public function reservation(): HasOne
+    {
+        return $this->hasOne(Reservations::class, "id", "reservation_id");
+    }
+
+    public function table(): Table|null
+    {
+        return $this->reservation->tables->first();
     }
 }

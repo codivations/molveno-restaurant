@@ -25,6 +25,11 @@ class OrderedItem extends Model
         $this->status = ItemStatus::tryFrom($status);
     }
 
+    public function getOrderedItemId()
+    {
+        return $this->id;
+    }
+
     public static function getAllOrderedItems(): Collection
     {
         return OrderedItem::orderBy("order_id")->get();
@@ -37,6 +42,6 @@ class OrderedItem extends Model
 
     public function order(): BelongsTo
     {
-        return $this->belongsTo(Order::class, "id", "order_id");
+        return $this->belongsTo(Order::class, "order_id");
     }
 }
