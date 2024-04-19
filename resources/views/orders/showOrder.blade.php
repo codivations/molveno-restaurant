@@ -73,49 +73,79 @@
                                 edit
                             </button>
                         </div>
-                        <form
+                        <div
                             x-show="edit_open == {{ $loop->index }}"
-                            class="flex flex-col gap-2 rounded-md border border-black bg-white p-4"
-                            method="post"
-                            action="{{ route("order.updateOrder", ["tableNumber" => $tableNumber]) }}"
+                            class="flex flex-col rounded-md border border-black bg-white p-4"
                         >
-                            @method("PATCH")
-                            @csrf
-                            <input
-                                type="hidden"
-                                name="tableNumber"
-                                value="{{ $tableNumber }}"
-                            />
-                            <input
-                                type="hidden"
-                                name="index"
-                                value="{{ $loop->index }}"
-                            />
-                            <label class="max-w-max">
-                                <input
-                                    type="checkbox"
-                                    class="rounded-full"
-                                    name="dietary_restrictions"
-                                    @checked($item["dietary_restrictions"])
-                                />
-                                Allergies
-                            </label>
-                            <div class="flex justify-between">
-                                <textarea
-                                    name="notes"
-                                    placeholder="Special notes"
-                                    maxlength="255"
-                                >
+                            <form
+                                class="flex items-center justify-between rounded-md"
+                                method="post"
+                                action="{{ route("order.updateOrder", ["tableNumber" => $tableNumber]) }}"
+                            >
+                                @method("PATCH")
+                                @csrf
+                                <div class="flex w-1/2 flex-col gap-3">
+                                    <input
+                                        type="hidden"
+                                        name="tableNumber"
+                                        value="{{ $tableNumber }}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        name="index"
+                                        value="{{ $loop->index }}"
+                                    />
+                                    <label class="max-w-max">
+                                        <input
+                                            type="checkbox"
+                                            class="rounded-full"
+                                            name="dietary_restrictions"
+                                            @checked($item["dietary_restrictions"])
+                                        />
+                                        Allergies
+                                    </label>
+                                    <textarea
+                                        name="notes"
+                                        placeholder="Special notes"
+                                        maxlength="255"
+                                    >
 {{ $item["notes"] }}</textarea
-                                >
+                                    >
+                                </div>
+                                <div class="self-start">
+                                    <button
+                                        type="submit"
+                                        class="h-8 rounded-full border border-black bg-green-500 px-2"
+                                    >
+                                        submit
+                                    </button>
+                                </div>
+                            </form>
+                            <form
+                                class="self-end"
+                                method="POST"
+                                action="{{ route("order.removeFromOrder", ["tableNumber" => $tableNumber]) }}"
+                            >
+                                @csrf
+                                @method("DELETE")
+                                <input
+                                    type="hidden"
+                                    name="tableNumber"
+                                    value="{{ $tableNumber }}"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="index"
+                                    value="{{ $loop->index }}"
+                                />
                                 <button
                                     type="submit"
-                                    class="h-10 rounded-full border border-black bg-green-500 p-2"
+                                    class="h-8 rounded-full border border-black bg-red-600 px-2"
                                 >
-                                    submit
+                                    Delete
                                 </button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </article>
                 @endforeach
             @else

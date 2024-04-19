@@ -137,7 +137,18 @@ class MenuOrderController extends Controller
             "dietary_restrictions"
         ] = $request->has("dietary_restrictions");
 
-        return back()->with("success", "updated order");
+        return back()->with("success", "item updated");
+    }
+
+    public function removeFromOrder(
+        Request $request,
+        string $tableNumber
+    ): RedirectResponse {
+        $order = session()->pull("order");
+        array_splice($order->items, $request->index, 1);
+        session(["order" => $order]);
+
+        return back()->with("success", "item removed");
     }
 
     private function createOrderObject(Request $request): object
