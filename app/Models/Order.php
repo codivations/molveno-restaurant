@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\OrderedItem;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -40,5 +41,10 @@ class Order extends Model
     public function user(): HasOne
     {
         return $this->HasOne(User::class, "id", "staff_id");
+    }
+
+    public function reservation(): BelongsTo
+    {
+        return $this->belongsTo(Reservations::class);
     }
 }
