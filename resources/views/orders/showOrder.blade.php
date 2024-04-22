@@ -4,30 +4,7 @@
 
 @section("content")
     <div class="order-grid">
-        <header
-            class="sticky top-0 flex items-center justify-between rounded-b-lg border-x border-b border-black bg-white p-4"
-        >
-            <h1 class="text-3xl font-bold underline">
-                Table {{ $tableNumber }}
-            </h1>
-            <div class="flex gap-2 text-sm font-bold">
-                <a
-                    href="/order/{{ $tableNumber }}/drinks"
-                    class="button h-8 w-16"
-                >
-                    Add
-                </a>
-                <form
-                    method="POST"
-                    action="{{ route("order.sendToKitchen", ["tableNumber" => $tableNumber]) }}"
-                >
-                    @csrf
-                    <button type="submit" class="button h-8 w-16 bg-green-500">
-                        Send
-                    </button>
-                </form>
-            </div>
-        </header>
+        <x-order.header :tableNumber="$tableNumber" />
         <section class="flex flex-col gap-3" x-data="{ edit_open: 'false' }">
             @if (session("success"))
                 <div
@@ -38,118 +15,13 @@
             @endif
 
             @if (session("order")->items ?? false)
-                @foreach (session("order")->items as $item)
-                    <article>
-                        <div
-                            class="flex justify-between rounded-md border border-black bg-white p-4"
-                        >
-                            <div class="w-2/3">
-                                <div class="flex justify-between">
-                                    <h2
-                                        class="text-2xl font-bold first-letter:capitalize"
-                                    >
-                                        {{ $item["item_name"] }}
-                                    </h2>
-                                    <p>
-                                        {{ $item["price"] }}
-                                    </p>
-                                </div>
-                                <div>
-                                    {{ $item["dietary_restrictions"] ? "Has allergy" : "" }}
-                                </div>
-                                @if ($item["notes"])
-                                    <div>Notes:</div>
-                                    <div
-                                        class="gap-1 rounded-md border border-black bg-gray-300 p-2"
-                                    >
-                                        {{ $item["notes"] }}
-                                    </div>
-                                @endif
-                            </div>
-                            <button
-                                @click="edit_open = edit_open == {{ $loop->index }} ? null : {{ $loop->index }}"
-                                class="button h-8 w-16 self-center p-0"
-                            >
-                                edit
-                            </button>
-                        </div>
-                        <div
-                            x-show="edit_open == {{ $loop->index }}"
-                            class="flex flex-col rounded-md border border-black bg-white p-4"
-                        >
-                            <form
-                                class="flex items-center justify-between rounded-md"
-                                method="post"
-                                action="{{ route("order.updateOrder", ["tableNumber" => $tableNumber]) }}"
-                            >
-                                @method("PATCH")
-                                @csrf
-                                <div class="flex w-1/2 flex-col gap-3">
-                                    <input
-                                        type="hidden"
-                                        name="tableNumber"
-                                        value="{{ $tableNumber }}"
-                                    />
-                                    <input
-                                        type="hidden"
-                                        name="index"
-                                        value="{{ $loop->index }}"
-                                    />
-                                    <label class="max-w-max">
-                                        <input
-                                            type="checkbox"
-                                            class="rounded-full"
-                                            name="dietary_restrictions"
-                                            @checked($item["dietary_restrictions"])
-                                        />
-                                        Allergies
-                                    </label>
-                                    <textarea
-                                        name="notes"
-                                        placeholder="Special notes"
-                                        maxlength="255"
-                                    >
-{{ $item["notes"] }}</textarea
-                                    >
-                                </div>
-                                <div class="self-start">
-                                    <button
-                                        type="submit"
-                                        class="h-8 rounded-full border border-black bg-green-500 px-2"
-                                    >
-                                        submit
-                                    </button>
-                                </div>
-                            </form>
-                            <form
-                                class="self-end"
-                                method="POST"
-                                action="{{ route("order.removeFromOrder", ["tableNumber" => $tableNumber]) }}"
-                            >
-                                @csrf
-                                @method("DELETE")
-                                <input
-                                    type="hidden"
-                                    name="tableNumber"
-                                    value="{{ $tableNumber }}"
-                                />
-                                <input
-                                    type="hidden"
-                                    name="index"
-                                    value="{{ $loop->index }}"
-                                />
-                                <button
-                                    type="submit"
-                                    class="h-8 rounded-full border border-black bg-red-600 px-2"
-                                >
-                                    Delete
-                                </button>
-                            </form>
-                        </div>
-                    </article>
-                @endforeach
+                <x-order.current-order :tableNumber="$tableNumber" />
             @else
-                <h2>There are no items selected</h2>
+                <h2 class="text-xl">There are no items selected</h2>
+            @endif
+
+            @if ($previousOrders[0] ?? false)
+                <x-order.old-orders :allOrders="$previousOrders" />
             @endif
         </section>
         <footer class="bottom-nav">
