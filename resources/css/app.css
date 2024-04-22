@@ -152,6 +152,10 @@ body {
     .bottom-nav {
         @apply sticky bottom-0 max-w-full self-end;
     }
+
+    .order-allergy {
+        @apply inline-block h-6 w-6 p-0 text-center align-baseline;
+    }
 }
 
 .light {

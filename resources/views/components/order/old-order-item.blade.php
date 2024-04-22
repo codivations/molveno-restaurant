@@ -16,9 +16,7 @@
         @if ($orderItem->dietary_restrictions)
             <p>
                 Allergy:
-                <span class="h-6 w-6 rounded-sm p-0 align-baseline">
-                    &#x2714;
-                </span>
+                <span class="order-allergy">&#x2714;</span>
             </p>
         @else
             <p></p>
