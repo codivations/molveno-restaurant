@@ -75,6 +75,10 @@ Route::name("reservations.")
             ReservationsController::class,
             "showReservation",
         ]);
+        Route::get("/reservations/editForm/id/{id}", [
+            ReservationsController::class,
+            "showEditForm",
+        ])->name("editForm");
         Route::get("/reservations/delete/id/{id}", [
             ReservationsController::class,
             "deleteReservation",
