@@ -28,12 +28,12 @@
                         <div>
                             Table {{ $order->table()->table_number ?? "none" }}
                         </div>
-                        <div class="flex gap-9">
+                        <div class="align flex gap-9">
                             {{ $order->status }}
                             @if ($order->status == "ready")
                                 <a
                                     href="/kitchen/close/id/{{ $order->id }}"
-                                    class="button m-0 h-6 w-6 rounded-sm p-0"
+                                    class="button h-6 w-6 rounded-sm p-0 align-baseline"
                                 >
                                     &#x2714;
                                 </a>
@@ -66,7 +66,7 @@
                                     <div class="m-2 flex self-end p-2">
                                         <a
                                             href="/kitchen/progress/id/{{ $order_item->id }}"
-                                            class="button m-0 h-6 w-6 rounded-sm p-0"
+                                            class="button {{ str_replace(" ", "-", $order_item->status) }} m-0 h-6 w-6 rounded-sm p-0"
                                         >
                                             &#x2714;
                                         </a>
