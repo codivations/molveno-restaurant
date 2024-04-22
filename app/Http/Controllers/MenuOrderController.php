@@ -7,6 +7,7 @@ use App\Enums\OrderStatus;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderedItem;
+use App\Models\Reservations;
 use App\Models\Table;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -68,7 +69,7 @@ class MenuOrderController extends Controller
 
         if (empty(session("order"))) {
             session([
-                "order" => $this->createOrderObject($request, $tableNumber),
+                "order" => $this->createOrderObject($tableNumber),
             ]);
         }
 
@@ -83,9 +84,26 @@ class MenuOrderController extends Controller
         return back()->with("message", "$request->item_name added to order");
     }
 
-    public function showOrder(string $tableNumber): View
+    public function showOrder(string $tableNumber): View|RedirectResponse
     {
-        return view("orders.showOrder", compact("tableNumber"));
+        $table = Table::where("table_number", $tableNumber)->first();
+
+        if (empty($table)) {
+            return redirect("/tables")->with(
+                "warning",
+                "Table does not exist."
+            );
+        }
+
+        $previousOrders = Order::where(
+            "reservation_id",
+            $table->seated_reservation
+        )->get();
+
+        return view(
+            "orders.showOrder",
+            compact("tableNumber", "previousOrders")
+        );
     }
 
     public function sendOrder(
@@ -153,10 +171,8 @@ class MenuOrderController extends Controller
         return back()->with("success", "item removed");
     }
 
-    private function createOrderObject(
-        Request $request,
-        string $tableNumber
-    ): object {
+    private function createOrderObject(string $tableNumber): object
+    {
         $order = new stdClass();
         $order->items = [];
         $order->tableNumber = $tableNumber;
