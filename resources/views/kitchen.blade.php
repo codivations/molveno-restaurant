@@ -2,13 +2,6 @@
 {{-- @include("sections.kitchen.statusButton") --}}
 @section("title", "kitchen display")
 @section("content")
-    {{--
-        TODO
-        Todo/inprogress/done checks
-        Make sum total overview
-        Figure out how done orders get gone
-        Allow multiples of one item in an order
-    --}}
     <div class="flex max-h-screen min-h-screen flex-col">
         <div class="topbar"></div>
         <div
@@ -22,9 +15,7 @@
                         class="grid grid-cols-2 grid-rows-2 justify-between gap-1 rounded-lg border-2 border-solid border-black bg-teal-300 bg-opacity-40 p-2 font-bold uppercase text-white"
                     >
                         <div>{{ $order->created_at->format("H:i") }}</div>
-                        {{-- <div>{{ $order->staff_id }}</div> --}}
                         <div>{{ $order->user->name }}</div>
-                        {{-- <div>{{ $order->id }}</div> --}}
                         <div>
                             Table {{ $order->table()->table_number ?? "none" }}
                         </div>

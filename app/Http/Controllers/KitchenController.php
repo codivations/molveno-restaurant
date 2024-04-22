@@ -64,7 +64,7 @@ class KitchenController extends Controller
         $order->save();
     }
 
-    public function isOrderDone(Order $order)
+    public function isOrderDone(Order $order): bool
     {
         $orderedItems = $order->orderedItems;
 
