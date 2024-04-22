@@ -114,9 +114,8 @@ class MenuOrderController extends Controller
             return back()->with("error", "Cannot send empty order");
         }
 
-        $reservation_id = Table::where("table_number", $tableNumber)
-            ->first()
-            ->value("seated_reservation");
+        $table = Table::where("table_number", $tableNumber)->first();
+        $reservation_id = $table->seated_reservation;
 
         $order = new Order();
         $order->staff_id = auth()->user()->id;
