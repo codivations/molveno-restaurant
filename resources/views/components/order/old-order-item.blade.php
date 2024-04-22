@@ -8,19 +8,17 @@
         <p>{{ $orderItem->item->getprice() }}</p>
     </div>
     <div class="flex w-full justify-between">
-        @if ($orderItem->notes)
-            <p>Notes</p>
-        @else
-            <p></p>
-        @endif
-        @if ($orderItem->dietary_restrictions)
-            <p>
+        <p>
+            @if ($orderItem->notes)
+                Notes
+            @endif
+        </p>
+        <p>
+            @if ($orderItem->dietary_restrictions)
                 Allergy:
                 <span class="order-allergy">&#x2714;</span>
-            </p>
-        @else
-            <p></p>
-        @endif
+            @endif
+        </p>
     </div>
     @if ($orderItem->notes)
         <div class="rounded-md border border-black bg-gray-300 p-2">
