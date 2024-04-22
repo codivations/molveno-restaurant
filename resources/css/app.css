@@ -10,7 +10,7 @@ body {
 
 @layer components {
     .modal {
-        background-color: rgba(0 0 0 calc(2 / 3));
+        background-color: rgb(0 0 0 / calc(2 / 3));
         position: fixed;
         bottom: 0;
         right: 0;
@@ -70,6 +70,18 @@ body {
         background-color: rgb(65 65 65);
     }
 
+    .bottom-bar > .button-row {
+        width: fit-content;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .bottom-bar > .button-row > * {
+        display: block;
+        margin: 0 1em;
+        align-self: center;
+    }
+
     .topbar {
         padding: 1rem;
         width: lvw;
@@ -114,9 +126,6 @@ body {
         display: inline-block;
         text-align: center;
     }
-
-    /* .filters {
-    } */
 
     .filters > form {
         max-width: 95%;

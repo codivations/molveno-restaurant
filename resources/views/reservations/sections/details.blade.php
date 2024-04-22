@@ -57,12 +57,25 @@
         </div>
     </div>
     <div class="bottom-bar">
-        <button
-            class="button justify-self-center bg-red-600 font-bold"
-            x-on:click="modalOpen = ! modalOpen"
-        >
-            Remove
-        </button>
+        <div class="button-row">
+            <button
+                class="button bg-red-600 font-bold"
+                x-on:click="modalOpen = ! modalOpen"
+            >
+                Remove
+            </button>
+            <form
+                action="{{ route("reservations.editForm", ["id" => $selectedReservation->id]) }}"
+            >
+                @csrf
+                <input
+                    type="hidden"
+                    name="id"
+                    value="{{ $selectedReservation->id }}"
+                />
+                <button class="button">Edit</button>
+            </form>
+        </div>
     </div>
 
     @error("id")
