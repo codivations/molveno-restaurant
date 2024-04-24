@@ -67,7 +67,6 @@
             <form
                 action="{{ route("reservations.editForm", ["id" => $selectedReservation->id]) }}"
             >
-                @csrf
                 <input
                     type="hidden"
                     name="id"
@@ -93,7 +92,7 @@
                         class="button"
                         x-on:click="errorOpen = ! errorOpen"
                     >
-                        ok
+                        Ok
                     </button>
                 </div>
             </div>
@@ -110,6 +109,7 @@
                     Cancel
                 </button>
                 <form
+                    method="POST"
                     action="{{ route("reservations.delete", ["id" => $selectedReservation->id]) }}"
                 >
                     @csrf
