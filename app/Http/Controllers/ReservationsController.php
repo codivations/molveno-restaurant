@@ -25,7 +25,7 @@ class ReservationsController extends Controller
         $overviewData = $this->getOverviewData($reservations, $filterData);
 
         return view(
-            "reservations/Index",
+            "reservations/index",
             compact(["filterData", "overviewData", "reservations"])
         );
     }
