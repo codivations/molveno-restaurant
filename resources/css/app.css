@@ -111,6 +111,20 @@ body {
         text-align: center;
     }
 
+    .done {
+        background-color: lightgreen;
+    }
+
+    .inprogress {
+        background-color: lightskyblue;
+        font-weight: bold;
+    }
+
+    .todo {
+        background-color: red !important;
+        font-weight: bold;
+    }
+
     /* .filters {
     } */
 

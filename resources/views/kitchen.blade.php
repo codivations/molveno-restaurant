@@ -1,10 +1,10 @@
 @extends("layouts.main")
-{{-- @include("sections.kitchen.statusButton") --}}
 @section("title", "kitchen display")
 @section("content")
     <div class="flex max-h-screen min-h-screen flex-col">
         <div class="topbar"></div>
         <div
+            id="order-overview"
             class="max-w-100 flex-flow-col flex max-h-dvh flex-auto flex-shrink-0 overflow-auto bg-slate-400"
         >
             @foreach ($orders as $order)
@@ -46,23 +46,29 @@
                                         {{ $item->name }}
                                     </div>
                                     <div class="">
-                                        {{-- This is nasty, needs work --}}
                                         @if ($order_item->dietary_restrictions == "1")
-                                            <p>Allergy warning</p>
+                                            <p
+                                                class="font-semibold italic text-red-600"
+                                            >
+                                                Allergy warning
+                                            </p>
                                         @endif
 
                                         NOTES: {{ $order_item->notes }}
                                     </div>
+                                    @php
+                                        $statusClass = str_replace(" ", "", $order_item->status);
+                                    @endphp
 
-                                    <div class="m-2 flex self-end p-2">
+                                    {{-- For some reason this status dependant class didn't want to listen. --}}
+                                    <div class="m-1 flex self-end p-1">
                                         <a
                                             href="/kitchen/progress/id/{{ $order_item->id }}"
-                                            class="button {{ str_replace(" ", "-", $order_item->status) }} m-0 h-6 w-6 rounded-sm p-0"
+                                            class="{{ $statusClass }} button flex w-fit rounded-md p-1"
                                         >
-                                            &#x2714;
+                                            {{ $order_item->status }}
                                         </a>
                                     </div>
-                                    <div>{{ $order_item->status }}</div>
                                 </div>
                             </li>
                         @endforeach
@@ -71,4 +77,24 @@
             @endforeach
         </div>
     </div>
+
+    <script>
+        let element = document.getElementById('order-overview');
+
+        let scrollX = localStorage.getItem('scrollX');
+        let scrollY = localStorage.getItem('scrollY');
+        if (scrollX && scrollY) {
+            element.scrollTo(scrollX, scrollY);
+        }
+
+        window.onbeforeunload = function () {
+            localStorage.setItem('scrollX', element.scrollLeft);
+            localStorage.setItem('scrollY', element.scrollTop);
+        };
+
+        let refreshTimeInSeconds = 30;
+        setTimeout(function () {
+            window.location.reload();
+        }, refreshTimeInSeconds * 1000);
+    </script>
 @endsection
