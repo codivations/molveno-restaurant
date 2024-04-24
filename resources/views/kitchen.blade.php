@@ -54,7 +54,11 @@
                                             </p>
                                         @endif
 
-                                        NOTES: {{ $order_item->notes }}
+                                        @if ($order_item->notes != null)
+                                            <p>
+                                                NOTES: {{ $order_item->notes }}
+                                            </p>
+                                        @endif
                                     </div>
                                     @php
                                         $statusClass = str_replace(" ", "", $order_item->status);
