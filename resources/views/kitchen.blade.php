@@ -1,5 +1,4 @@
 @extends("layouts.main")
-{{-- @include("sections.kitchen.statusButton") --}}
 @section("title", "kitchen display")
 @section("content")
     <div class="flex max-h-screen min-h-screen flex-col">
@@ -70,7 +69,6 @@
                                             {{ $order_item->status }}
                                         </a>
                                     </div>
-                                    {{-- <div>{{ $order_item->status }}</div> --}}
                                 </div>
                             </li>
                         @endforeach

@@ -55,7 +55,6 @@ class Order extends Model
         return $this->HasOne(User::class, "id", "staff_id");
     }
 
-
     public function reservation(): BelongsTo
     {
         return $this->belongsTo(Reservations::class);
