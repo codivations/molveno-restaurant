@@ -44,4 +44,12 @@ class OrderedItem extends Model
     {
         return $this->belongsTo(Order::class, "order_id");
     }
+
+    // This is currently in the blade, not working from the model.
+    // Not how we're supposed to, but for some reason it kept being super janky.
+    public function statusClass(): string
+    {
+        $statusClass = str_replace(" ", "-", $this->status);
+        return $statusClass;
+    }
 }
