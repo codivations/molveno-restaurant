@@ -71,11 +71,14 @@ Route::name("reservations.")
             ReservationsController::class,
             "store",
         ]);
-
         Route::get("/reservations/id/{id}", [
             ReservationsController::class,
             "showReservation",
         ]);
+        Route::get("/reservations/delete/id/{id}", [
+            ReservationsController::class,
+            "deleteReservation",
+        ])->name("delete");
     });
 
 Route::name("kitchen.")
