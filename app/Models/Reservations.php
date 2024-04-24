@@ -15,4 +15,9 @@ class Reservations extends Model
     {
         return $this->hasMany(Table::class, "seated_reservation");
     }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, "reservation_id");
+    }
 }

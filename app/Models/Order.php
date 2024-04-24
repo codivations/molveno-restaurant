@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\OrderedItem;
 use App\Models\Reservations;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -54,9 +55,10 @@ class Order extends Model
         return $this->HasOne(User::class, "id", "staff_id");
     }
 
-    public function reservation(): HasOne
+
+    public function reservation(): BelongsTo
     {
-        return $this->hasOne(Reservations::class, "id", "reservation_id");
+        return $this->belongsTo(Reservations::class);
     }
 
     public function table(): Table|null
