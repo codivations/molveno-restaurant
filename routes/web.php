@@ -57,8 +57,12 @@ Route::name("reservations.")
     ->group(function () {
         Route::get("/reservations", [
             ReservationsController::class,
-            "showUnfilteredOverview",
+            "show",
         ])->name("index");
+        Route::get("/reservations/unfiltered", [
+            ReservationsController::class,
+            "showUnfilteredOverview",
+        ])->name("clear");
         Route::get("/reservations/new", [
             ReservationsController::class,
             "showForm",
@@ -75,7 +79,15 @@ Route::name("reservations.")
             ReservationsController::class,
             "showReservation",
         ]);
-        Route::get("/reservations/delete/id/{id}", [
+        Route::get("/reservations/edit/id/{id}", [
+            ReservationsController::class,
+            "showEditForm",
+        ])->name("editForm");
+        Route::Post("/reservations/editReservation/id/{id}", [
+            ReservationsController::class,
+            "editReservation",
+        ])->name("editReservation");
+        Route::post("/reservations/delete/id/{id}", [
             ReservationsController::class,
             "deleteReservation",
         ])->name("delete");

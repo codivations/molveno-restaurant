@@ -13,8 +13,12 @@ use Illuminate\View\View;
 
 class ReservationsController extends Controller
 {
-    public function show()
+    public function show(object $display = null)
     {
+        if (!session("filterData")) {
+            $this->showUnfilteredOverview();
+        }
+
         $reservations = $this->getFilteredReservations(
             session("filterData")->seating_area,
             new DateTime(session("filterData")->from),
@@ -22,24 +26,55 @@ class ReservationsController extends Controller
         );
 
         $filterData = session("filterData");
+
         $overviewData = $this->getOverviewData($reservations, $filterData);
+        if ($display == null) {
+            $displayData = $this->getDisplayDataObj("Overview", $overviewData);
+        } else {
+            $displayData = $display;
+
+            if ($display->display == "result") {
+                $display->data = $this->getOverviewData(
+                    $reservations,
+                    $filterData
+                );
+            }
+        }
 
         return view(
             "reservations/index",
-            compact(["filterData", "overviewData", "reservations"])
+            compact([
+                "filterData",
+                "overviewData",
+                "reservations",
+                "displayData",
+            ])
         );
     }
 
     public function store(Request $request)
     {
+        $request->validate([
+            "name" => "required|string|between:2,255",
+            "party_size" => "required|integer|gte:1",
+            "table_amount" => "required|integer|gte:0",
+            "phone_number" => "required|string|regex:/^([0-9\s\-\+()]*)+$/",
+            "reservation_time" => "required",
+            "seating_area" => "required",
+            "high_chair_amount" => "required|integer|gte:0",
+            "booster_seat_amount" => "required|integer|gte:0",
+            "dietary_restrictions" => "nullable|integer",
+            "notes" => "string|nullable",
+        ]);
+
         $reservation = new Reservations();
-        $reservation->name = $request->name;
+        $reservation->name = trim($request->name);
         $reservation->party_size = $request->party_size;
         $reservation->table_amount = $request->table_amount;
-        $reservation->phone_number = $request->phone_number;
+        $reservation->phone_number = trim($request->phone_number);
         $reservation->reservation_time = $request->reservation_time;
-        $reservation->notes = $request->notes;
-        $reservation->seating_area = $request->seating_area;
+        $reservation->notes = trim($request->notes);
+        $reservation->seating_area = trim($request->seating_area);
         $reservation->high_chair_amount = $request->high_chair_amount;
         $reservation->booster_seat_amount = $request->booster_seat_amount;
         $reservation->dietary_restrictions = $request->has(
@@ -55,11 +90,13 @@ class ReservationsController extends Controller
 
     public function showReservation(string $id)
     {
-        session(["showDetailWindow" => "details"]);
         $selectedReservation = $this->getReservationById($id);
-        session(["selectedReservation" => $selectedReservation]);
+        $displayData = $this->getDisplayDataObj(
+            "details",
+            $selectedReservation
+        );
 
-        return $this->show();
+        return $this->show($displayData);
     }
 
     public function deleteReservation(
@@ -70,7 +107,6 @@ class ReservationsController extends Controller
 
         $request->validate(["id" => "required|integer|gte:0"]);
 
-        session(["showDetailWindow" => "result"]);
         if ($selectedReservation) {
             $selectedReservation->delete();
             $result = join(" ", [
@@ -82,7 +118,76 @@ class ReservationsController extends Controller
                 "Failed to delete selected Reservation. Reservation not found in database";
         }
 
-        return $this->show()->with("action", $result);
+        $displayData = $this->getDisplayDataObj("result");
+        $displayData->message = $result;
+
+        return $this->show($displayData);
+    }
+
+    public function editReservation(
+        Request $request,
+        string $id
+    ): View|RedirectResponse {
+        $selectedReservation = $this->getReservationById($id);
+
+        $request->validate([
+            "id" => "required|integer|gte:0",
+            "name" => "required|string|between:2,255",
+            "party_size" => "required|integer|gte:1",
+            "table_amount" => "required|integer|gte:0",
+            "phone_number" => "required|string|regex:/^([0-9\s\-\+()]*)+$/",
+            "reservation_time" => "required",
+            "seating_area" => "required",
+            "high_chair_amount" => "required|integer|gte:0",
+            "booster_seat_amount" => "required|integer|gte:0",
+            "dietary_restrictions" => "nullable|integer",
+            "notes" => "string|nullable",
+        ]);
+
+        if ($selectedReservation) {
+            $selectedReservation->name = trim($request->name);
+            $selectedReservation->party_size = $request->party_size;
+            $selectedReservation->table_amount = $request->table_amount;
+            $selectedReservation->phone_number = trim($request->phone_number);
+            $selectedReservation->reservation_time = $request->reservation_time;
+            $selectedReservation->seating_area = trim($request->seating_area);
+            $selectedReservation->high_chair_amount =
+                $request->high_chair_amount;
+            $selectedReservation->booster_seat_amount =
+                $request->booster_seat_amount;
+            $selectedReservation->dietary_restrictions = $request->has(
+                "dietary_restrictions"
+            );
+            $selectedReservation->notes = trim($request->notes);
+            $selectedReservation->save();
+
+            $result = join(" ", [
+                "edited reservation for",
+                $selectedReservation->name,
+            ]);
+        } else {
+            $result =
+                "Failed to edit selected Reservation. Reservation not found in database";
+        }
+
+        $displayData = $this->getDisplayDataObj(
+            "details",
+            $selectedReservation
+        );
+        $displayData->message = $result;
+
+        return $this->show($displayData);
+    }
+
+    public function showEditForm(Request $request, string $id)
+    {
+        $selectedReservation = $this->getReservationById($id);
+        $displayData = $this->getDisplayDataObj(
+            "edit form",
+            $selectedReservation
+        );
+
+        return $this->show($displayData);
     }
 
     public function showFilteredOverview(Request $request)
@@ -94,7 +199,6 @@ class ReservationsController extends Controller
         }
 
         session(["reservationViewFiltered" => true]);
-        session(["showDetailWindow" => "overviewDetails"]);
         session(["filterData" => $this->getFilterDataObj($request)]);
 
         return $this->show();
@@ -103,7 +207,6 @@ class ReservationsController extends Controller
     public function showUnfilteredOverview()
     {
         session(["reservationViewFiltered" => false]);
-        session(["showDetailWindow" => "overviewDetails"]);
         session(["filterData" => $this->getDefaultFilterDataObj()]);
 
         return $this->show();
@@ -111,9 +214,9 @@ class ReservationsController extends Controller
 
     public function showForm()
     {
-        session(["showDetailWindow" => "new form"]);
+        $displayData = $this->getDisplayDataObj("new form");
 
-        return $this->show();
+        return $this->show($displayData);
     }
 
     #region get reservations
@@ -261,4 +364,18 @@ class ReservationsController extends Controller
 
         return false;
     }
+
+    #region displayData
+    private function getDisplayDataObj(
+        string $display = "default",
+        $data = null
+    ): object {
+        $displayData = new stdClass();
+
+        $displayData->display = $display;
+        $displayData->data = $data;
+
+        return $displayData;
+    }
+    #endregion
 }

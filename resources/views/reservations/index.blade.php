@@ -1,5 +1,4 @@
 @extends("layouts.main")
-@vite(["resources/sass/"])
 @section("title", "reservations")
 
 @section("content")
@@ -24,11 +23,11 @@
                 </ul>
             </div>
             <div class="m-2 basis-2/3 rounded bg-gray-200 shadow">
-                @switch(session("showDetailWindow"))
+                @switch($displayData->display)
                     @case("details")
-                        @if (session("selectedReservation") != null)
+                        @if ($displayData->data != null)
                             @php
-                                $selectedReservation = session("selectedReservation");
+                                $selectedReservation = $displayData->data;
                             @endphp
 
                             @include("reservations.sections.details")
@@ -45,6 +44,14 @@
                         @include("reservations.sections.addForm")
 
                         @break
+                    @case("edit form")
+                        @php
+                            $selectedReservation = $displayData->data;
+                        @endphp
+
+                        @include("reservations.sections.editForm")
+
+                        @break
                     @case("result")
                         <div
                             class="modal"
@@ -53,7 +60,7 @@
                         >
                             <div class="dialog-box">
                                 <div class="dialog-text w-fit text-center">
-                                    {{ $action }}
+                                    {{ $displayData->message }}
                                 </div>
                                 <div class="button-row">
                                     <button
@@ -66,6 +73,10 @@
                             </div>
                         </div>
                     @default
+                        @php
+                            $overviewData = $displayData->data;
+                        @endphp
+
                         <div>
                             @include("reservations.sections.capacityInfo")
                         </div>

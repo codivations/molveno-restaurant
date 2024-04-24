@@ -57,12 +57,24 @@
         </div>
     </div>
     <div class="bottom-bar">
-        <button
-            class="button justify-self-center bg-red-600 font-bold"
-            x-on:click="modalOpen = ! modalOpen"
-        >
-            Remove
-        </button>
+        <div class="button-row">
+            <button
+                class="button bg-red-600 font-bold"
+                x-on:click="modalOpen = ! modalOpen"
+            >
+                Remove
+            </button>
+            <form
+                action="{{ route("reservations.editForm", ["id" => $selectedReservation->id]) }}"
+            >
+                <input
+                    type="hidden"
+                    name="id"
+                    value="{{ $selectedReservation->id }}"
+                />
+                <button class="button">Edit</button>
+            </form>
+        </div>
     </div>
 
     @error("id")
@@ -80,7 +92,7 @@
                         class="button"
                         x-on:click="errorOpen = ! errorOpen"
                     >
-                        ok
+                        Ok
                     </button>
                 </div>
             </div>
@@ -97,6 +109,7 @@
                     Cancel
                 </button>
                 <form
+                    method="POST"
                     action="{{ route("reservations.delete", ["id" => $selectedReservation->id]) }}"
                 >
                     @csrf
