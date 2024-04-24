@@ -16,7 +16,7 @@ class ReservationsController extends Controller
     public function show(object $display = null)
     {
         if (!session("filterData")) {
-            return redirect("/reservations");
+            $this->showUnfilteredOverview();
         }
 
         $reservations = $this->getFilteredReservations(
@@ -54,14 +54,27 @@ class ReservationsController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            "name" => "required|string|between:2,255",
+            "party_size" => "required|integer|gte:1",
+            "table_amount" => "required|integer|gte:0",
+            "phone_number" => "required|string|regex:/^([0-9\s\-\+()]*)+$/",
+            "reservation_time" => "required",
+            "seating_area" => "required",
+            "high_chair_amount" => "required|integer|gte:0",
+            "booster_seat_amount" => "required|integer|gte:0",
+            "dietary_restrictions" => "nullable|integer",
+            "notes" => "string|nullable",
+        ]);
+
         $reservation = new Reservations();
-        $reservation->name = $request->name;
+        $reservation->name = trim($request->name);
         $reservation->party_size = $request->party_size;
         $reservation->table_amount = $request->table_amount;
-        $reservation->phone_number = $request->phone_number;
+        $reservation->phone_number = trim($request->phone_number);
         $reservation->reservation_time = $request->reservation_time;
-        $reservation->notes = $request->notes;
-        $reservation->seating_area = $request->seating_area;
+        $reservation->notes = trim($request->notes);
+        $reservation->seating_area = trim($request->seating_area);
         $reservation->high_chair_amount = $request->high_chair_amount;
         $reservation->booster_seat_amount = $request->booster_seat_amount;
         $reservation->dietary_restrictions = $request->has(
@@ -106,6 +119,61 @@ class ReservationsController extends Controller
         }
 
         $displayData = $this->getDisplayDataObj("result");
+        $displayData->message = $result;
+
+        return $this->show($displayData);
+    }
+
+    public function editReservation(
+        Request $request,
+        string $id
+    ): View|RedirectResponse {
+        $selectedReservation = $this->getReservationById($id);
+
+        $request->validate([
+            "id" => "required|integer|gte:0",
+            "name" => "required|string|between:2,255",
+            "party_size" => "required|integer|gte:1",
+            "table_amount" => "required|integer|gte:0",
+            "phone_number" => "required|string|regex:/^([0-9\s\-\+()]*)+$/",
+            "reservation_time" => "required",
+            "seating_area" => "required",
+            "high_chair_amount" => "required|integer|gte:0",
+            "booster_seat_amount" => "required|integer|gte:0",
+            "dietary_restrictions" => "nullable|integer",
+            "notes" => "string|nullable",
+        ]);
+
+        if ($selectedReservation) {
+            $selectedReservation->name = trim($request->name);
+            $selectedReservation->party_size = $request->party_size;
+            $selectedReservation->table_amount = $request->table_amount;
+            $selectedReservation->phone_number = trim($request->phone_number);
+            $selectedReservation->reservation_time = $request->reservation_time;
+            $selectedReservation->seating_area = trim($request->seating_area);
+            $selectedReservation->high_chair_amount =
+                $request->high_chair_amount;
+            $selectedReservation->booster_seat_amount =
+                $request->booster_seat_amount;
+            $selectedReservation->dietary_restrictions = $request->has(
+                "dietary_restrictions"
+            );
+            $selectedReservation->notes = trim($request->notes);
+            $selectedReservation->save();
+
+            $result = join(" ", [
+                "edited reservation for",
+                $selectedReservation->name,
+            ]);
+        } else {
+            $result =
+                "Failed to edit selected Reservation. Reservation not found in database";
+        }
+
+        $displayData = $this->getDisplayDataObj(
+            "details",
+            $selectedReservation
+        );
         $displayData->message = $result;
 
         return $this->show($displayData);
