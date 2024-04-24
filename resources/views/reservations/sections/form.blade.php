@@ -160,7 +160,7 @@
     <label for="notes" class="form-label">Notes:</label>
     <div>
         <textarea id="notes" name="notes" class="h-20rem form-input">
-        {{ $selectedReservation->notes ?? "" }}</textarea
+{{ old("notes") ?? ($selectedReservation->notes ?? "") }}</textarea
         >
         @error("notes")
             <div class="validation-alert">{{ $message }}</div>

@@ -1,5 +1,4 @@
 @extends("layouts.main")
-@vite(["resources/sass/"])
 @section("title", "reservations")
 
 @section("content")
