@@ -85,6 +85,14 @@ Route::name("kitchen.")
     ->middleware(["auth"])
     ->group(function () {
         Route::get("/kitchen", [KitchenController::class, "show"]);
+        Route::get("/kitchen/progress/id/{itemId}", [
+            KitchenController::class,
+            "progressItemStatus",
+        ]);
+        Route::get("/kitchen/close/id/{itemId}", [
+            KitchenController::class,
+            "closeOrder",
+        ]);
     });
 
 Route::name("order.")

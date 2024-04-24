@@ -79,10 +79,6 @@ body {
         background-color: rgb(65 65 65);
     }
 
-    .overview {
-        max-width: 100vw;
-    }
-
     .form-item {
         display: flex;
         flex-direction: row;

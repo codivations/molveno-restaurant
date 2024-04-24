@@ -19,9 +19,9 @@ class OrderedItemFactory extends Factory
     {
         return [
             "order_id" => fake()->numberBetween(1, 10),
-            "status" => fake()->randomElement(OrderStatus::class),
+            "status" => fake()->randomElement([OrderStatus::TO_DO]),
             "menu_item_id" => fake()->numberBetween(1, 50),
-            "dietary_restrictions" => fake()->boolean(),
+            "dietary_restrictions" => fake()->boolean(10),
             "notes" => fake()
                 ->optional($weight = 0.5)
                 ->sentence(),
