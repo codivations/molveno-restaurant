@@ -16,13 +16,6 @@ use stdClass;
 
 class MenuOrderController extends Controller
 {
-    public function index(): View
-    {
-        $menu = Menu::with("items")->get();
-
-        return view("orders.index", compact("menu"));
-    }
-
     public function showMenu(string $tableNumber)
     {
         return $this->showService($tableNumber, "lunch");
