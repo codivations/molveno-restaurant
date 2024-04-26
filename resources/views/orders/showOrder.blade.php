@@ -21,7 +21,10 @@
             @endif
 
             @if ($previousOrders[0] ?? false)
-                <x-order.old-orders :allOrders="$previousOrders" />
+                <x-order.old-orders
+                    :allOrders="$previousOrders"
+                    :totalPrice="$totalPrice"
+                />
             @endif
         </section>
         <footer class="bottom-nav">

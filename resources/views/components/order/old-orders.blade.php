@@ -1,5 +1,6 @@
 @props([
     "allOrders",
+    "totalPrice",
 ])
 
 <h2 class="text-xl">Previous orders:</h2>
@@ -16,4 +17,11 @@
             @endforeach
         </article>
     @endforeach
+
+    <div
+        class="flex w-full justify-between gap-2 border border-black bg-white p-2 font-semibold"
+    >
+        <p>Total spent:</p>
+        <p>{{ $totalPrice }}</p>
+    </div>
 </div>

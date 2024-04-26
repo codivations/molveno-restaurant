@@ -100,9 +100,11 @@ class MenuOrderController extends Controller
             $table->seated_reservation
         )->get();
 
+        $totalPrice = $this->makePriceSum($table);
+
         return view(
             "orders.showOrder",
-            compact("tableNumber", "previousOrders")
+            compact("tableNumber", "previousOrders", "totalPrice")
         );
     }
 
@@ -138,7 +140,7 @@ class MenuOrderController extends Controller
 
         session()->forget("order");
 
-        return back()->with("success", "Order send");
+        return back()->with("success", "Order sent");
     }
 
     public function updateOrder(
@@ -177,5 +179,23 @@ class MenuOrderController extends Controller
         $order->tableNumber = $tableNumber;
 
         return $order;
+    }
+
+    private function makePriceSum($table)
+    {
+        $totalPrice = 0;
+        $prices = [];
+        $previousOrders = Order::where(
+            "reservation_id",
+            $table->seated_reservation
+        )->get();
+        foreach ($previousOrders as $order) {
+            foreach ($order->orderedItems as $orderItem) {
+                $itemPrice = $orderItem->item->price;
+                array_push($prices, $itemPrice);
+            }
+        }
+        $totalPrice = array_sum($prices) / 100;
+        return "€ " . number_format($totalPrice, 2);
     }
 }
