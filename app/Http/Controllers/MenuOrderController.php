@@ -181,7 +181,7 @@ class MenuOrderController extends Controller
         return $order;
     }
 
-    public function makePriceSum($table)
+    private function makePriceSum($table)
     {
         $totalPrice = 0;
         $prices = [];
