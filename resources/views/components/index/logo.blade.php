@@ -12,7 +12,7 @@
             :href="route('index')"
             :active="request()->routeIs('index')"
         >
-            {{ __("Dashboard") }}
+            {{ __("Home") }}
         </x-nav-link>
     </div>
 </div>
