@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use App\Models\Order;
 use App\Models\Table;
 use App\Models\Reservations;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -38,9 +41,19 @@ class TablesController extends Controller
 
         $tables = $collection;
 
+        $reservations = $this->getCurrentReservations();
+        //dd($reservations);
+
+        $previousOrders = $this->getPreviousOrders($tables);
+
         return view(
             "tables.index",
-            compact(["tables", "areaSelected", "seatedSelected"])
+            compact([
+                "tables",
+                "areaSelected",
+                "seatedSelected",
+                "reservations",
+            ])
         );
     }
 
@@ -70,4 +83,49 @@ class TablesController extends Controller
 
         return back();
     }
+
+    private function getPreviousOrders($tables)
+    {
+        $previousOrders = [];
+        foreach ($tables as $table) {
+            $orders = Order::where(
+                "reservation_id",
+                $table->seated_reservation
+            )->get();
+
+            return $orders;
+        }
+
+        return $previousOrders;
+    }
+
+    private function getCurrentReservations(): Collection
+    {
+        $currentDay = new DateTime();
+
+        $query = Reservations::orderBy("name")->whereDate(
+            "reservation_time",
+            "=",
+            date("Y-m-d")
+        );
+        $collection = $query->get();
+        return $collection;
+    }
+
+    // private function getFilteredReservations(
+    //     SeatingArea $seatingArea,
+    //     DateTime $from,
+    //     DateTime $to
+    // ): Collection {
+    //     $reservation = Reservations::orderBy("reservation_time")->whereBetween(
+    //         "reservation_time",
+    //         [$from, $to]
+    //     );
+
+    //     if ($seatingArea != SeatingArea::ALL) {
+    //         $reservation->where("seating_area", $seatingArea);
+    //     }
+
+    //     return $reservation->get();
+    // }
 }

@@ -8,6 +8,58 @@ body {
     width: 100%;
 }
 
+.reservation-search {
+    width: 15rem;
+    margin-bottom: 0.5rem;
+}
+
+.search-input {
+    box-sizing: border-box;
+    width: 100%;
+    border: solid;
+    border-width: 1px;
+    border-radius: 0.5rem;
+    background-color: lightgray;
+}
+
+.reservation-search-list {
+    box-sizing: border-box;
+    width: 100%;
+    border: solid;
+    margin-top: -0.5rem;
+    padding-top: 0.45rem;
+    border-width: 1px;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    background-color: rgb(243 242 242);
+}
+
+.reservation-search-item {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.75rem;
+    padding-bottom: 0.25rem;
+    padding-top: 0;
+}
+
+.reservation-search-item:hover {
+    background-color: rgb(0 0 0 / 0.1);
+}
+
+.done {
+    background-color: lightgreen;
+}
+
+.inprogress {
+    background-color: lightskyblue;
+    font-weight: bold;
+}
+
+.todo {
+    background-color: red !important;
+    font-weight: bold;
+}
+
 @layer components {
     .reservations-content {
         height: 100vh;
@@ -127,20 +179,6 @@ body {
         height: fit-content;
         display: inline-block;
         text-align: center;
-    }
-
-    .done {
-        background-color: lightgreen;
-    }
-
-    .inprogress {
-        background-color: lightskyblue;
-        font-weight: bold;
-    }
-
-    .todo {
-        background-color: red !important;
-        font-weight: bold;
     }
 
     .filters > form {

@@ -13,6 +13,7 @@ use Illuminate\View\View;
 
 class ReservationsController extends Controller
 {
+    #region Show Views
     public function show(object $display = null)
     {
         if (!session("filterData")) {
@@ -29,30 +30,81 @@ class ReservationsController extends Controller
 
         $overviewData = $this->getOverviewData($reservations, $filterData);
         if ($display == null) {
-            $displayData = $this->getDisplayDataObj("Overview", $overviewData);
+            $displayData = $display = $this->getDisplayDataObj(
+                "overview",
+                $overviewData
+            );
+        }
+        if ($display->display == "message") {
+            $displayData = $this->getDisplayDataObj(
+                "overview",
+                $overviewData,
+                $display->message
+            );
         } else {
             $displayData = $display;
-
-            if ($display->display == "result") {
-                $display->data = $this->getOverviewData(
-                    $reservations,
-                    $filterData
-                );
-            }
         }
 
         return view(
             "reservations/index",
-            compact([
-                "filterData",
-                "overviewData",
-                "reservations",
-                "displayData",
-            ])
+            compact(["filterData", "reservations", "displayData"])
         );
     }
 
-    public function store(Request $request)
+    public function showFilteredOverview(Request $request)
+    {
+        if ($this->filterValidationFails()) {
+            //TODO: add proper validation and pass error messages
+            //dd("filter not properly set");
+            return $this->showUnfilteredOverview();
+        }
+
+        session(["reservationViewFiltered" => true]);
+        session(["filterData" => $this->getFilterDataObj($request)]);
+
+        return $this->show();
+    }
+
+    public function showUnfilteredOverview()
+    {
+        session(["reservationViewFiltered" => false]);
+        session(["filterData" => $this->getDefaultFilterDataObj()]);
+
+        return $this->show();
+    }
+
+    public function showReservation(string $id)
+    {
+        $selectedReservation = $this->getReservationById($id);
+        $displayData = $this->getDisplayDataObj(
+            "details",
+            $selectedReservation
+        );
+
+        return $this->show($displayData);
+    }
+
+    public function showForm()
+    {
+        $displayData = $this->getDisplayDataObj("new form");
+
+        return $this->show($displayData);
+    }
+
+    public function showEditForm(Request $request, string $id)
+    {
+        $selectedReservation = $this->getReservationById($id);
+        $displayData = $this->getDisplayDataObj(
+            "edit form",
+            $selectedReservation
+        );
+
+        return $this->show($displayData);
+    }
+    #endregion Show Views
+
+    #region Create Update & Destroy Reservations
+    public function store(Request $request): View|RedirectResponse
     {
         $request->validate([
             "name" => "required|string|between:2,255",
@@ -83,45 +135,9 @@ class ReservationsController extends Controller
         $reservation->save();
 
         return redirect("/reservations")->with(
-            "notification",
-            "reservation added succesfully"
+            "message",
+            "Reservation added succesfully"
         );
-    }
-
-    public function showReservation(string $id)
-    {
-        $selectedReservation = $this->getReservationById($id);
-        $displayData = $this->getDisplayDataObj(
-            "details",
-            $selectedReservation
-        );
-
-        return $this->show($displayData);
-    }
-
-    public function deleteReservation(
-        Request $request,
-        string $id
-    ): View|RedirectResponse {
-        $selectedReservation = $this->getReservationById($id);
-
-        $request->validate(["id" => "required|integer|gte:0"]);
-
-        if ($selectedReservation) {
-            $selectedReservation->delete();
-            $result = join(" ", [
-                "Deleted reservation for",
-                $selectedReservation->name,
-            ]);
-        } else {
-            $result =
-                "Failed to delete selected Reservation. Reservation not found in database";
-        }
-
-        $displayData = $this->getDisplayDataObj("result");
-        $displayData->message = $result;
-
-        return $this->show($displayData);
     }
 
     public function editReservation(
@@ -172,54 +188,39 @@ class ReservationsController extends Controller
 
         $displayData = $this->getDisplayDataObj(
             "details",
-            $selectedReservation
+            $selectedReservation,
+            $result
         );
-        $displayData->message = $result;
 
         return $this->show($displayData);
     }
 
-    public function showEditForm(Request $request, string $id)
-    {
+    public function deleteReservation(
+        Request $request,
+        string $id
+    ): View|RedirectResponse {
         $selectedReservation = $this->getReservationById($id);
-        $displayData = $this->getDisplayDataObj(
-            "edit form",
-            $selectedReservation
-        );
 
-        return $this->show($displayData);
-    }
+        $request->validate(["id" => "required|integer|gte:0"]);
 
-    public function showFilteredOverview(Request $request)
-    {
-        if ($this->filterValidationFails()) {
-            //TODO: add proper validation and pass error messages
-            //dd("filter not properly set");
-            return $this->showUnfilteredOverview();
+        if ($selectedReservation) {
+            $selectedReservation->delete();
+            $result = join(" ", [
+                "Deleted reservation for",
+                $selectedReservation->name,
+            ]);
+        } else {
+            $result =
+                "Failed to delete selected Reservation. Reservation not found in database";
         }
 
-        session(["reservationViewFiltered" => true]);
-        session(["filterData" => $this->getFilterDataObj($request)]);
-
-        return $this->show();
-    }
-
-    public function showUnfilteredOverview()
-    {
-        session(["reservationViewFiltered" => false]);
-        session(["filterData" => $this->getDefaultFilterDataObj()]);
-
-        return $this->show();
-    }
-
-    public function showForm()
-    {
-        $displayData = $this->getDisplayDataObj("new form");
+        $displayData = $this->getDisplayDataObj("message", null, $result);
 
         return $this->show($displayData);
     }
+    #endregion Create Update & Destroy Reservations
 
-    #region get reservations
+    #region Read Reservations
     private function getAllReservations(
         string $orderedBy = "reservation_time"
     ): Collection {
@@ -293,6 +294,19 @@ class ReservationsController extends Controller
         return $filterData;
     }
 
+    private function filterValidationFails(): bool
+    {
+        if (empty(request("from"))) {
+            return true;
+        }
+
+        if (empty(request("to"))) {
+            return true;
+        }
+
+        return false;
+    }
+
     private function getOverviewDataObj(Collection $collection): object
     {
         $data = new stdClass();
@@ -352,30 +366,17 @@ class ReservationsController extends Controller
         return $data;
     }
 
-    private function filterValidationFails(): bool
-    {
-        if (empty(request("from"))) {
-            return true;
-        }
-
-        if (empty(request("to"))) {
-            return true;
-        }
-
-        return false;
-    }
-
-    #region displayData
     private function getDisplayDataObj(
         string $display = "default",
-        $data = null
+        $data = null,
+        string $message = null
     ): object {
         $displayData = new stdClass();
 
         $displayData->display = $display;
         $displayData->data = $data;
+        $displayData->message = $message;
 
         return $displayData;
     }
-    #endregion
 }
