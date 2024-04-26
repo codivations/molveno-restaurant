@@ -1,7 +1,5 @@
-@extends("layouts.main")
+<x-index.header />
 
-@section("title", "test2")
-
-@section("content")
-    <h1 class="text-blue-600">Hello World</h1>
-@endsection
+@session("status")
+    <p class="text-red-500">{{ session("status") }}</p>
+@endsession
