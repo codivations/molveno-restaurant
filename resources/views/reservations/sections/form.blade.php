@@ -111,6 +111,35 @@
 </div>
 
 <div class="form-item">
+    <label for="service" class="form-label">Service:</label>
+    <div>
+        <select name="service" id="service" class="form-input">
+            <option
+                value="breakfast"
+                @selected((old("service") ?? ($selectedReservation->service ?? "")) == "breakfast")
+            >
+                breakfast
+            </option>
+            <option
+                value="lunch"
+                @selected((old("service") ?? ($selectedReservation->service ?? "")) == "lunch")
+            >
+                lunch
+            </option>
+            <option
+                value="dinner"
+                @selected((old("service") ?? ($selectedReservation->service ?? "")) == "dinner")
+            >
+                dinner
+            </option>
+        </select>
+        @error("service")
+            <div class="validation-alert">{{ $message }}</div>
+        @enderror
+    </div>
+</div>
+
+<div class="form-item">
     <label for="seating_area" class="form-label">Select area:</label>
     <div>
         <select name="seating_area" id="seating_area" class="form-input">
