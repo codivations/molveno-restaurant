@@ -19,7 +19,7 @@ body {
     border: solid;
     border-width: 1px;
     border-radius: 0.5rem;
-    background-color: lightgray;
+    background-color: ghostwhite;
 }
 
 .reservation-search-list {
@@ -52,12 +52,20 @@ body {
 
 .inprogress {
     background-color: lightskyblue;
-    font-weight: bold;
 }
 
 .todo {
-    background-color: red !important;
-    font-weight: bold;
+    background-color: lightsteelblue;
+}
+
+.occupied {
+    border-top: 10px;
+    background-color: lightskyblue;
+}
+
+.unoccupied {
+    border-top: 2rem;
+    background-color: lightgreen;
 }
 
 @layer components {
