@@ -1,7 +1,37 @@
 <form action="/reservations" method="POST">
     @csrf
     <div>
-        <label for="from">from</label>
+        <label for="service">service</label>
+        <select name="service" id="service">
+            <option
+                value="all"
+                {{ ($filterData->service ?? "") == "all" ? "selected " : "" }}
+            >
+                All
+            </option>
+            <option
+                value="breakfast"
+                {{ ($filterData->service ?? "") == "breakfast" ? "selected " : "" }}
+            >
+                Breakfast
+            </option>
+            <option
+                value="lunch"
+                {{ ($filterData->service ?? "") == "lunch" ? "selected " : "" }}
+            >
+                Lunch
+            </option>
+            <option
+                value="dinner"
+                {{ ($filterData->service ?? "") == "dinner" ? "selected " : "" }}
+            >
+                Dinner
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label for="from">date</label>
         <input
             type="datetime-local"
             name="from"
@@ -10,15 +40,17 @@
         />
     </div>
 
-    <div>
+    {{--
+        <div>
         <label for="to">to</label>
         <input
-            type="datetime-local"
-            name="to"
-            id="to"
-            value="{{ $filterData->to ?? date_time_set(new DateTime(), 23, 59)->format("Y-m-d H:i") }}"
+        type="datetime-local"
+        name="to"
+        id="to"
+        value="{{ $filterData->to ?? date_time_set(new DateTime(), 23, 59)->format("Y-m-d H:i") }}"
         />
-    </div>
+        </div>
+    --}}
 
     <div>
         <label for="area">seating area</label>
