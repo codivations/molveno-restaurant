@@ -23,36 +23,47 @@
                 </ul>
             </div>
             <div class="m-2 basis-2/3 rounded bg-gray-200 shadow">
-                @switch($displayData->display)
-                    @case("details")
-                        @if ($displayData->data != null)
+                @if ($displayData != null)
+                    @switch($displayData->display)
+                        @case("new form")
+                            @include("reservations.sections.addForm")
+
+                            @break
+                        @case("edit form")
                             @php
                                 $selectedReservation = $displayData->data;
                             @endphp
 
-                            @include("reservations.sections.details")
-                        @else
+                            @include("reservations.sections.editForm")
+
+                            @break
+                        @case("details")
+                            @if ($displayData->data != null)
+                                @php
+                                    $selectedReservation = $displayData->data;
+                                @endphp
+
+                                @include("reservations.sections.details")
+                            @else
+                                <div>
+                                    <span>
+                                        error: no valid reservation selected
+                                    </span>
+                                </div>
+                            @endif
+
+                            @break
+                        @case("overview")
+                        @default
+                            @php
+                                $overviewData = $displayData->data;
+                            @endphp
+
                             <div>
-                                <span>
-                                    error: no valid reservation selected
-                                </span>
+                                @include("reservations.sections.capacityInfo")
                             </div>
-                        @endif
-
-                        @break
-                    @case("new form")
-                        @include("reservations.sections.addForm")
-
-                        @break
-                    @case("edit form")
-                        @php
-                            $selectedReservation = $displayData->data;
-                        @endphp
-
-                        @include("reservations.sections.editForm")
-
-                        @break
-                    @case("result")
+                    @endswitch
+                    @if ($displayData->message != null)
                         <div
                             class="modal"
                             x-data="{ modalOpen: true }"
@@ -72,15 +83,8 @@
                                 </div>
                             </div>
                         </div>
-                    @default
-                        @php
-                            $overviewData = $displayData->data;
-                        @endphp
-
-                        <div>
-                            @include("reservations.sections.capacityInfo")
-                        </div>
-                @endswitch
+                    @endif
+                @endif
             </div>
         </div>
     </div>

@@ -60,6 +60,17 @@
                     >
                         @if ($table->seated)
                             <div>
+                                <div>
+                                    {{--
+                                        @if ($previousOrders[0] ?? false)
+                                        <x-order.old-orders
+                                        :allOrders="$previousOrders"
+                                        :totalPrice="0"
+                                        />
+                                        @endif
+                                    --}}
+                                </div>
+
                                 <form
                                     action="/tables/unseat"
                                     method="POST"
@@ -91,6 +102,7 @@
                                     action="/tables/seat"
                                     method="POST"
                                     class=""
+                                    x-data="{ selectedname: '', selectedID: '' }"
                                 >
                                     @csrf
                                     <div class="hidden">
@@ -105,17 +117,43 @@
                                             value="{{ $table->id }}"
                                         />
                                     </div>
-                                    <div class="">
+                                    <div class="hidden">
                                         <label
-                                            for="reservation"
+                                            for="reservation-id-input"
                                             class="form-label"
                                         ></label>
                                         <input
                                             type="text"
-                                            id="reservation"
+                                            id="reservation-id-input"
                                             name="reservation"
                                             class="form-input"
+                                            x-model="selectedID"
                                         />
+                                    </div>
+                                    <div class="reservation-search">
+                                        <label
+                                            for="name"
+                                            class="form-label"
+                                        ></label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            class="search-input"
+                                            @input="selectedID = filterReservations(event)"
+                                            x-model="selectedname"
+                                        />
+                                        <div class="reservation-search-list">
+                                            @foreach ($reservations as $reservation)
+                                                <div
+                                                    class="reservation-search-item hidden"
+                                                    id="{{ $reservation->id }}"
+                                                    @click="selectedname = '{{ $reservation->name }}', selectedID = '{{ $reservation->id }}'"
+                                                >
+                                                    {{ $reservation->name }}
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
 
                                     <input
@@ -129,6 +167,87 @@
                     </div>
                 </div>
             @endforeach
+
+            <script>
+                function filterReservations(event) {
+                    let elements = Array.from(
+                        event.target.parentNode
+                            .getElementsByClassName(
+                                'reservation-search-list'
+                            )[0]
+                            .getElementsByClassName('reservation-search-item')
+                    );
+
+                    if (!elements || elements.length == 0) {
+                        return '';
+                    }
+
+                    let search = event.target.value.trim().toLowerCase();
+
+                    if (search == '') {
+                        hideElements(elements);
+                        return;
+                    }
+
+                    let matches = filterMatchingElements(search, elements);
+                    let firstMatchID = 'test';
+                    if (matches && matches.length > 0) {
+                        firstMatchID = matches[0].id;
+                    }
+
+                    return firstMatchID;
+                }
+
+                //text search
+                function filterMatchingElements(search, elements) {
+                    let matches = [];
+                    elements.forEach((element) => {
+                        let text = element.innerHTML.toLowerCase();
+
+                        if (textContains(text, search)) {
+                            showElement(element);
+                            matches.push(element);
+                        } else {
+                            hideElement(element);
+                        }
+                    });
+
+                    return matches;
+                }
+
+                function textContains(text, search, startsWith = false) {
+                    if (startsWith) {
+                        return (
+                            search.localeCompare(
+                                text.substring(0, search.length)
+                            ) == 0
+                        );
+                    }
+
+                    return text.includes(search);
+                }
+
+                //display elements
+                function hideElement(element) {
+                    element.classList.add('hidden');
+                }
+
+                function hideElements(elements) {
+                    elements.forEach((element) => {
+                        hideElement(element);
+                    });
+                }
+
+                function showElement(element) {
+                    element.classList.remove('hidden');
+                }
+
+                function showElements(elements) {
+                    elements.forEach((element) => {
+                        showElement(element);
+                    });
+                }
+            </script>
         </section>
         <footer class="bottom-nav">
             @include("layouts.navbar",['tableNumber' => 0])

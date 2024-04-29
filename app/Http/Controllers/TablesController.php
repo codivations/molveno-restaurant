@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use App\Models\Order;
 use App\Models\Table;
 use App\Models\Reservations;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -38,9 +41,19 @@ class TablesController extends Controller
 
         $tables = $collection;
 
+        $reservations = $this->getCurrentReservations();
+
+        $previousOrders = $this->getPreviousOrders($tables);
+
         return view(
             "tables.index",
-            compact(["tables", "areaSelected", "seatedSelected"])
+            compact([
+                "tables",
+                "areaSelected",
+                "seatedSelected",
+                "reservations",
+                "previousOrders",
+            ])
         );
     }
 
@@ -69,5 +82,33 @@ class TablesController extends Controller
         session("orders")->items ?? false;
 
         return back();
+    }
+
+    private function getPreviousOrders($tables)
+    {
+        $previousOrders = [];
+        foreach ($tables as $table) {
+            $orders = Order::where(
+                "reservation_id",
+                $table->seated_reservation
+            )->get();
+
+            return $orders;
+        }
+
+        return $previousOrders;
+    }
+
+    private function getCurrentReservations(): Collection
+    {
+        $currentDay = date("Y-m-d");
+
+        $query = Reservations::orderBy("name")->whereDate(
+            "reservation_time",
+            "=",
+            $currentDay
+        );
+        $collection = $query->get();
+        return $collection;
     }
 }
