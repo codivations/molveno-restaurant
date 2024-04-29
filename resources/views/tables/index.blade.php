@@ -142,6 +142,7 @@
                                             class="search-input"
                                             @input="selectedID = filterReservations(event)"
                                             x-model="selectedname"
+                                            autocomplete="off"
                                         />
                                         <div class="reservation-search-list">
                                             @foreach ($reservations as $reservation)

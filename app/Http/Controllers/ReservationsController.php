@@ -109,9 +109,10 @@ class ReservationsController extends Controller
         $request->validate([
             "name" => "required|string|between:2,255",
             "party_size" => "required|integer|gte:1",
-            "table_amount" => "required|integer|gte:0",
-            "phone_number" => "required|string|regex:/^([0-9\s\-\+()]*)+$/",
-            "reservation_time" => "required",
+            //"table_amount" => "required|integer|gte:0",
+            "phone_number" => "required|string|regex:/^([0-9\s\-\+\.()]*)+$/",
+            "reservation_time" => "required|date|after:today",
+            "service" => "required",
             "seating_area" => "required",
             "high_chair_amount" => "required|integer|gte:0",
             "booster_seat_amount" => "required|integer|gte:0",
@@ -122,7 +123,7 @@ class ReservationsController extends Controller
         $reservation = new Reservations();
         $reservation->name = trim($request->name);
         $reservation->party_size = $request->party_size;
-        $reservation->table_amount = $request->table_amount;
+        $reservation->table_amount = ceil($request->party_size / 2);
         $reservation->phone_number = trim($request->phone_number);
         $reservation->reservation_time = $request->reservation_time;
         $reservation->notes = trim($request->notes);
@@ -150,9 +151,10 @@ class ReservationsController extends Controller
             "id" => "required|integer|gte:0",
             "name" => "required|string|between:2,255",
             "party_size" => "required|integer|gte:1",
-            "table_amount" => "required|integer|gte:0",
-            "phone_number" => "required|string|regex:/^([0-9\s\-\+()]*)+$/",
-            "reservation_time" => "required",
+            //"table_amount" => "required|integer|gte:0",
+            "phone_number" => "required|string|regex:/^([0-9\s\-\+\.()]*)+$/",
+            "reservation_time" => "required|date|after:today",
+            "service" => "required",
             "seating_area" => "required",
             "high_chair_amount" => "required|integer|gte:0",
             "booster_seat_amount" => "required|integer|gte:0",
@@ -163,7 +165,7 @@ class ReservationsController extends Controller
         if ($selectedReservation) {
             $selectedReservation->name = trim($request->name);
             $selectedReservation->party_size = $request->party_size;
-            $selectedReservation->table_amount = $request->table_amount;
+            $selectedReservation->table_amount = ceil($request->party_size / 2);
             $selectedReservation->phone_number = trim($request->phone_number);
             $selectedReservation->reservation_time = $request->reservation_time;
             $selectedReservation->seating_area = trim($request->seating_area);
