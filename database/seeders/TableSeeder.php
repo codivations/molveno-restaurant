@@ -63,7 +63,7 @@ class TableSeeder extends Seeder
                     : null;
 
             Table::factory()->create([
-                "table_number" => $i,
+                "table_number" => $i + 1,
                 "seating_area" => $area,
                 "seated_reservation" => $seated,
                 "capacity" => $tableCapacity[$i],
