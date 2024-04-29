@@ -74,7 +74,7 @@ Route::name("reservations.")
         ]);
         Route::post("/reservations/create", [
             ReservationsController::class,
-            "store",
+            "storeNew",
         ]);
         Route::get("/reservations/id/{id}", [
             ReservationsController::class,

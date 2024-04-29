@@ -62,6 +62,7 @@ class ReservationsFactory extends Factory
             "party_size" => $partySize,
             "phone_number" => fake()->phoneNumber(),
             "reservation_time" => $reservationTime,
+            "service" => $service,
             "hotel_room" => fake()
                 ->optional($weight = 0.7)
                 ->numberBetween(1, 99),
