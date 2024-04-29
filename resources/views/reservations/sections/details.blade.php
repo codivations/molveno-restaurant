@@ -75,6 +75,14 @@
                 <button class="button">Edit</button>
             </form>
         </div>
+        <div class="button-row">
+            <a
+            class="button"
+            href="/reservations"
+            >
+                Back
+            </a>
+        </div>
     </div>
 
     @error("id")
