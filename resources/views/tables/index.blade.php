@@ -60,6 +60,17 @@
                     >
                         @if ($table->seated)
                             <div>
+                                <div>
+                                    @if ($previousOrders[0] ?? false)
+                                        {{--
+                                            <x-order.old-orders
+                                            :allOrders="$previousOrders"
+                                            :totalPrice="0"
+                                            />
+                                        --}}
+                                    @endif
+                                </div>
+
                                 <form
                                     action="/tables/unseat"
                                     method="POST"

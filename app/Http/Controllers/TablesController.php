@@ -42,7 +42,6 @@ class TablesController extends Controller
         $tables = $collection;
 
         $reservations = $this->getCurrentReservations();
-        //dd($reservations);
 
         $previousOrders = $this->getPreviousOrders($tables);
 
@@ -53,6 +52,7 @@ class TablesController extends Controller
                 "areaSelected",
                 "seatedSelected",
                 "reservations",
+                "previousOrders",
             ])
         );
     }

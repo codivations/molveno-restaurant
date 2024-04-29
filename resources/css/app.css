@@ -43,7 +43,7 @@ body {
 }
 
 .reservation-search-item:hover {
-    background-color: rgb(0 0 0 / 0.1);
+    background-color: rgb(0 0 0 / 10%);
 }
 
 .done {
