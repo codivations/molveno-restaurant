@@ -22,10 +22,16 @@
                 <article
                     class="mt-2 flex flex-1 justify-between rounded-md border border-black bg-white p-4"
                 >
-                    <div class="flex w-5/6 flex-wrap justify-between">
+                    <div
+                        class="flex w-5/6 flex-wrap items-center justify-between"
+                    >
                         <h3 class="w-1/2 text-2xl">{{ $item->name }}</h3>
-                        <p class="w-1/2">{{ $item->getPrice() }}</p>
-                        <p class="w-full">{{ $item->description }}</p>
+                        <p class="w-1/2 text-center">
+                            {{ $item->getPrice() }}
+                        </p>
+                        @if ($item->description)
+                            <p class="w-full">{{ $item->description }}</p>
+                        @endif
                     </div>
                     <button
                         type="button"
