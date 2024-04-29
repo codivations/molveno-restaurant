@@ -3,11 +3,14 @@
 
 @section("content")
     <div class="reservations-content bg-gray-600" x-data="{ open: false }">
-        <div class="topbar flex flex-row justify-between">
+        <div class="topbar flex flex-row items-center justify-between">
             <button class="button" x-on:click="open = ! open">
                 Filters
             </button>
-            <a href="/reservations/new" class="button">new</a>
+            <div class="flex items-center gap-10">
+                <a href="/reservations/new" class="button">new</a>
+                <x-burger-menu />
+            </div>
         </div>
         <div class="content-body flex flex-row p-5">
             <div class="content-list flex basis-1/3 flex-col p-2">

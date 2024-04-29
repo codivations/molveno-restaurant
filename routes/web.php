@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/", function () {
     return view("welcome");
-});
+})->name("index");
 
 Route::get("/dashboard", function () {
     return view("dashboard");
@@ -96,7 +96,9 @@ Route::name("reservations.")
 Route::name("kitchen.")
     ->middleware(["auth"])
     ->group(function () {
-        Route::get("/kitchen", [KitchenController::class, "show"]);
+        Route::get("/kitchen", [KitchenController::class, "show"])->name(
+            "index"
+        );
         Route::get("/kitchen/progress/id/{itemId}", [
             KitchenController::class,
             "progressItemStatus",
@@ -110,9 +112,6 @@ Route::name("kitchen.")
 Route::name("order.")
     ->middleware(["auth", "role:waitstaff"])
     ->group(function () {
-        Route::get("/order", [MenuOrderController::class, "index"])->name(
-            "index"
-        );
         Route::get("/order/{tableNumber}", [
             MenuOrderController::class,
             "showMenu",
