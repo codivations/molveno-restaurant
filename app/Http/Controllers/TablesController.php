@@ -101,31 +101,14 @@ class TablesController extends Controller
 
     private function getCurrentReservations(): Collection
     {
-        $currentDay = new DateTime();
+        $currentDay = date("Y-m-d");
 
         $query = Reservations::orderBy("name")->whereDate(
             "reservation_time",
             "=",
-            date("Y-m-d")
+            $currentDay
         );
         $collection = $query->get();
         return $collection;
     }
-
-    // private function getFilteredReservations(
-    //     SeatingArea $seatingArea,
-    //     DateTime $from,
-    //     DateTime $to
-    // ): Collection {
-    //     $reservation = Reservations::orderBy("reservation_time")->whereBetween(
-    //         "reservation_time",
-    //         [$from, $to]
-    //     );
-
-    //     if ($seatingArea != SeatingArea::ALL) {
-    //         $reservation->where("seating_area", $seatingArea);
-    //     }
-
-    //     return $reservation->get();
-    // }
 }
