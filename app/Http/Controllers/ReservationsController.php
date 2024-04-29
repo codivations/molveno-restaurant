@@ -30,8 +30,6 @@ class ReservationsController extends Controller
             $filterData->service
         );
 
-        $filterData = session("filterData");
-
         $overviewData = $this->getOverviewData($reservations, $filterData);
         if ($display == null) {
             $displayData = $display = $this->getDisplayDataObj(
@@ -232,7 +230,7 @@ class ReservationsController extends Controller
         }
 
         if ($seatingArea != SeatingArea::ALL) {
-            $reservation->where("seating_area", $from);
+            $reservation->where("seating_area", $seatingArea);
         }
 
         return $reservation->get();
@@ -281,9 +279,9 @@ class ReservationsController extends Controller
             return true;
         }
 
-        if (empty(request("to"))) {
-            return true;
-        }
+        // if (empty(request("to"))) {
+        //     return true;
+        // }
 
         return false;
     }
