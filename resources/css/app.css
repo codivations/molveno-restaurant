@@ -135,8 +135,8 @@ body {
     }
 
     .topbar {
-        padding: 1rem;
-        width: lvw;
+        padding: 0.4rem;
+        display: flex;
         position: sticky;
         top: 0;
         justify-content: right;
