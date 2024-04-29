@@ -26,7 +26,7 @@
                 :active="request()->routeIs(['tables.*', 'order.*'])"
                 class="mb-2"
             >
-                Table & Orders
+                Tables & Orders
             </x-responsive-nav-link>
             <x-responsive-nav-link
                 :href="route('kitchen.index')"
