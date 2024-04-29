@@ -11,35 +11,25 @@
         <section class="flex flex-col gap-2" x-data="{ item_open: null }">
             @foreach ($tables as $table)
                 <div
-                    class="rounded-md border border-black bg-white p-4"
+                    class="rounded-lg border border-black bg-white"
                     @click="item_open = item_open == {{ $table->id }} ? null : {{ $table->id }} "
                 >
-                    <div class="flex flex-1 justify-between">
+                    <div
+                        class="{{ $table->seated ? "occupied" : "unoccupied" }} select-none rounded-t-lg p-3"
+                    ></div>
+                    <div class="flex flex-1 justify-between p-2">
                         <div>
                             <div class="flex w-5/6 flex-wrap justify-between">
-                                <div># {{ $table->table_number }}</div>
+                                <div class="font-bold uppercase">
+                                    Table {{ $table->table_number }}
+                                </div>
                                 <div>
-                                    <div>capacity: {{ $table->capacity }}</div>
-                                    <div>
-                                        seating area:
+                                    <div>Capacity: {{ $table->capacity }}</div>
+                                    <div class="first-letter:uppercase;">
                                         {{ $table->seating_area }}
-                                    </div>
-                                    <div>
-                                        status:
-                                        {{ $table->seated ? "Occupied" : "Free" }}
                                     </div>
                                 </div>
                             </div>
-                            @if ($table->seated)
-                                <div>
-                                    seated reservation id:
-                                    {{ $table->seated_reservation }}
-                                </div>
-                                <div>
-                                    seated reservation name:
-                                    {{ $table->seated->name ?? "" }}
-                                </div>
-                            @endif
                         </div>
                         @if ($table->seated)
                             <div class="m-3" @click.stop>
@@ -55,11 +45,15 @@
 
                     <div
                         x-show="item_open == {{ $table->id }}"
-                        class="flex flex-col gap-2 border border-t-0 border-black bg-gray-300 p-4"
+                        class="flex flex-col gap-2 rounded-b-lg border border-black bg-gray-300 p-4"
                         @click.stop
                     >
                         @if ($table->seated)
-                            <div>
+                            <div
+                                class="flex flex-row items-center justify-between"
+                            >
+                                Reservation {{ $table->seated_reservation }}:
+                                {{ $table->seated->name ?? "" }}
                                 <div>
                                     {{--
                                         @if ($previousOrders[0] ?? false)
@@ -89,6 +83,7 @@
                                             value="{{ $table->id }}"
                                         />
                                     </div>
+
                                     <input
                                         type="submit"
                                         value="unseat"
@@ -139,9 +134,11 @@
                                             type="text"
                                             id="name"
                                             name="name"
+                                            placeholder="Name"
                                             class="search-input"
                                             @input="selectedID = filterReservations(event)"
                                             x-model="selectedname"
+                                            autocomplete="off"
                                         />
                                         <div class="reservation-search-list">
                                             @foreach ($reservations as $reservation)
