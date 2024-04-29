@@ -76,12 +76,7 @@
             </form>
         </div>
         <div class="button-row">
-            <a
-            class="button"
-            href="/reservations"
-            >
-                Back
-            </a>
+            <a class="button" href="/reservations">Back</a>
         </div>
     </div>
 
