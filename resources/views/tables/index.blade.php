@@ -162,7 +162,6 @@
                                         class="button"
                                     />
                                 </form>
-                                <div x-data="{ selectedname: 'test' }"></div>
                             </div>
                         @endif
                     </div>
