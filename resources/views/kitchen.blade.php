@@ -2,7 +2,9 @@
 @section("title", "kitchen display")
 @section("content")
     <div class="flex max-h-screen min-h-screen flex-col">
-        <div class="topbar"></div>
+        <div class="topbar">
+            <x-burger-menu />
+        </div>
         <div
             id="order-overview"
             class="max-w-100 flex-flow-col flex max-h-dvh flex-auto flex-shrink-0 overflow-auto bg-slate-400"
