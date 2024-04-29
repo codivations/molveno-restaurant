@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\SeatingArea;
 use Illuminate\Http\Request;
 use App\Models\Reservations;
+use App\Models\Table;
 use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -20,10 +21,13 @@ class ReservationsController extends Controller
             $this->showUnfilteredOverview();
         }
 
+        $filterData = session("filterData");
+
         $reservations = $this->getFilteredReservations(
-            session("filterData")->seating_area,
-            new DateTime(session("filterData")->from),
-            new DateTime(session("filterData")->to)
+            $filterData->seating_area,
+            new DateTime($filterData->from),
+            new DateTime($filterData->to),
+            $filterData->service
         );
 
         $filterData = session("filterData");
@@ -104,12 +108,41 @@ class ReservationsController extends Controller
     #endregion Show Views
 
     #region Create Update & Destroy Reservations
-    public function store(Request $request): View|RedirectResponse
+    public function storeNew(Request $request): View|RedirectResponse
     {
-        $request->validate([
+        $request->validate($this->getValidationRules());
+
+        $reservation = new Reservations();
+        $this->store($reservation, $request);
+
+        return redirect("/reservations")->with(
+            "message",
+            "Reservation added succesfully"
+        );
+    }
+
+    private function store($reservation, Request $request)
+    {
+        $reservation->name = trim($request->name);
+        $reservation->party_size = $request->party_size;
+        $reservation->table_amount = ceil($request->party_size / 2);
+        $reservation->phone_number = trim($request->phone_number);
+        $reservation->reservation_time = $request->reservation_time;
+        $reservation->seating_area = trim($request->seating_area);
+        $reservation->high_chair_amount = $request->high_chair_amount;
+        $reservation->booster_seat_amount = $request->booster_seat_amount;
+        $reservation->dietary_restrictions = $request->has(
+            "dietary_restrictions"
+        );
+        $reservation->notes = trim($request->notes);
+        $reservation->save();
+    }
+
+    private function getValidationRules()
+    {
+        return [
             "name" => "required|string|between:2,255",
             "party_size" => "required|integer|gte:1",
-            //"table_amount" => "required|integer|gte:0",
             "phone_number" => "required|string|regex:/^([0-9\s\-\+\.()]*)+$/",
             "reservation_time" => "required|date|after:today",
             "service" => "required",
@@ -118,27 +151,7 @@ class ReservationsController extends Controller
             "booster_seat_amount" => "required|integer|gte:0",
             "dietary_restrictions" => "nullable|integer",
             "notes" => "string|nullable",
-        ]);
-
-        $reservation = new Reservations();
-        $reservation->name = trim($request->name);
-        $reservation->party_size = $request->party_size;
-        $reservation->table_amount = ceil($request->party_size / 2);
-        $reservation->phone_number = trim($request->phone_number);
-        $reservation->reservation_time = $request->reservation_time;
-        $reservation->notes = trim($request->notes);
-        $reservation->seating_area = trim($request->seating_area);
-        $reservation->high_chair_amount = $request->high_chair_amount;
-        $reservation->booster_seat_amount = $request->booster_seat_amount;
-        $reservation->dietary_restrictions = $request->has(
-            "dietary_restrictions"
-        );
-        $reservation->save();
-
-        return redirect("/reservations")->with(
-            "message",
-            "Reservation added succesfully"
-        );
+        ];
     }
 
     public function editReservation(
@@ -147,37 +160,17 @@ class ReservationsController extends Controller
     ): View|RedirectResponse {
         $selectedReservation = $this->getReservationById($id);
 
-        $request->validate([
-            "id" => "required|integer|gte:0",
-            "name" => "required|string|between:2,255",
-            "party_size" => "required|integer|gte:1",
-            //"table_amount" => "required|integer|gte:0",
-            "phone_number" => "required|string|regex:/^([0-9\s\-\+\.()]*)+$/",
-            "reservation_time" => "required|date|after:today",
-            "service" => "required",
-            "seating_area" => "required",
-            "high_chair_amount" => "required|integer|gte:0",
-            "booster_seat_amount" => "required|integer|gte:0",
-            "dietary_restrictions" => "nullable|integer",
-            "notes" => "string|nullable",
-        ]);
+        $request->validate(
+            array_merge(
+                [
+                    "id" => "required|integer|gte:0",
+                ],
+                $this->getValidationRules()
+            )
+        );
 
         if ($selectedReservation) {
-            $selectedReservation->name = trim($request->name);
-            $selectedReservation->party_size = $request->party_size;
-            $selectedReservation->table_amount = ceil($request->party_size / 2);
-            $selectedReservation->phone_number = trim($request->phone_number);
-            $selectedReservation->reservation_time = $request->reservation_time;
-            $selectedReservation->seating_area = trim($request->seating_area);
-            $selectedReservation->high_chair_amount =
-                $request->high_chair_amount;
-            $selectedReservation->booster_seat_amount =
-                $request->booster_seat_amount;
-            $selectedReservation->dietary_restrictions = $request->has(
-                "dietary_restrictions"
-            );
-            $selectedReservation->notes = trim($request->notes);
-            $selectedReservation->save();
+            $this->store($selectedReservation, $request);
 
             $result = join(" ", [
                 "edited reservation for",
@@ -223,24 +216,23 @@ class ReservationsController extends Controller
     #endregion Create Update & Destroy Reservations
 
     #region Read Reservations
-    private function getAllReservations(
-        string $orderedBy = "reservation_time"
-    ): Collection {
-        return Reservations::orderBy($orderedBy)->get();
-    }
-
     private function getFilteredReservations(
         SeatingArea $seatingArea,
         DateTime $from,
-        DateTime $to
+        DateTime $to,
+        string $service = "all"
     ): Collection {
-        $reservation = Reservations::orderBy("reservation_time")->whereBetween(
+        $reservation = Reservations::orderBy("reservation_time")->whereDate(
             "reservation_time",
-            [$from, $to]
+            $from->format("Y-m-d")
         );
 
+        if ($service != "all") {
+            $reservation->where("service", $service);
+        }
+
         if ($seatingArea != SeatingArea::ALL) {
-            $reservation->where("seating_area", $seatingArea);
+            $reservation->where("seating_area", $from);
         }
 
         return $reservation->get();
@@ -258,24 +250,9 @@ class ReservationsController extends Controller
 
         $filterData->from = $request->from;
         $filterData->to = $request->to;
+        $filterData->service = $request->service;
 
-        switch ($request->area) {
-            case "terrace":
-                $filterData->seating_area = SeatingArea::TERRACE;
-                break;
-
-            case "ground floor":
-                $filterData->seating_area = SeatingArea::GROUNDFLOOR;
-                break;
-
-            case "first floor":
-                $filterData->seating_area = SeatingArea::FIRSTFLOOR;
-                break;
-
-            default:
-                $filterData->seating_area = SeatingArea::ALL;
-                break;
-        }
+        $filterData->seating_area = SeatingArea::tryFrom($request->area);
 
         return $filterData;
     }
@@ -290,12 +267,14 @@ class ReservationsController extends Controller
         $filterData->to = date_time_set(new DateTime(), 23, 59)->format(
             "Y-m-d H:i"
         );
+        $filterData->service = "all";
 
         $filterData->seating_area = SeatingArea::ALL;
 
         return $filterData;
     }
 
+    //FIXME: Implement proper validation and/or remove
     private function filterValidationFails(): bool
     {
         if (empty(request("from"))) {
@@ -366,6 +345,58 @@ class ReservationsController extends Controller
         }
 
         return $data;
+    }
+
+    private function getCapacityDataObject(
+        Collection $collection,
+        object $filterData
+    ): object {
+        $data = new stdClass();
+        $data->capacityTotals = $this->getOverviewDataObj($collection);
+
+        $filteredReservations = Reservations::whereDate(
+            "reservation_time",
+            $filterData->from->format("Y-m-d")
+        );
+
+        //FIXME: the rest of the function
+
+        return $data;
+    }
+
+    private function getCapacityDataFor($date, $area, $service): object
+    {
+        $data = new stdClass();
+        $data->totalCapacity = $this->getTotalCapacity($area);
+
+        $reservations = Reservations::where("seating_area", $area)
+            ->where("service", $service)
+            ->whereDate("reservation_time", $date->format("Y-m-d"));
+
+        $data->tableAmount = $reservations->sum("table_amount");
+        $data->highChairAmount = $reservations->sum("table_amount");
+        $data->boosterSeatAmount = $reservations->sum("table_amount");
+
+        return $data;
+    }
+
+    private function getTotalCapacity($area): int
+    {
+        $collection = Table::where("seating_area", $area)->get;
+        $total = $collection->sum("capacity");
+        return $total;
+    }
+
+    //FIXME: -> This values needs to be put in a database somewhere
+    private function getBoosterSeatTotal(): int
+    {
+        return 10;
+    }
+
+    //FIXME: -> This values needs to be put in a database somewhere
+    private function getHighChairTotal(): int
+    {
+        return 15;
     }
 
     private function getDisplayDataObj(

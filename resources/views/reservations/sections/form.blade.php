@@ -30,24 +30,24 @@
         @enderror
     </div>
 </div>
-{{--
-    <div class="form-item">
+
+<div class="form-item">
     <label for="table_amount" class="form-label">Table amount:</label>
     <div>
-    <input
-    type="number"
-    min="1"
-    id="table_amount"
-    name="table_amount"
-    class="form-input"
-    value="{{ old("table_amount") ?? ($selectedReservation->table_amount ?? "") }}"
-    />
-    @error("table_amount")
-    <div class="validation-alert">{{ $message }}</div>
-    @enderror
+        <input
+            type="number"
+            min="1"
+            id="table_amount"
+            name="table_amount"
+            class="form-input"
+            value="{{ old("table_amount") ?? ($selectedReservation->table_amount ?? "") }}"
+        />
+        @error("table_amount")
+            <div class="validation-alert">{{ $message }}</div>
+        @enderror
     </div>
-    </div>
---}}
+</div>
+
 <div class="form-item">
     <label for="phone_number" class="form-label">Phone number:</label>
     <div>
