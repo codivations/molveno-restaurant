@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationsController;
 use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\TablesController;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -112,6 +113,9 @@ Route::name("kitchen.")
 Route::name("order.")
     ->middleware(["auth", "role:waitstaff"])
     ->group(function () {
+        Route::get("/order", function (): RedirectResponse {
+            return redirect("/tables");
+        });
         Route::get("/order/{tableNumber}", [
             MenuOrderController::class,
             "showMenu",
