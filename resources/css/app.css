@@ -19,7 +19,7 @@ body {
     border: solid;
     border-width: 1px;
     border-radius: 0.5rem;
-    background-color: lightgray;
+    background-color: ghostwhite;
 }
 
 .reservation-search-list {
@@ -56,8 +56,18 @@ body {
 }
 
 .todo {
-    background-color: red !important;
+    background-color: lightsteelblue;
     font-weight: bold;
+}
+
+.occupied {
+    border-top: 10px;
+    background-color: lightskyblue;
+}
+
+.unoccupied {
+    border-top: 2rem;
+    background-color: lightgreen;
 }
 
 @layer components {
@@ -80,8 +90,10 @@ body {
         padding: 1rem;
         position: sticky;
         top: 0;
-        display: flex;
         justify-content: space-between;
+        display: flex;
+
+        /* flex-wrap: nowrap; */
         background-color: rgb(65 65 65);
     }
 
@@ -136,8 +148,8 @@ body {
     }
 
     .topbar {
-        padding: 0.4rem;
-        display: flex;
+        padding: 1rem;
+        width: lvw;
         position: sticky;
         top: 0;
         justify-content: right;
@@ -267,15 +279,6 @@ body {
 
     .order-allergy {
         @apply inline-block h-6 w-6 p-0 text-center align-baseline;
-    }
-
-    .hamburger-button {
-        @apply flex items-center border border-transparent px-3 py-2 text-gray-500 transition duration-150;
-        @apply ease-in-out hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300;
-    }
-
-    .hamburger-name {
-        @apply mb-2 bg-white px-4 py-2 font-bold text-gray-500 dark:bg-gray-800 dark:text-gray-400;
     }
 }
 
