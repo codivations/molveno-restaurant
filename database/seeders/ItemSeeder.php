@@ -15,7 +15,6 @@ class ItemSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call(MenuSeeder::class);
         $drinkService = Menu::factory()->create([
             "service" => MenuService::DRINKS,
         ]);
