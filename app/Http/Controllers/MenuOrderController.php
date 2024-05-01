@@ -100,10 +100,8 @@ class MenuOrderController extends Controller
         );
     }
 
-    public function sendOrder(
-        Request $request,
-        string $tableNumber
-    ): RedirectResponse {
+    public function sendOrder(string $tableNumber): RedirectResponse
+    {
         if (empty(session("order"))) {
             return back()->with("error", "Cannot send empty order");
         }
@@ -135,10 +133,8 @@ class MenuOrderController extends Controller
         return back()->with("success", "Order sent");
     }
 
-    public function updateOrder(
-        Request $request,
-        string $tableNumber
-    ): RedirectResponse {
+    public function updateOrder(Request $request): RedirectResponse
+    {
         $request->validate([
             "notes" => "string|nullable|max:255",
         ]);
@@ -153,10 +149,8 @@ class MenuOrderController extends Controller
         return back()->with("success", "item updated");
     }
 
-    public function removeFromOrder(
-        Request $request,
-        string $tableNumber
-    ): RedirectResponse {
+    public function removeFromOrder(Request $request): RedirectResponse
+    {
         $order = session()->pull("order");
         array_splice($order->items, $request->index, 1);
         session(["order" => $order]);
