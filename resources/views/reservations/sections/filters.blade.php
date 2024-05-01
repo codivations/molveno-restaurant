@@ -85,7 +85,7 @@
     <div class="filter-buttons">
         <input type="submit" class="button" name="filter" value="filter" />
         <a href="{{ route("reservations.clear") }}" class="button">
-            reset filters
+            Reset filters
         </a>
     </div>
 </form>

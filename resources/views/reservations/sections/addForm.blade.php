@@ -6,7 +6,7 @@
         </div>
         <div class="bottom-bar">
             <div class="button-row">
-                <input type="submit" value="confirm" class="button" />
+                <input type="submit" value="Confirm" class="button" />
                 <a class="button" href="/reservations">Cancel</a>
             </div>
         </div>

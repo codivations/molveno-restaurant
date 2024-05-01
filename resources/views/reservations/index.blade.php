@@ -8,7 +8,7 @@
                 Filters
             </button>
             <div class="flex items-center gap-10">
-                <a href="/reservations/new" class="button">new</a>
+                <a href="/reservations/new" class="button">New</a>
                 <x-burger-menu />
             </div>
         </div>
