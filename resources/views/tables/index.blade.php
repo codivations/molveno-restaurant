@@ -145,7 +145,7 @@
                                                 <div
                                                     class="reservation-search-item hidden"
                                                     id="{{ $reservation->id }}"
-                                                    @click="selectedname = '{{ $reservation->name }}', selectedID = '{{ $reservation->id }}'"
+                                                    @click="selectedname = `{{ $reservation->name }}`, selectedID = `{{ $reservation->id }}`"
                                                 >
                                                     {{ $reservation->name }}
                                                 </div>
