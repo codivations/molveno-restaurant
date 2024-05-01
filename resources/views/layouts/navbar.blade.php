@@ -1,6 +1,15 @@
 <nav x-data="{ open: false }" class="flex flex-col">
-    <div x-show="open" class="flex w-max flex-col self-end bg-black">
-        <form method="POST" action="{{ route("logout") }}" class="p-3">
+    <div
+        x-show="open"
+        class="flex w-max flex-col gap-3 self-end bg-black p-3"
+    >
+        <x-dropdown-link
+            class="rounded-lg border border-white"
+            :href="route('index')"
+        >
+            Home
+        </x-dropdown-link>
+        <form method="POST" action="{{ route("logout") }}">
             @csrf
 
             <x-dropdown-link
