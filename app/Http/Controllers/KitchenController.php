@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderedItem;
 use App\Enums\ItemStatus;
-use Hamcrest\Text\StringContains;
 
 class KitchenController extends Controller
 {
