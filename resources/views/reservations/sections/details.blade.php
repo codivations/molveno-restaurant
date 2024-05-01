@@ -26,6 +26,12 @@
                     </span>
                 </div>
                 <div class="reservation-info">
+                    <span>Service:</span>
+                    <span>
+                        {{ $selectedReservation->service }}
+                    </span>
+                </div>
+                <div class="reservation-info">
                     <span>Party size:</span>
                     <span>{{ $selectedReservation->party_size }}</span>
                 </div>
