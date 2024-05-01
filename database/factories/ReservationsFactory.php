@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

@@ -7,7 +7,6 @@ use App\Enums\OrderStatus;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\OrderedItem;
-use App\Models\Reservations;
 use App\Models\Table;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
