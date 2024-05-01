@@ -68,6 +68,33 @@ body {
     background-color: lightgreen;
 }
 
+.validation-alert {
+    color: rgb(186 26 26);
+}
+
+.capacity-info {
+    padding-top: 1rem;
+}
+
+.reservation-info {
+    padding-top: 1rem;
+    width: fit-content;
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.notes {
+    padding-top: 1rem;
+    width: 100%;
+    display: block;
+}
+
+.notes > .field {
+    padding-top: 0.5rem;
+    min-height: 10rem;
+}
+
 @layer components {
     .reservations-content {
         height: 100vh;
@@ -89,6 +116,7 @@ body {
         position: sticky;
         top: 0;
         display: flex;
+        flex-direction: row-reverse;
         justify-content: space-between;
         background-color: rgb(65 65 65);
     }
