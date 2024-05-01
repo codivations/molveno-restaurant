@@ -125,6 +125,7 @@ class ReservationsController extends Controller
         $reservation->party_size = $request->party_size;
         $reservation->table_amount = ceil($request->party_size / 2);
         $reservation->phone_number = trim($request->phone_number);
+        $reservation->service = trim($request->service);
         $reservation->reservation_time = $request->reservation_time;
         $reservation->seating_area = trim($request->seating_area);
         $reservation->high_chair_amount = $request->high_chair_amount;
