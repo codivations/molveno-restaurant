@@ -15,7 +15,7 @@ use stdClass;
 
 class MenuOrderController extends Controller
 {
-    public function showMenu(string $tableNumber)
+    public function showMenu(string $tableNumber): View
     {
         return $this->showService($tableNumber, "lunch");
     }
