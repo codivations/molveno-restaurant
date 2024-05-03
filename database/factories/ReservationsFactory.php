@@ -49,10 +49,7 @@ class ReservationsFactory extends Factory
         }
 
         $partySize = $this->faker
-            ->optional(
-                $weight = 0.2,
-                $default = $this->faker->numberBetween(2, 6)
-            )
+            ->optional(0.2, $this->faker->numberBetween(2, 6))
             ->numberBetween(7, 12);
         $tableSize = 2;
 
@@ -63,7 +60,7 @@ class ReservationsFactory extends Factory
             "reservation_time" => $reservationTime,
             "service" => $service,
             "hotel_room" => fake()
-                ->optional($weight = 0.7)
+                ->optional(0.7)
                 ->numberBetween(1, 99),
             "seating_area" => fake()->randomElement([
                 "terrace",
@@ -72,10 +69,10 @@ class ReservationsFactory extends Factory
             ]),
             "table_amount" => ceil($partySize / $tableSize),
             "high_chair_amount" => fake()
-                ->optional($weight = 0.1, $default = 0)
+                ->optional(0.1, 0)
                 ->numberBetween(0, 2),
             "booster_seat_amount" => fake()
-                ->optional($weight = 0.15, $default = 0)
+                ->optional(0.15, 0)
                 ->numberBetween(0, 3),
             "dietary_restrictions" => fake()->boolean(),
             "notes" => fake()->text(),
