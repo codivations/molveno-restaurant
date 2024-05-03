@@ -27,7 +27,7 @@ class Order extends Model
         $this->status = OrderStatus::tryFrom($status);
     }
 
-    public function getOrderId()
+    public function getOrderId(): int
     {
         return $this->id;
     }

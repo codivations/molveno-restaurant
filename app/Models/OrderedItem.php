@@ -25,7 +25,7 @@ class OrderedItem extends Model
         $this->status = ItemStatus::tryFrom($status);
     }
 
-    public function getOrderedItemId()
+    public function getOrderedItemId(): int
     {
         return $this->id;
     }
