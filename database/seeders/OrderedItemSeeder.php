@@ -12,6 +12,6 @@ class OrderedItemSeeder extends Seeder
      */
     public function run(): void
     {
-        $orderedItems = OrderedItem::factory(50)->create();
+        OrderedItem::factory(50)->create();
     }
 }
