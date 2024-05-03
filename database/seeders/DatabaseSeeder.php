@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ReservationsSeeder::class,
-            RoleSeeder::class,
             UserSeeder::class,
             ItemSeeder::class,
             OrderSeeder::class,
