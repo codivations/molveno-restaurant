@@ -3,11 +3,21 @@
         <div class="container m-5 mx-auto w-2/3">
             <div class="text-center text-4xl">
                 Overview for
-                {{ (new DateTime($filterData->from))->format("d/m/y") }} -
-                {{ $filterData->service }}
+                {{ (new DateTime($filterData->from))->format("d/m/y") }}
+                @if ($filterData->service == "all")
+                    <span>- all services</span>
+                @else
+                    <span>- {{ $filterData->service }} service</span>
+                @endif
             </div>
 
             <div class="capacity-info">
+                <div class="capacity-info">
+                    <div>
+                        Selected area:
+                        {{ $filterData->seating_area }}
+                    </div>
+                </div>
                 @if ($filterData->seating_area == \App\Enums\SeatingArea::ALL)
                     <div class="capacity-info">
                         <div>

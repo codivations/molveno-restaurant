@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Carbon;
 use stdClass;
 
 class ReservationsController extends Controller
@@ -247,7 +248,12 @@ class ReservationsController extends Controller
     {
         $filterData = new stdClass();
 
-        $filterData->from = $request->from;
+        $array = explode("-", $request->from);
+        $date = Carbon::createFromDate($array[0], $array[1], $array[2], +1);
+
+        $filterData->from = $date;
+        $filterData->date = $request->from;
+
         $filterData->to = $request->to;
         $filterData->service = $request->service;
 

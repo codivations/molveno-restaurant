@@ -33,24 +33,12 @@
     <div>
         <label for="from">date</label>
         <input
-            type="datetime-local"
+            type="date"
             name="from"
             id="from"
-            value="{{ $filterData->from ?? date_time_set(new DateTime(), 0, 00)->format("Y-m-d H:i") }}"
+            value="{{ $filterData->date ?? date_time_set(new DateTime(), 0, 00)->format("Y-m-d") }}"
         />
     </div>
-
-    {{--
-        <div>
-        <label for="to">to</label>
-        <input
-        type="datetime-local"
-        name="to"
-        id="to"
-        value="{{ $filterData->to ?? date_time_set(new DateTime(), 23, 59)->format("Y-m-d H:i") }}"
-        />
-        </div>
-    --}}
 
     <div>
         <label for="area">seating area</label>
