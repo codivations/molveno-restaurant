@@ -31,6 +31,7 @@ class Item extends Model
     public function getPrice(): string
     {
         $priceWithCents = $this->price / 100;
+
         return "€ " . number_format($priceWithCents, 2);
     }
 

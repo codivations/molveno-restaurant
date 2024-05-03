@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ItemStatus;
 use App\Models\Order;
 use App\Models\OrderedItem;
-use App\Enums\ItemStatus;
 
 class KitchenController extends Controller
 {
     public function show()
     {
         $orders = Order::getAllOrders();
+
         return view("kitchen", compact(["orders"]));
     }
 
@@ -53,6 +54,7 @@ class KitchenController extends Controller
                 $msg = "I Am Error";
                 break;
         }
+
         return back();
     }
 
@@ -72,6 +74,7 @@ class KitchenController extends Controller
                 return false;
             }
         }
+
         return true;
     }
 

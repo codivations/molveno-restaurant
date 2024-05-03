@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\MenuService;
 use App\Models\Item;
 use App\Models\Menu;
-use App\Enums\MenuService;
 use Illuminate\Database\Seeder;
 
 class ItemSeeder extends Seeder

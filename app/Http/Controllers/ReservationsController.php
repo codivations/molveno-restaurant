@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Enums\SeatingArea;
-use Illuminate\Http\Request;
 use App\Models\Reservations;
 use App\Models\Table;
 use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
-use stdClass;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
+use stdClass;
 
 class ReservationsController extends Controller
 {
-    #region Show Views
-    public function show(object $display = null)
+    //region Show Views
+    public function show(?object $display = null)
     {
         if (!session("filterData")) {
             $this->showUnfilteredOverview();
@@ -103,9 +103,9 @@ class ReservationsController extends Controller
 
         return $this->show($displayData);
     }
-    #endregion Show Views
+    //endregion Show Views
 
-    #region Create Update & Destroy Reservations
+    //region Create Update & Destroy Reservations
     public function storeNew(Request $request): View|RedirectResponse
     {
         $request->validate($this->getValidationRules());
@@ -171,7 +171,7 @@ class ReservationsController extends Controller
         if ($selectedReservation) {
             $this->store($selectedReservation, $request);
 
-            $result = join(" ", [
+            $result = implode(" ", [
                 "edited reservation for",
                 $selectedReservation->name,
             ]);
@@ -199,7 +199,7 @@ class ReservationsController extends Controller
 
         if ($selectedReservation) {
             $selectedReservation->delete();
-            $result = join(" ", [
+            $result = implode(" ", [
                 "Deleted reservation for",
                 $selectedReservation->name,
             ]);
@@ -212,9 +212,9 @@ class ReservationsController extends Controller
 
         return $this->show($displayData);
     }
-    #endregion Create Update & Destroy Reservations
+    //endregion Create Update & Destroy Reservations
 
-    #region Read Reservations
+    //region Read Reservations
     private function getFilteredReservations(
         SeatingArea $seatingArea,
         DateTime $from,
@@ -241,7 +241,7 @@ class ReservationsController extends Controller
     {
         return Reservations::where("id", $id)->first();
     }
-    #endregion
+    //endregion
 
     private function getFilterDataObj(Request $request): object
     {
@@ -383,6 +383,7 @@ class ReservationsController extends Controller
     {
         $collection = Table::where("seating_area", $area)->get;
         $total = $collection->sum("capacity");
+
         return $total;
     }
 
@@ -401,7 +402,7 @@ class ReservationsController extends Controller
     private function getDisplayDataObj(
         string $display = "default",
         $data = null,
-        string $message = null
+        ?string $message = null
     ): object {
         $displayData = new stdClass();
 

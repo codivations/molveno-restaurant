@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use DateTime;
 use App\Models\Order;
-use App\Models\Table;
 use App\Models\Reservations;
+use App\Models\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -109,6 +108,7 @@ class TablesController extends Controller
             $currentDay
         );
         $collection = $query->get();
+
         return $collection;
     }
 }

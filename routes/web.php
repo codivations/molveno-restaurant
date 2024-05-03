@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\MenuOrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationsController;
-use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\TablesController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;

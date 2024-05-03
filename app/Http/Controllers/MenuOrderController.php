@@ -182,6 +182,7 @@ class MenuOrderController extends Controller
             }
         }
         $totalPrice = array_sum($prices) / 100;
+
         return "€ " . number_format($totalPrice, 2);
     }
 }
