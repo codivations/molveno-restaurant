@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Enums\ItemStatus;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -25,7 +25,7 @@ class OrderedItem extends Model
         $this->status = ItemStatus::tryFrom($status);
     }
 
-    public function getOrderedItemId()
+    public function getOrderedItemId(): int
     {
         return $this->id;
     }

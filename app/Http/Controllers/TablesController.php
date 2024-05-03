@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use DateTime;
 use App\Models\Order;
-use App\Models\Table;
 use App\Models\Reservations;
+use App\Models\Table;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -19,7 +19,6 @@ class TablesController extends Controller
 
         $query = Table::orderBy("id");
         if ($areaSelected != "all") {
-            //dd($areaSelected);
             $query = $query->where("seating_area", $areaSelected);
         }
 
@@ -57,7 +56,7 @@ class TablesController extends Controller
         );
     }
 
-    public function seat(Request $request)
+    public function seat(Request $request): RedirectResponse
     {
         $table = Table::find($request->table);
         $reservation = Reservations::find($request->reservation);
@@ -70,7 +69,7 @@ class TablesController extends Controller
         return back();
     }
 
-    public function unseat(Request $request)
+    public function unseat(Request $request): RedirectResponse
     {
         $table = Table::find($request->table);
         if ($table == null) {
@@ -84,7 +83,7 @@ class TablesController extends Controller
         return back();
     }
 
-    private function getPreviousOrders($tables)
+    private function getPreviousOrders($tables): array
     {
         $previousOrders = [];
         foreach ($tables as $table) {
@@ -109,6 +108,7 @@ class TablesController extends Controller
             $currentDay
         );
         $collection = $query->get();
+
         return $collection;
     }
 }

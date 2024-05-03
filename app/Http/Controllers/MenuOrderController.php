@@ -15,7 +15,7 @@ use stdClass;
 
 class MenuOrderController extends Controller
 {
-    public function showMenu(string $tableNumber)
+    public function showMenu(string $tableNumber): View
     {
         return $this->showService($tableNumber, "lunch");
     }
@@ -39,7 +39,7 @@ class MenuOrderController extends Controller
         Request $request,
         string $tableNumber
     ): RedirectResponse {
-        $validated = $request->validate([
+        $request->validate([
             "notes" => "string|nullable|max:255",
         ]);
 
@@ -167,7 +167,7 @@ class MenuOrderController extends Controller
         return $order;
     }
 
-    private function makePriceSum($table)
+    private function makePriceSum($table): string
     {
         $totalPrice = 0;
         $prices = [];
@@ -182,6 +182,7 @@ class MenuOrderController extends Controller
             }
         }
         $totalPrice = array_sum($prices) / 100;
+
         return "€ " . number_format($totalPrice, 2);
     }
 }

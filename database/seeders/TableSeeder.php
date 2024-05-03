@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Table;
 use App\Enums\SeatingArea;
+use App\Models\Table;
+use Illuminate\Database\Seeder;
 
 class TableSeeder extends Seeder
 {

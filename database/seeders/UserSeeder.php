@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
@@ -12,6 +13,25 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        //region roles
+        $adminRole = Role::factory()->create([
+            "name" => "admin",
+        ]);
+
+        $chefRole = Role::factory()->create([
+            "name" => "chef",
+        ]);
+
+        $waitstaffRole = Role::factory()->create([
+            "name" => "waitstaff",
+        ]);
+
+        $kitchenRole = Role::factory()->create([
+            "name" => "kitchen",
+        ]);
+        //endregion
+
+        //region users
         User::factory()
             ->create([
                 "name" => "Admin",
@@ -19,7 +39,7 @@ class UserSeeder extends Seeder
                 "login_name" => "admin",
             ])
             ->roles()
-            ->attach(1);
+            ->attach($adminRole->id);
 
         User::factory()
             ->create([
@@ -28,7 +48,7 @@ class UserSeeder extends Seeder
                 "login_name" => "kitchen",
             ])
             ->roles()
-            ->attach(4);
+            ->attach($kitchenRole->id);
 
         User::factory()
             ->create([
@@ -37,7 +57,7 @@ class UserSeeder extends Seeder
                 "login_name" => "waiter",
             ])
             ->roles()
-            ->attach(3);
+            ->attach($waitstaffRole->id);
 
         User::factory()
             ->create([
@@ -46,7 +66,7 @@ class UserSeeder extends Seeder
                 "login_name" => "souschef",
             ])
             ->roles()
-            ->attach(2);
+            ->attach($chefRole->id);
 
         User::factory()
             ->create([
@@ -55,7 +75,7 @@ class UserSeeder extends Seeder
                 "login_name" => "vivian",
             ])
             ->roles()
-            ->attach(3);
+            ->attach($waitstaffRole->id);
 
         User::factory()
             ->create([
@@ -64,6 +84,7 @@ class UserSeeder extends Seeder
                 "login_name" => "jeroen",
             ])
             ->roles()
-            ->attach(3);
+            ->attach($waitstaffRole->id);
+        //endregion
     }
 }

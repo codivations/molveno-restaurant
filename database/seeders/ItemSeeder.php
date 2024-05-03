@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\MenuService;
 use App\Models\Item;
 use App\Models\Menu;
-use App\Enums\MenuService;
 use Illuminate\Database\Seeder;
 
 class ItemSeeder extends Seeder
@@ -14,6 +14,7 @@ class ItemSeeder extends Seeder
      */
     public function run(): void
     {
+        //region services
         $drinkService = Menu::factory()->create([
             "service" => MenuService::DRINKS,
         ]);
@@ -29,7 +30,9 @@ class ItemSeeder extends Seeder
         $snackService = Menu::factory()->create([
             "service" => MenuService::SNACKS,
         ]);
+        //endregion
 
+        //region item arrays
         $drinkItems = [
             "Coffee",
             "Cappuccino",
@@ -146,6 +149,7 @@ class ItemSeeder extends Seeder
             "Focaccia",
             "Parmesan Arancini Balls",
         ];
+        //endregion
 
         $this->createItems($drinkItems, $drinkService->id, 150, 350);
         $this->createItems($breakfastItems, $breakfastService->id, 250, 700);
