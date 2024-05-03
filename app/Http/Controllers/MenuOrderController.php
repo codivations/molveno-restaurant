@@ -39,7 +39,7 @@ class MenuOrderController extends Controller
         Request $request,
         string $tableNumber
     ): RedirectResponse {
-        $validated = $request->validate([
+        $request->validate([
             "notes" => "string|nullable|max:255",
         ]);
 
@@ -167,7 +167,7 @@ class MenuOrderController extends Controller
         return $order;
     }
 
-    private function makePriceSum($table)
+    private function makePriceSum($table): string
     {
         $totalPrice = 0;
         $prices = [];
