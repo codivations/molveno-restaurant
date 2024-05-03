@@ -9,8 +9,8 @@ use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Support\Carbon;
+use Illuminate\View\View;
 use stdClass;
 
 class ReservationsController extends Controller
