@@ -16,4 +16,11 @@ class Table extends Model
     {
         return $this->hasOne(Reservations::class, "id", "seated_reservation");
     }
+
+    public function unseatReservation(): void
+    {
+        $this->seated_reservation = null;
+        $this->save();
+        return;
+    }
 }
