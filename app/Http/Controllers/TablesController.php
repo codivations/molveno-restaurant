@@ -73,8 +73,6 @@ class TablesController extends Controller
         }
         $table->unseatReservation();
 
-        session("orders")->items ?? false;
-
         return back();
     }
 
