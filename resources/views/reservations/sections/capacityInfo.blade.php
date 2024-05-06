@@ -12,97 +12,49 @@
             </div>
 
             <div class="capacity-info">
-                <div class="capacity-info">
-                    <div>
-                        Selected area:
-                        {{ $filterData->seating_area }}
-                    </div>
-                </div>
-                @if ($filterData->seating_area == \App\Enums\SeatingArea::ALL)
-                    <div class="capacity-info">
-                        <div>
-                            Tables reserved:
-                            {{ $overviewData->capacityTotals->reservedTablesAmount }}
-                        </div>
-                        <div>
-                            - Terrace:
-                            {{ $overviewData->capacityTerrace->reservedTablesAmount }}
-                        </div>
-                        <div>
-                            - Ground Floor:
-                            {{ $overviewData->capacityGroundFloor->reservedTablesAmount }}
-                        </div>
-                        <div>
-                            - First Floor:
-                            {{ $overviewData->capacityFirstFloor->reservedTablesAmount }}
-                        </div>
-                    </div>
+                <div class="capacity-info text-xl">Table overview</div>
 
-                    <div class="capacity-info">
-                        <div>
-                            High chairs reserved:
-                            {{ $overviewData->capacityTotals->highChairAmount }}
-                            / 10
+                @foreach ($overviewData->service as $serviceData)
+                    @if ($filterData->service == "all" || $serviceData->service == $filterData->service)
+                        <div class="capacity-info">
+                            <div class="capitalize">
+                                {{ $serviceData->service }} service
+                            </div>
+                            <div class="flex w-full flex-row justify-between">
+                                <div class="w-full">
+                                    @foreach ( $serviceData->capacityInfo as $capacityData )
+                                        @if ($filterData->seating_area == \App\Enums\SeatingArea::ALL || $filterData->seating_area == $capacityData->area)
+                                            @include("reservations.sections.capacityInfoCard")
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <div class="w-full">
+                                    <div
+                                        class="flex w-2/4 flex-row justify-between"
+                                    >
+                                        <div>- Booster seats</div>
+                                        <div>
+                                            {{ $serviceData->boosterSeatAmount }}
+                                            /
+                                            {{ $serviceData->boosterSeatTotal }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex w-2/4 flex-row justify-between"
+                                    >
+                                        <div>- High chairs</div>
+                                        <div>
+                                            {{ $serviceData->highChairAmount }}
+                                            /
+                                            {{ $serviceData->highChairTotal }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            - Terrace:
-                            {{ $overviewData->capacityTerrace->highChairAmount }}
-                        </div>
-                        <div>
-                            - Ground Floor:
-                            {{ $overviewData->capacityGroundFloor->highChairAmount }}
-                        </div>
-                        <div>
-                            - First Floor:
-                            {{ $overviewData->capacityFirstFloor->highChairAmount }}
-                        </div>
-                    </div>
-
-                    <div class="capacity-info">
-                        <div>
-                            Booster seats reserved:
-                            {{ $overviewData->capacityTotals->boosterSeatAmount }}
-                            / 15
-                        </div>
-                        <div>
-                            - Terrace:
-                            {{ $overviewData->capacityTerrace->boosterSeatAmount }}
-                        </div>
-                        <div>
-                            - Ground Floor:
-                            {{ $overviewData->capacityGroundFloor->boosterSeatAmount }}
-                        </div>
-                        <div>
-                            - First Floor:
-                            {{ $overviewData->capacityFirstFloor->boosterSeatAmount }}
-                        </div>
-                    </div>
-                @else
-                    <div class="capacity-info">
-                        <div>
-                            Tables reserved:
-                            {{ $overviewData->capacityTotals->reservedTablesAmount }}
-                        </div>
-                        <div>
-                            High chairs reserved:
-                            {{ $overviewData->capacityTotals->highChairAmount }}
-                            / 10
-                        </div>
-                        <div>
-                            Booster seats reserved:
-                            {{ $overviewData->capacityTotals->boosterSeatAmount }}
-                            / 15
-                        </div>
-                    </div>
-                @endif
+                    @endif
+                @endforeach
             </div>
         </div>
-        {{--
-            <div class="bottom-bar">
-            <div class="button-row">
-            
-            </div>
-            </div>
-        --}}
     </div>
 </div>
