@@ -54,8 +54,7 @@ class ReservationsController extends Controller
     public function showFilteredOverview(Request $request): RedirectResponse
     {
         if ($this->filterValidationFails()) {
-            //TODO: add proper validation and pass error messages
-            //dd("filter not properly set");
+            //FIXME: add proper validation and pass error messages
             return $this->showUnfilteredOverview();
         }
 
@@ -218,6 +217,10 @@ class ReservationsController extends Controller
 
         $request->validate(["id" => "required|integer|gte:0"]);
 
+        foreach ($selectedReservation->tables as $table) {
+            $table->unseatReservation();
+        }
+
         if ($selectedReservation) {
             $selectedReservation->delete();
             $query = Reservations::find($selectedReservation->id);
@@ -310,10 +313,6 @@ class ReservationsController extends Controller
         if (empty(request("from"))) {
             return true;
         }
-
-        // if (empty(request("to"))) {
-        //     return true;
-        // }
 
         return false;
     }

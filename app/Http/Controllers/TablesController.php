@@ -71,10 +71,7 @@ class TablesController extends Controller
         if ($table == null) {
             return back();
         }
-        $table->seated_reservation = null;
-        $table->save();
-
-        session("orders")->items ?? false;
+        $table->unseatReservation();
 
         return back();
     }
