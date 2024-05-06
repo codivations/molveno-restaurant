@@ -19,7 +19,8 @@
                         <div>{{ $order->created_at->format("H:i") }}</div>
                         <div>{{ $order->user->name }}</div>
                         <div>
-                            Table {{ $order->table()->table_number ?? "none" }}
+                            Table
+                            {{ $order->reservation == null ? "none" : $order->table()->table_number ?? "none" }}
                         </div>
                         <div class="align flex gap-9">
                             {{ $order->status }}
