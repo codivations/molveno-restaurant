@@ -1,8 +1,8 @@
 <li class="m-3 rounded-lg border border-solid bg-white p-2 shadow">
     <div class="grid grid-cols-4 grid-rows-2">
         <div class="col row-span-2">
-            <div>{{ $reservation->id }}</div>
-            <div>{{ $reservation->name }}</div>
+            <div class="text-2xl">{{ $reservation->name }}</div>
+            <div># {{ $reservation->id }}</div>
         </div>
         <div class="col-span-2 row-span-2">
             <span>

@@ -27,11 +27,10 @@ class ReservationsController extends Controller
         $reservations = $this->getFilteredReservations(
             $filterData->seating_area,
             new DateTime($filterData->from),
-            new DateTime($filterData->to),
             $filterData->service
         );
 
-        $overviewData = $this->getOverviewData($reservations, $filterData);
+        $overviewData = $this->getCapacityData(new DateTime($filterData->from));
 
         if (session("display")) {
             $displayData = session("display");
@@ -247,7 +246,6 @@ class ReservationsController extends Controller
     private function getFilteredReservations(
         SeatingArea $seatingArea,
         DateTime $from,
-        DateTime $to,
         string $service = "all"
     ): Collection {
         $reservation = Reservations::orderBy("reservation_time")->whereDate(
@@ -272,6 +270,7 @@ class ReservationsController extends Controller
     }
     //endregion
 
+    //region Filter Functions
     private function getFilterDataObj(Request $request): object
     {
         $filterData = new stdClass();
@@ -316,79 +315,47 @@ class ReservationsController extends Controller
 
         return false;
     }
+    //endregion
 
-    private function getOverviewDataObj(Collection $collection): object
+    //region overview/capacity data Functions
+    private function getCapacityData(DateTime $date): object
     {
         $data = new stdClass();
-        $data->highChairAmount = $collection->sum("high_chair_amount");
-        $data->boosterSeatAmount = $collection->sum("booster_seat_amount");
-        $data->reservedTablesAmount = $collection->sum("table_amount");
+        $data->service = [];
+        $data->capacityInfo = [];
 
-        return $data;
-    }
-
-    private function getOverviewData(
-        Collection $collection,
-        object $filterData
-    ): object {
-        $data = new stdClass();
-        $data->capacityTotals = $this->getOverviewDataObj($collection);
-
-        if ($filterData->seating_area == SeatingArea::ALL || false) {
-            $filteredReservations = $collection->filter(function (
-                $value,
-                $key
-            ) {
-                if ($value["seating_area"] == "terrace") {
-                    return $value;
-                }
-            });
-
-            $data->capacityTerrace = $this->getOverviewDataObj(
-                $filteredReservations
+        foreach (["breakfast", "lunch", "dinner"] as $service) {
+            $serviceData = new stdClass();
+            $serviceData->service = $service;
+            $serviceData->boosterSeatAmount = $this->getBoosterSeatAmount(
+                $date,
+                $service
             );
-
-            $filteredReservations = $collection->filter(function (
-                $value,
-                $key
-            ) {
-                if ($value["seating_area"] == "ground floor") {
-                    return $value;
-                }
-            });
-            $data->capacityGroundFloor = $this->getOverviewDataObj(
-                $filteredReservations
+            $serviceData->boosterSeatTotal = $this->getBoosterSeatTotal();
+            $serviceData->highChairAmount = $this->getHighChairAmount(
+                $date,
+                $service
             );
+            $serviceData->highChairTotal = $this->getHighChairTotal();
 
-            $filteredReservations = $collection->filter(function (
-                $value,
-                $key
+            $serviceData->capacityInfo = [];
+
+            foreach (
+                [
+                    SeatingArea::TERRACE,
+                    SeatingArea::GROUNDFLOOR,
+                    SeatingArea::FIRSTFLOOR,
+                ]
+                as $area
             ) {
-                if ($value["seating_area"] == "first floor") {
-                    return $value;
-                }
-            });
-            $data->capacityFirstFloor = $this->getOverviewDataObj(
-                $filteredReservations
-            );
+                array_push(
+                    $serviceData->capacityInfo,
+                    $this->getCapacityDataFor($date, $area, $service)
+                );
+            }
+
+            array_push($data->service, $serviceData);
         }
-
-        return $data;
-    }
-
-    private function getCapacityDataObject(
-        Collection $collection,
-        object $filterData
-    ): object {
-        $data = new stdClass();
-        $data->capacityTotals = $this->getOverviewDataObj($collection);
-
-        $filteredReservations = Reservations::whereDate(
-            "reservation_time",
-            $filterData->from->format("Y-m-d")
-        );
-
-        //FIXME: the rest of the function
 
         return $data;
     }
@@ -396,25 +363,45 @@ class ReservationsController extends Controller
     private function getCapacityDataFor($date, $area, $service): object
     {
         $data = new stdClass();
-        $data->totalCapacity = $this->getTotalCapacity($area);
+        $data->service = $service;
+        $data->area = $area;
+        $data->areaCapacity = $this->getTotalCapacity($area);
 
-        $reservations = Reservations::where("seating_area", $area)
-            ->where("service", $service)
-            ->whereDate("reservation_time", $date->format("Y-m-d"));
+        $reservations = $this->getFilteredReservations($area, $date, $service);
 
-        $data->tableAmount = $reservations->sum("table_amount");
-        $data->highChairAmount = $reservations->sum("table_amount");
-        $data->boosterSeatAmount = $reservations->sum("table_amount");
+        $data->tablesAmount = $reservations->sum("table_amount");
 
         return $data;
     }
 
     private function getTotalCapacity($area): int
     {
-        $collection = Table::where("seating_area", $area)->get;
+        $collection = Table::where("seating_area", $area)->get();
         $total = $collection->sum("capacity");
 
         return $total;
+    }
+
+    private function getBoosterSeatAmount($date, $service): int
+    {
+        $collection = $this->getFilteredReservations(
+            SeatingArea::ALL,
+            $date,
+            $service
+        );
+        $amount = $collection->sum("booster_seat_amount");
+        return $amount;
+    }
+
+    private function getHighChairAmount($date, $service): int
+    {
+        $collection = $this->getFilteredReservations(
+            SeatingArea::ALL,
+            $date,
+            $service
+        );
+        $amount = $collection->sum("high_chair_amount");
+        return $amount;
     }
 
     //FIXME: -> This values needs to be put in a database somewhere
@@ -428,6 +415,7 @@ class ReservationsController extends Controller
     {
         return 15;
     }
+    //endregion
 
     private function getDisplayDataObj(
         string $display = "default",
