@@ -49,21 +49,19 @@
                         @click.stop
                     >
                         @if ($table->seated)
+                            <div>
+                                Reservation {{ $table->seated_reservation }}:
+                                {{ $table->seated->name ?? "" }}
+                            </div>
                             <div
                                 class="flex flex-row items-center justify-between"
                             >
-                                Reservation {{ $table->seated_reservation }}:
-                                {{ $table->seated->name ?? "" }}
-                                <div>
-                                    {{--
-                                        @if ($previousOrders[0] ?? false)
-                                        <x-order.old-orders
-                                        :allOrders="$previousOrders"
-                                        :totalPrice="0"
-                                        />
-                                        @endif
-                                    --}}
-                                </div>
+                                <a
+                                    href="{{ route("order.showOrder", ["tableNumber" => $table->table_number]) }}"
+                                    class="button"
+                                >
+                                    See orders
+                                </a>
 
                                 <form
                                     action="/tables/unseat"
@@ -86,7 +84,7 @@
 
                                     <input
                                         type="submit"
-                                        value="unseat"
+                                        value="Unseat"
                                         class="button"
                                     />
                                 </form>
