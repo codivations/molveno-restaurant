@@ -340,14 +340,13 @@ class ReservationsController extends Controller
 
             $serviceData->capacityInfo = [];
 
-            foreach (
-                [
-                    SeatingArea::TERRACE,
-                    SeatingArea::GROUNDFLOOR,
-                    SeatingArea::FIRSTFLOOR,
-                ]
-                as $area
-            ) {
+            $areas = [
+                SeatingArea::TERRACE,
+                SeatingArea::GROUNDFLOOR,
+                SeatingArea::FIRSTFLOOR,
+            ];
+
+            foreach ($areas as $area) {
                 array_push(
                     $serviceData->capacityInfo,
                     $this->getCapacityDataFor($date, $area, $service)
