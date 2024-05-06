@@ -81,16 +81,15 @@
                 >
                     Remove
                 </button>
-                <form
-                    action="{{ route("reservations.editForm", ["id" => $selectedReservation->id]) }}"
-                >
-                    <input
-                        type="hidden"
-                        name="id"
-                        value="{{ $selectedReservation->id }}"
-                    />
-                    <button class="button">Edit</button>
-                </form>
+
+                <div>
+                    <a
+                        href="{{ route("reservations.editForm", ["id" => $selectedReservation->id]) }}"
+                        class="button justify-self-center"
+                    >
+                        Edit
+                    </a>
+                </div>
             </div>
             <div class="button-row">
                 <a class="button" href="/reservations">Back</a>
