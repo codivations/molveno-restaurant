@@ -84,7 +84,7 @@ Route::name("reservations.")
             ReservationsController::class,
             "showEditForm",
         ])->name("editForm");
-        Route::Post("/reservations/editReservation/id/{id}", [
+        Route::post("/reservations/editReservation/id/{id}", [
             ReservationsController::class,
             "editReservation",
         ])->name("editReservation");

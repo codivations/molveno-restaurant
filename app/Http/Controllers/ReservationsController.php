@@ -100,7 +100,7 @@ class ReservationsController extends Controller
         return $this->show($displayData);
     }
 
-    public function showEditForm(Request $request, string $id): View
+    public function showEditForm(string $id): View
     {
         $selectedReservation = $this->getReservationById($id);
         $displayData = $this->getDisplayDataObj(
