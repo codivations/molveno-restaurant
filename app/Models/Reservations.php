@@ -22,6 +22,6 @@ class Reservations extends Model
 
     public function isSeated(): bool
     {
-        return ($this->tables->first() != null);
+        return $this->tables->first() != null;
     }
 }

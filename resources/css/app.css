@@ -95,6 +95,22 @@ body {
     min-height: 10rem;
 }
 
+.inline-list {
+    list-style: none;
+}
+
+.inline-list > li {
+    display: inline;
+}
+
+.inline-list > li:not(:last-child):after {
+    content: ",";
+}
+
+.inline-list > li:nth-last-child(2):after {
+    content: " &";
+}
+
 @layer components {
     .reservations-content {
         height: 100vh;
