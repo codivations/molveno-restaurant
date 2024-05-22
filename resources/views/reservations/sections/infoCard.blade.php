@@ -13,16 +13,13 @@
                 <span>Party size:</span>
                 <span>{{ $reservation->party_size }}</span>
 
-                {{--
-                    <span>Tables:</span>
-                    <span>{{ $reservation->table_amount }}</span>
-                --}}
-
-                @if ($reservation->tables->first() != null)
-                    <div>
+                @if ($reservation->isSeated())
+                    <ul class="inline-list">
                         Seated at:
-                        {{ $reservation->tables->first()->table_number }}
-                    </div>
+                        @foreach ($reservation->tables as $table)
+                            <li>{{ $table->table_number }}</li>
+                        @endforeach
+                    </ul>
                 @else
                     <div>Not seated</div>
                 @endif
