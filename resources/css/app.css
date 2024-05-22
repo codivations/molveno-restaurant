@@ -103,11 +103,11 @@ body {
     display: inline;
 }
 
-.inline-list > li:not(:last-child):after {
+.inline-list > li:not(:last-child)::after {
     content: ",";
 }
 
-.inline-list > li:nth-last-child(2):after {
+.inline-list > li:nth-last-child(2)::after {
     content: " &";
 }
 
