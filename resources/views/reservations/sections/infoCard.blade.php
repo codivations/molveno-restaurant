@@ -18,7 +18,7 @@
                     <span>{{ $reservation->table_amount }}</span>
                 --}}
 
-                @if ($reservation->tables->first() != null)
+                @if ($reservation->isSeated())
                     <div>
                         Seated at:
                         {{ $reservation->tables->first()->table_number }}

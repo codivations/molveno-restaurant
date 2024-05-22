@@ -19,4 +19,9 @@ class Reservations extends Model
     {
         return $this->hasMany(Order::class, "reservation_id");
     }
+
+    public function isSeated(): bool
+    {
+        return ($this->tables->first() != null);
+    }
 }
